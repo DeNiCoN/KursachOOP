@@ -1,0 +1,6 @@
+#Build
+build/
+
+#IDE
+.ccls-cache/
+compile_commands.json
