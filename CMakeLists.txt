@@ -8,3 +8,6 @@ project (Transport)
 add_executable(transport
   "src/main.cpp"
   )
+
+add_subdirectory(libs)
+target_link_libraries(transport libs)
