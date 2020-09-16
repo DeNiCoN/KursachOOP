@@ -10,7 +10,7 @@ int main()
 {
     json input;
     cin >> input;
-    Frontend front(input.at("routes"), input.at("vechicles"));
+    Frontend front(input.at("routes"));
     return 0;
 }
 
