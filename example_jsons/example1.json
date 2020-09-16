@@ -1,0 +1,56 @@
+{
+    "routes" : {
+        "v1" : {
+            "type" : "basic",
+            "incident" : {
+                "v3" : {
+                    "road_type" : "basic"
+                },
+                "v2" : {
+                    "road_type" : "speed_limit",
+                    "max_speed" : 60
+                }
+            }
+        },
+        "v2" : {
+            "type" : "gasoline_station",
+            "wait_time" : 3.0,
+            "incident" : {
+                "v5" : {
+                    "road_type" : "basic"
+                },
+                "v4" :{
+                    "road_type" : "basic"
+                }
+            }
+        },
+        "v3" : {
+            "type" : "basic",
+            "incident" : []
+        },
+        "v4" : {
+            "type" : "basic",
+            "incident" : []
+        },
+        "v5" : {
+            "name" : "v5",
+            "type" : "basic",
+            "incident" : []
+        }
+    },
+    "vechicles" : {
+        "first" : {
+            "type" : "light",
+            "max_speed" : 100,
+            "initial" : "v1",
+            "tasks" : [
+                "v5",
+                "v3",
+                "v2",
+                "v1"
+            ],
+            "from" : "v1",
+            "to" : "v5"
+        }
+    }
+}
