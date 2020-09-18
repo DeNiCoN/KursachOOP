@@ -8,6 +8,7 @@ project (Transport)
 add_executable(transport
   "src/main.cpp"
   "src/frontend.cpp"
+  "src/vechicle_factory.cpp"
   )
 
 add_subdirectory(libs)
