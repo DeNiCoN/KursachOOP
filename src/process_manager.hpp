@@ -23,8 +23,11 @@ namespace Transport
         State state = State::UNINITIALIZED;
     };
 
+    using ProcessPtr = std::unique_ptr<Process>;
+
     class ProcessManager
     {
-
+    public:
+       
     };
 }

@@ -1,5 +1,7 @@
 #pragma once
 #include <nlohmann/json.hpp>
+#include "vechicle_factory.hpp"
+#include "process_manager.hpp"
 #include <unordered_map>
 
 namespace Transport
@@ -15,6 +17,9 @@ namespace Transport
     {
     public:
         Frontend(const nlohmann::json& routes);
-        std::vector<RouteInfo> generate(const nlohmann::json& vechicles) const;
+        std::vector<ProcessPtr> generateProcesses(const nlohmann::json& vechicles) const;
+
+    private:
+        VechicleFactory m_vechicleFactory;
     };
 }
