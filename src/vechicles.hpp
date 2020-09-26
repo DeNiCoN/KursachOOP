@@ -8,6 +8,7 @@ namespace Transport
     {
     public:
         virtual void Parse(const nlohmann::json&) = 0;
+
     };
 
     class TestVechicle : public Vechicle

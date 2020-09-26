@@ -28,6 +28,8 @@ namespace Transport
     class ProcessManager
     {
     public:
-       
+        template<typename InputIterator>
+        void Add(InputIterator begin, InputIterator end);
+        void Add(std::unique_ptr<Process>);
     };
 }
