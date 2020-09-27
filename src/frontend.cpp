@@ -3,13 +3,15 @@
 using json = nlohmann::json;
 namespace Transport
 {
-    Frontend::Frontend(const json& routes)
+    Frontend::Frontend(const json& routes, Graphics& graphics)
+        : m_graphics(graphics)
     {
         //Build Graph, fill satelite data
 
         //Initialize Router
         //
         //Initialize Renderer, create verticies, edges, etc...
+
     }
 
     std::vector<ProcessPtr> Frontend::generateProcesses(const json &vechicles) const

@@ -7,8 +7,18 @@ project (Transport)
 
 add_executable(transport
   "src/main.cpp"
+  "src/frontend.hpp"
   "src/frontend.cpp"
-  "src/vechicle_factory.cpp"
+  "src/factory_base.hpp"
+  "src/factories.hpp"
+  "src/factories.cpp"
+  "src/graphics.hpp"
+  "src/graphics.cpp"
+  "src/process_manager.hpp"
+  "src/roads.hpp"
+  "src/vechicles.hpp"
+  "src/vertexes.hpp"
+  "src/empty_renderer.hpp"
   )
 
 add_subdirectory(libs)
