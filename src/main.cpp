@@ -7,14 +7,15 @@ using namespace std;
 using namespace Transport;
 using json = nlohmann::json;
 
+EmptyRenderer renderer;
+Graphics graphics{renderer};
+
 int main()
 {
     json input;
     cin >> input;
-    Frontend front(input.at("routes"));
-    auto processes = front.generateProcesses(input.at("vechicles"));
-    ProcessManager pm;
-    pm.Add(processes.begin(), processes.end());
+    Frontend front(input.at("routes"), graphics);
+    front.generateProcesses(input.at("vechicles"));
     return 0;
 }
 
