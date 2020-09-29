@@ -12,36 +12,34 @@ namespace Transport
         //
         //Initialize Renderer, create verticies, edges, etc...
 
+        //First pass. Add all verticies
+        for (auto& [name, vertexJson] : routes.items())
+        {
+            m_graphics.addVertex(name, m_vertexFactory(vertexJson));
+            //TODO add for graph
+        }
+
+        //Second pass. Add roads
+        for (auto& [fromName, vertexJson] : routes.items())
+        {
+            for (auto& [toName, roadJson] : vertexJson.at("incident").items())
+            {
+                m_graphics.addRoad(fromName, toName, m_roadFactory(roadJson));
+                //TODO add for graph
+            }
+        }
+
     }
 
     std::vector<ProcessPtr> Frontend::generateProcesses(const json &vechicles) const
     {
         std::vector<ProcessPtr> result;
 
-        for (const auto& vechicleNode : vechicles.items())
+        for (const auto& [vechicleName, vechicleJson] : vechicles.items())
         {
-            const auto& name = vechicleNode.key();
-            const auto& vechicleJson = vechicleNode.value();
-            auto vechiclePtr = m_vechicleFactory(vechicleJson);
+            m_graphics.addVechicle(vechicleName, m_vechicleFactory(vechicleJson));
 
-            //For each task pair get route
-            //for each item in route generate process chain
-            //generate process for task end node
-
-            //Get route
-            //from edge id get corresponding edge object
-
-            //Example
-            //auto vechicleId = m_graphics.newVechicle(*vechiclePtr);
-            //vechiclePtr->visitVertex(edgeIdToRoad[id])
-            //process.addChild(m_graphics.VechicleVisitRoad(vechicleId, edgeId))
-            //result.push_back(move(process))
-            //
-            //
-            //Может быть всё перенести в Graphics? Тип просто вызывать VechicleVisitRoad
-            //без дальнейшего сохранения и возвращения списка процессов. Менеджер процессов
-            //перенести внутрь Graphics и добавить что-то типо update(delta) или .run();
-            //Вроде звучит норм
+            //TODO get route
         }
         return result;
     }

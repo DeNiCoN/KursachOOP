@@ -24,6 +24,8 @@ namespace Transport
         std::vector<ProcessPtr> generateProcesses(const nlohmann::json& vechicles) const;
     private:
         VechicleFactory m_vechicleFactory;
+        VertexFactory m_vertexFactory;
+        RoadFactory m_roadFactory;
         Graphics& m_graphics;
     };
 }
