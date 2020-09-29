@@ -4,10 +4,12 @@
             "type" : "basic",
             "incident" : {
                 "v3" : {
-                    "road_type" : "basic"
+                    "road_type" : "basic",
+                    "length" : 1
                 },
                 "v2" : {
                     "road_type" : "speed_limit",
+                    "length" : 1,
                     "max_speed" : 60
                 }
             }
@@ -17,25 +19,27 @@
             "wait_time" : 3.0,
             "incident" : {
                 "v5" : {
-                    "road_type" : "basic"
+                    "road_type" : "basic",
+                    "length" : 1
                 },
                 "v4" :{
-                    "road_type" : "basic"
+                    "road_type" : "basic",
+                    "length" : 1
                 }
             }
         },
         "v3" : {
             "type" : "basic",
-            "incident" : []
+            "incident" : {}
         },
         "v4" : {
             "type" : "basic",
-            "incident" : []
+            "incident" : {}
         },
         "v5" : {
             "name" : "v5",
             "type" : "basic",
-            "incident" : []
+            "incident" : {}
         }
     },
     "vechicles" : {

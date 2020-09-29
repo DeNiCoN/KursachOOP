@@ -2,8 +2,8 @@
 #include <nlohmann/json.hpp>
 #include <unordered_map>
 
-#define TYPE_TO_OBJ_NODE(class_name)                                    \
-        {#class_name, [](){ return std::make_unique<class_name>(); }}
+#define TYPE_TO_OBJ_NODE(class_name)                                \
+    {#class_name, [](){ return std::make_unique<class_name>(); }}
 
 namespace Transport
 {
