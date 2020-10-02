@@ -1,4 +1,6 @@
 #include "factories.hpp"
+#include "vechicles.hpp"
+#include "vertices.hpp"
 
 namespace Transport
 {
@@ -7,7 +9,8 @@ namespace Transport
                              std::function<VechiclePtr()>
                              > VechicleFactory::s_typeToObj
     {
-        TYPE_TO_OBJ_NODE(TestVechicle)
+        TYPE_TO_OBJ_NODE(TestVechicle),
+        TYPE_TO_OBJ_NODE(SecondTestVechicle)
     };
 
     template<>
@@ -15,6 +18,8 @@ namespace Transport
                              std::function<VertexPtr()>
                              > VertexFactory::s_typeToObj
     {
+        TYPE_TO_OBJ_NODE(TestVertex),
+        TYPE_TO_OBJ_NODE(SecondTestVertex)
     };
 
     template<>

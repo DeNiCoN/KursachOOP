@@ -1,7 +1,7 @@
 #pragma once
 #include "factory_base.hpp"
-#include "vechicles.hpp"
-#include "vertexes.hpp"
+#include "vechicle.hpp"
+#include "vertex.hpp"
 #include "roads.hpp"
 
 namespace Transport

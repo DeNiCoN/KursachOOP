@@ -1,6 +1,5 @@
 #include <iostream>
-#include <nlohmann/json.hpp>
-#include "process_manager.hpp"
+#include "graphics.hpp"
 #include "frontend.hpp"
 
 using namespace std;

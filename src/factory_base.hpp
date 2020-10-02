@@ -21,7 +21,7 @@ namespace Transport
         {
             //Get new instance of vechicle
             auto vecPtr = (*this)(json.at("type").get<std::string>());
-            vecPtr->Parse(json);
+            vecPtr->parse(json);
             return vecPtr;
         }
     protected:

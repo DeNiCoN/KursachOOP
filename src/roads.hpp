@@ -8,7 +8,7 @@ namespace Transport
     class Road
     {
     public:
-        virtual void Parse(const nlohmann::json&) = 0;
+        virtual void parse(const nlohmann::json&) = 0;
 
     };
 

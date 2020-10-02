@@ -1,22 +1,15 @@
 #pragma once
-#include <nlohmann/json.hpp>
-#include <memory>
-#include <iostream>
+#include "vechicle.hpp"
 
 namespace Transport
 {
-    class Vechicle
+    class TestVechicle : public VechicleBase<TestVechicle>
     {
-    public:
-        virtual void Parse(const nlohmann::json&) = 0;
-
+        void parse(const nlohmann::json&) override {};
     };
 
-    using VechiclePtr = std::unique_ptr<Vechicle>;
-
-    class TestVechicle : public Vechicle
+    class SecondTestVechicle : public VechicleBase<SecondTestVechicle>
     {
-    public:
-        void Parse(const nlohmann::json&) { std::cout << "Imagine parsing\n"; }
+        void parse(const nlohmann::json&) override {};
     };
 }

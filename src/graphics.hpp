@@ -2,8 +2,8 @@
 #include "glm/vec2.hpp"
 #include "process_manager.hpp"
 #include "empty_renderer.hpp"
-#include "vechicles.hpp"
-#include "vertexes.hpp"
+#include "vertex.hpp"
+#include "vechicle.hpp"
 #include "roads.hpp"
 
 namespace Transport
