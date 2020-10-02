@@ -2,6 +2,8 @@
 #include <nlohmann/json.hpp>
 #include "process_manager.hpp"
 #include "frontend.hpp"
+#include "vertexes.hpp"
+#include "graph.hpp"
 
 using namespace std;
 using namespace Transport;
