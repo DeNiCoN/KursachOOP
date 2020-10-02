@@ -3,13 +3,6 @@
 #include "process_manager.hpp"
 #include "frontend.hpp"
 
-<<<<<<< HEAD
-
-int main()
-{
-	std::cout << "Something wrong" << std::endl;
-}
-=======
 using namespace std;
 using namespace Transport;
 using json = nlohmann::json;
@@ -25,5 +18,3 @@ int main()
     front.generateProcesses(input.at("vechicles"));
     return 0;
 }
-
->>>>>>> master
