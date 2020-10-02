@@ -1,6 +1,8 @@
 #include <iostream>
 #include "graphics.hpp"
 #include "frontend.hpp"
+#include "vertexes.hpp"
+#include "graph.hpp"
 
 using namespace std;
 using namespace Transport;
@@ -17,4 +19,3 @@ int main()
     front.generateProcesses(input.at("vechicles"));
     return 0;
 }
-

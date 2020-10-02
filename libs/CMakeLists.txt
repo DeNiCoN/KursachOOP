@@ -30,7 +30,7 @@ CPMAddPackage(
 
 if(nlohmann_json_ADDED)
   add_library(nlohmann_json INTERFACE)
-  target_include_directories(nlohmann_json INTERFACE ${nlohmann_json_SOURCE_DIR})
+  target_include_directories(nlohmann_json INTERFACE ${nlohmann_json_SOURCE_DIR}/include)
 endif()
 
 # GLAD

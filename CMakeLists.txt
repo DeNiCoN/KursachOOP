@@ -19,7 +19,7 @@ add_executable(transport
   "src/vechicles.hpp"
   "src/vertexes.hpp"
   "src/empty_renderer.hpp"
-  )
+   "src/graph.hpp" "src/graph.cpp")
 
 add_subdirectory(libs)
 target_link_libraries(transport libs)
