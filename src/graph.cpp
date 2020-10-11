@@ -1,6 +1,6 @@
 #pragma once
 #include "graph.hpp"
-#include "vertexes.hpp"
+#include "vertices.hpp"
 
 namespace Transport
 {

@@ -16,10 +16,14 @@ add_executable(transport
   "src/graphics.cpp"
   "src/process_manager.hpp"
   "src/roads.hpp"
-  "src/vechicles.hpp"
-  "src/vertexes.hpp"
+  "src/vehicle.hpp"
+  "src/vehicles.hpp"
+  "src/vehicles.cpp"
+  "src/vertex.hpp"
+  "src/vertices.hpp"
   "src/empty_renderer.hpp"
-   "src/graph.hpp" "src/graph.cpp")
+  "src/graph.hpp"
+  "src/graph.cpp")
 
 add_subdirectory(libs)
 target_link_libraries(transport libs)

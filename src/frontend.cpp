@@ -31,13 +31,13 @@ namespace Transport
 
     }
 
-    std::vector<ProcessPtr> Frontend::generateProcesses(const json &vechicles) const
+    std::vector<ProcessPtr> Frontend::generateProcesses(const json &vehicles) const
     {
         std::vector<ProcessPtr> result;
 
-        for (const auto& [vechicleName, vechicleJson] : vechicles.items())
+        for (const auto& [vehicleName, vehicleJson] : vehicles.items())
         {
-            m_graphics.addVechicle(vechicleName, m_vechicleFactory(vechicleJson));
+            m_graphics.addVehicle(vehicleName, m_vehicleFactory(vehicleJson));
 
             //TODO get route
         }
