@@ -1,7 +1,7 @@
 #include <iostream>
 #include "graphics.hpp"
 #include "frontend.hpp"
-#include "vertexes.hpp"
+#include "vertices.hpp"
 #include "graph.hpp"
 
 using namespace std;

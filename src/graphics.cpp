@@ -15,10 +15,10 @@ namespace Transport
         GraphicsVertex n {move(name), move(ptr)};
         m_vertexes.insert({n.name, move(n)});
     }
-    void Graphics::addVechicle(std::string name, VechiclePtr ptr)
+    void Graphics::addVehicle(std::string name, VehiclePtr ptr)
     {
-        GraphicsVechicle n {move(name), move(ptr)};
-        m_vechicles.insert({n.name, move(n)});
+        GraphicsVehicle n {move(name), move(ptr)};
+        m_vehicles.insert({n.name, move(n)});
     }
 
     void Graphics::addRoad(const std::string& from, const std::string& to,
@@ -29,12 +29,12 @@ namespace Transport
         m_graph.at(to).at(from) = m_roads.back();
     }
 
-    void Graphics::vechicleRideRoad(const std::string& vechicleName,
+    void Graphics::vehicleRideRoad(const std::string& vehicleName,
                                     const std::string& from, const std::string& to)
     {
 
     }
-    void Graphics::vechicleRideVertex(const std::string& vechicleName,
+    void Graphics::vehicleRideVertex(const std::string& vehicleName,
                                       const std::string& vertexName)
     {
 

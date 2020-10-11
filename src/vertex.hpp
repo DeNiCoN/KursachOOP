@@ -4,14 +4,14 @@
 
 namespace Transport
 {
-    class TestVechicle;
-    class SecondTestVechicle;
+    class TestVehicle;
+    class SecondTestVehicle;
 
     class Vertex
     {
     public:
-        virtual void visit(TestVechicle&) = 0;
-        virtual void visit(SecondTestVechicle&) = 0;
+        virtual void visit(TestVehicle&) = 0;
+        virtual void visit(SecondTestVehicle&) = 0;
         virtual void parse(const nlohmann::json&) = 0;
     };
 
@@ -31,7 +31,7 @@ namespace Transport
     };
 
     struct VertexBase : VertexBase_multiple<
-        TestVechicle, SecondTestVechicle
+        TestVehicle, SecondTestVehicle
         >
     {};
 }

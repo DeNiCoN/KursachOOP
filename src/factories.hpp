@@ -1,12 +1,12 @@
 #pragma once
 #include "factory_base.hpp"
-#include "vechicle.hpp"
+#include "vehicle.hpp"
 #include "vertex.hpp"
 #include "roads.hpp"
 
 namespace Transport
 {
-    using VechicleFactory = FactoryBase<Vechicle>;
+    using VehicleFactory = FactoryBase<Vehicle>;
     using VertexFactory = FactoryBase<Vertex>;
     using RoadFactory = FactoryBase<Road>;
 }

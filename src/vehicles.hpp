@@ -1,14 +1,14 @@
 #pragma once
-#include "vechicle.hpp"
+#include "vehicle.hpp"
 
 namespace Transport
 {
-    class TestVechicle : public VechicleBase<TestVechicle>
+    class TestVehicle : public VehicleBase<TestVehicle>
     {
         void parse(const nlohmann::json&) override {};
     };
 
-    class SecondTestVechicle : public VechicleBase<SecondTestVechicle>
+    class SecondTestVehicle : public VehicleBase<SecondTestVehicle>
     {
         void parse(const nlohmann::json&) override {};
     };

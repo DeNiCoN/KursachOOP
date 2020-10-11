@@ -6,22 +6,22 @@
 
 namespace Transport
 {
-    class Vechicle
+    class Vehicle
     {
     public:
         virtual void accept(Vertex&) = 0;
         virtual void parse(const nlohmann::json&) = 0;
     };
 
-    using VechiclePtr = std::unique_ptr<Vechicle>;
+    using VehiclePtr = std::unique_ptr<Vehicle>;
 
-    template<typename Vech>
-    class VechicleBase : public Vechicle
+    template<typename Veh>
+    class VehicleBase : public Vehicle
     {
     public:
         void accept(Vertex& vert) override
         {
-            vert.visit(*static_cast<Vech*>(this));
+            vert.visit(*static_cast<Veh*>(this));
         }
     };
 }

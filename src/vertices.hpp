@@ -7,7 +7,7 @@ namespace Transport
     class TestVertex : public VertexBase
     {
     public:
-        void visit(TestVechicle& vech) override
+        void visit(TestVehicle& veh) override
         {
             std::cout << "I hate second, but i love you!\n";
         }
@@ -17,7 +17,7 @@ namespace Transport
     class SecondTestVertex : public VertexBase
     {
     public:
-        void visit(SecondTestVechicle& vech) override
+        void visit(SecondTestVehicle& vech) override
         {
             std::cout << "Hello second, i love you!\n";
         }

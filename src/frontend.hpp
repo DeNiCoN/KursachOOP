@@ -11,7 +11,7 @@ namespace Transport
     {
     public:
         std::string name;
-        //Contains vechicle and vector of routes
+        //Contains vehicle and vector of routes
     };
 
     /*
@@ -21,9 +21,9 @@ namespace Transport
     {
     public:
         Frontend(const nlohmann::json& routes, Graphics&);
-        std::vector<ProcessPtr> generateProcesses(const nlohmann::json& vechicles) const;
+        std::vector<ProcessPtr> generateProcesses(const nlohmann::json& vehicles) const;
     private:
-        VechicleFactory m_vechicleFactory;
+        VehicleFactory m_vehicleFactory;
         VertexFactory m_vertexFactory;
         RoadFactory m_roadFactory;
         Graphics& m_graphics;

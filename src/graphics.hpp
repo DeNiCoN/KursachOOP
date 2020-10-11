@@ -3,7 +3,7 @@
 #include "process_manager.hpp"
 #include "empty_renderer.hpp"
 #include "vertex.hpp"
-#include "vechicle.hpp"
+#include "vehicle.hpp"
 #include "roads.hpp"
 
 namespace Transport
@@ -22,10 +22,10 @@ namespace Transport
         RoadPtr roadPtr;
     };
 
-    struct GraphicsVechicle
+    struct GraphicsVehicle
     {
         const std::string name;
-        VechiclePtr vechiclePtr;
+        VehiclePtr vehiclePtr;
         glm::vec2 position;
     };
 
@@ -41,12 +41,12 @@ namespace Transport
         Graphics(Renderer& renderer);
 
         void addVertex(std::string name, VertexPtr);
-        void addVechicle(std::string name, VechiclePtr);
+        void addVehicle(std::string name, VehiclePtr);
         void addRoad(const std::string& from, const std::string& to, RoadPtr);
 
-        void vechicleRideRoad(const std::string& vechicleName,
+        void vehicleRideRoad(const std::string& vehicleName,
                               const std::string& from, const std::string& to);
-        void vechicleRideVertex(const std::string& vechicleName,
+        void vehicleRideVertex(const std::string& vehicleName,
                                 const std::string& vertexName);
 
         void update(double delta);
@@ -58,7 +58,7 @@ namespace Transport
         //some cpu time while filling up graph
         std::unordered_map<std::string_view, GraphicsVertex> m_vertexes;
         std::vector<GraphicsRoad> m_roads;
-        std::unordered_map<std::string_view, GraphicsVechicle> m_vechicles;
+        std::unordered_map<std::string_view, GraphicsVehicle> m_vehicles;
 
         std::unordered_map<std::string_view,
                            std::unordered_map<std::string_view,

@@ -1,16 +1,16 @@
 #include "factories.hpp"
-#include "vechicles.hpp"
+#include "vehicles.hpp"
 #include "vertices.hpp"
 
 namespace Transport
 {
     template<>
     const std::unordered_map<std::string,
-                             std::function<VechiclePtr()>
-                             > VechicleFactory::s_typeToObj
+                             std::function<VehiclePtr()>
+                             > VehicleFactory::s_typeToObj
     {
-        TYPE_TO_OBJ_NODE(TestVechicle),
-        TYPE_TO_OBJ_NODE(SecondTestVechicle)
+        TYPE_TO_OBJ_NODE(TestVehicle),
+        TYPE_TO_OBJ_NODE(SecondTestVehicle)
     };
 
     template<>
