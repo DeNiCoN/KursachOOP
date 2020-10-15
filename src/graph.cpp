@@ -1,12 +1,23 @@
 #pragma once
 #include "graph.hpp"
-#include "vertices.hpp"
 
 namespace Transport
 {
-	Graph::Graph(int VertQuan)
+	Graph::Graph(int VertQuan):VerticesQuan(VertQuan), fullness(0)
 	{
-		VerticesQuan = VertQuan;
-		std::vector<std::unique_ptr<Vertex>> PtrVetexVec(VerticesQuan);
+		AdjecentVert.resize(VerticesQuan);
 	}
+
+	void Graph::addVertex(std::vector<int>& AdjVert, std::shared_ptr<Vertex> VertexPtr)
+	{
+		MapPtrVertex[VertexPtr] = fullness;
+		AdjecentVert[fullness] = AdjVert;
+		fullness++;
+	}
+
+	int Graph::getVertexId(std::shared_ptr<Vertex> VertexPtr)
+	{
+		return MapPtrVertex[VertexPtr];
+	}
+
 }
