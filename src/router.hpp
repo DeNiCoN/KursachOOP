@@ -7,18 +7,18 @@ namespace Transport
 	class Router
 	{
 	public:
-		virtual std::vector<int> FindRoute(std::vector<std::vector<int>> &AdjecentVert, std::shared_ptr<Vertex> StartVert, std::shared_ptr<Vertex> EndVert) = 0;
+		virtual std::vector<int> FindRoute(const std::vector<std::vector<int>> &AdjecentVert, const int StartVert, const int EndVert) = 0;
 	};
 	
 	class RouterTypeFirst :public Router
 	{
 	public:
-		std::vector<int> FindRoute(std::vector<std::vector<int>>& AdjecentVert, std::shared_ptr<Vertex> StartVert, std::shared_ptr<Vertex> EndVert) override;
+		std::vector<int> FindRoute(const std::vector<std::vector<int>>& AdjecentVert, const int StartVert, const int EndVert) override;
 	};
 
 	class RouterTypeSecond :public Router
 	{
 	public:
-		std::vector<int> FindRoute(std::vector<std::vector<int>>& AdjecentVert, std::shared_ptr<Vertex> StartVert, std::shared_ptr<Vertex> EndVert) override;
+		std::vector<int> FindRoute(const std::vector<std::vector<int>>& AdjecentVert, const int StartVert, const int EndVert) override;
 	};
 }

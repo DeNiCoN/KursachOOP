@@ -3,21 +3,20 @@
 
 namespace Transport
 {
-	Graph::Graph(int VertQuan):VerticesQuan(VertQuan), fullness(0)
+	Graph::Graph(int VertQuan):VerticesQuan(VertQuan), AdjecentVert(VertQuan)
 	{
-		AdjecentVert.resize(VerticesQuan);
 	}
 
-	void Graph::addVertex(std::vector<int>& AdjVert, std::shared_ptr<Vertex> VertexPtr)
+	void Graph::addVertex(const std::vector<int>& AdjVert, const std::shared_ptr<Vertex> VertexPtr)
 	{
 		MapPtrVertex[VertexPtr] = fullness;
 		AdjecentVert[fullness] = AdjVert;
 		fullness++;
 	}
 
-	int Graph::getVertexId(std::shared_ptr<Vertex> VertexPtr)
+	int Graph::getVertexId(std::shared_ptr<Vertex> VertexPtr) const
 	{
-		return MapPtrVertex[VertexPtr];
+		return MapPtrVertex.at(VertexPtr);
 	}
 
 }
