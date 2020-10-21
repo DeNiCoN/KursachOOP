@@ -23,7 +23,11 @@ add_executable(transport
   "src/vertices.hpp"
   "src/empty_renderer.hpp"
   "src/graph.hpp"
-  "src/graph.cpp" "src/router.hpp" "src/router.cpp")
+  "src/graph.cpp"
+  "src/router.hpp"
+  "src/router.cpp"
+  "src/node.hpp"
+  "src/node.cpp")
 
 add_subdirectory(libs)
 target_link_libraries(transport libs)
