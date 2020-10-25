@@ -15,7 +15,8 @@ Graphics graphics{renderer};
 int main()
 {
     json input;
-    std::vector<std::vector<int>> AdjeVert = { {1,4},{0,2},{1,3},{2,5},{0,5},{4,0} };   // Router test
+/*                      Test Algo
+    std::vector<std::vector<int>> AdjeVert = { {1,4},{0,2},{1,3},{2,5},{0,5},{4,0} };
     std::vector<std::vector<int>> EdgeWeight = { {20,50},{20,20},{20,20},{20,50},{50,50},{50,50} };
     std::vector<int> rout;
     RouterTypeFirst router1;
@@ -24,6 +25,13 @@ int main()
     {
         cout << rout[i] << " ";
     }
+    std::cout << std::endl;
+    RouterTypeSecond router2;
+    rout = router2.FindRoute(AdjeVert, EdgeWeight, 0, 3);
+    for (size_t i = 0; i < rout.size(); i++)
+    {
+        cout << rout[i] << " ";
+    }*/
     cin >> input;
     Frontend front(input.at("routes"), graphics);
     front.generateProcesses(input.at("vechicles"));
