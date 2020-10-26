@@ -23,8 +23,8 @@ This is an OOP group course work. The task is:
 точками маршруту; в) оновлення стану транспортних засобів (переміщення, робота з 
 чергою задач) та інших об’єктів на кожному кроці симуляції.
 ## Diagrams
-![Use case diagram](Use case diagram.png?raw=true "Use case diagram")
-![Class diagram](Untitled Diagram.png?raw=true "Class diagram")
+![Use case diagram](UseCaseDiagram.png?raw=true "Use case diagram")
+![Class diagram](ClassDiagram.png?raw=true "Class diagram")
 ## How to build and run
 From command line using git and cmake:
 ```
