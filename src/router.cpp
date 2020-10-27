@@ -1,4 +1,3 @@
-#pragma once
 #include "router.hpp"
 #include "node.hpp"
 #include <list>
