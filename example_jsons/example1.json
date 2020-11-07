@@ -4,13 +4,10 @@
             "type" : "basic",
             "incident" : {
                 "v3" : {
-                    "road_type" : "basic",
                     "length" : 1
                 },
                 "v2" : {
-                    "road_type" : "speed_limit",
-                    "length" : 1,
-                    "max_speed" : 60
+                    "length" : 1
                 }
             }
         },
@@ -19,17 +16,16 @@
             "wait_time" : 3.0,
             "incident" : {
                 "v5" : {
-                    "road_type" : "basic",
                     "length" : 1
                 },
                 "v4" :{
-                    "road_type" : "basic",
                     "length" : 1
                 }
             }
         },
         "v3" : {
             "type" : "basic",
+            "pass_time" : 1.0,
             "incident" : {}
         },
         "v4" : {
@@ -37,7 +33,6 @@
             "incident" : {}
         },
         "v5" : {
-            "name" : "v5",
             "type" : "basic",
             "incident" : {}
         }
@@ -46,15 +41,7 @@
         "first" : {
             "type" : "light",
             "max_speed" : 100,
-            "initial" : "v1",
-            "tasks" : [
-                "v5",
-                "v3",
-                "v2",
-                "v1"
-            ],
-            "from" : "v1",
-            "to" : "v5"
+            "initial" : "v1"
         }
     }
 }
