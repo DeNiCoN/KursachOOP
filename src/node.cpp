@@ -1,6 +1,6 @@
 #include "node.hpp"
 
-namespace Transport
+namespace transport
 {
 	int Node::getParent()
 	{

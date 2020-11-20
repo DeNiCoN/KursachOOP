@@ -2,7 +2,7 @@
 #include <vector>
 #include "graph.hpp"
 
-namespace Transport
+namespace transport
 {
 	using VecVecInt = std::vector<std::vector<int>>;
 	class Router

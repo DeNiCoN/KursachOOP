@@ -4,7 +4,7 @@
 #include "vertex.hpp"
 #include "roads.hpp"
 
-namespace Transport
+namespace transport
 {
     using VehicleFactory = FactoryBase<Vehicle>;
     using VertexFactory = FactoryBase<Vertex>;

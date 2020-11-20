@@ -1,6 +1,6 @@
 #include "graph.hpp"
 
-namespace Transport
+namespace transport
 {
 	Graph::Graph(int VertQuan):VerticesQuan(VertQuan), AdjecentVert(VertQuan), EdgeWeightVec(VertQuan)
 	{

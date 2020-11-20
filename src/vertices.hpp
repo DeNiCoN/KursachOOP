@@ -2,7 +2,7 @@
 #include "vertex.hpp"
 #include <iostream>
 
-namespace Transport
+namespace transport
 {
     class TestVertex : public VertexBase
     {

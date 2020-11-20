@@ -1,7 +1,7 @@
 #include "frontend.hpp"
 
 using json = nlohmann::json;
-namespace Transport
+namespace transport
 {
     Frontend::Frontend(const json& routes, Graphics& graphics)
         : m_graphics(graphics)
