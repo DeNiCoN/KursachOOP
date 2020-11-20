@@ -21,11 +21,10 @@ namespace transport
     {
     public:
         Frontend(const nlohmann::json& routes, Graphics&);
-        std::vector<ProcessPtr> generateProcesses(const nlohmann::json& vehicles) const;
+        std::vector<ProcessPtr> GenerateProcesses(const nlohmann::json& vehicles) const;
     private:
-        VehicleFactory m_vehicleFactory;
-        VertexFactory m_vertexFactory;
-        RoadFactory m_roadFactory;
-        Graphics& m_graphics;
+        VehicleFactory vehicle_factory_;
+        VertexFactory vertex_factory_;
+        Graphics& graphics_;
     };
 }

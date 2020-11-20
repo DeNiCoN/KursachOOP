@@ -2,21 +2,23 @@
 
 namespace transport
 {
-	Graph::Graph(int VertQuan):VerticesQuan(VertQuan), AdjecentVert(VertQuan), EdgeWeightVec(VertQuan)
+	Graph::Graph(int VertQuan):vertices_quan_(VertQuan), adjecent_vert(VertQuan), edge_weight_vec(VertQuan)
 	{
 	}
 
-	void Graph::addVertex(const std::vector<int>& AdjVert, const std::vector<int>& EdgeWeight, const std::shared_ptr<Vertex> VertexPtr)
+	void Graph::AddVertex(const std::vector<int>& adj_vert,
+						  const std::vector<int>& edge_weight,
+						  const std::shared_ptr<Vertex> vertex_ptr)
 	{
-		MapPtrVertex[VertexPtr] = fullness;		//fullness even to id of Vertex
-		AdjecentVert[fullness] = AdjVert;
-		EdgeWeightVec[fullness] = EdgeWeight;
-		fullness++;
+		map_ptr_vertex[vertex_ptr] = fullness_;//fullness even to id of Vertex
+		adjecent_vert[fullness_] = adj_vert;
+		edge_weight_vec[fullness_] = edge_weight;
+		fullness_++;
 	}
 
-	int Graph::getVertexId(const std::shared_ptr<Vertex> VertexPtr) const
+	int Graph::GetVertexId(const std::shared_ptr<Vertex> VertexPtr) const
 	{
-		return MapPtrVertex.at(VertexPtr);
+		return map_ptr_vertex.at(VertexPtr);
 	}
 
 }

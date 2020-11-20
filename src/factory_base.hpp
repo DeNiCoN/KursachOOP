@@ -14,19 +14,19 @@ namespace transport
         using TypePtr = std::unique_ptr<T>;
         TypePtr operator()(const std::string& name) const
         {
-            return s_typeToObj.at(name)();
+            return type_to_obj_.at(name)();
         }
 
         TypePtr operator()(const nlohmann::json& json) const
         {
             //Get new instance of vechicle
-            auto vecPtr = (*this)(json.at("type").get<std::string>());
-            vecPtr->parse(json);
-            return vecPtr;
+            auto vec_ptr = (*this)(json.at("type").get<std::string>());
+            vec_ptr->Parse(json);
+            return vec_ptr;
         }
     protected:
         static const std::unordered_map<std::string,
                                         std::function<TypePtr()>
-                                        > s_typeToObj;
+                                        > type_to_obj_;
     };
 }

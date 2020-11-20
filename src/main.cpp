@@ -34,6 +34,6 @@ int main()
     }*/
     cin >> input;
     Frontend front(input.at("routes"), graphics);
-    front.generateProcesses(input.at("vechicles"));
+    front.GenerateProcesses(input.at("vechicles"));
     return 0;
 }

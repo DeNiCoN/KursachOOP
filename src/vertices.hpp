@@ -7,20 +7,20 @@ namespace transport
     class TestVertex : public VertexBase
     {
     public:
-        void visit(TestVehicle& veh) override
+        void Visit(TestVehicle& veh) override
         {
             std::cout << "I hate second, but i love you!\n";
         }
-        void parse(const nlohmann::json&) override {};
+        void Parse(const nlohmann::json&) override {};
     };
 
     class SecondTestVertex : public VertexBase
     {
     public:
-        void visit(SecondTestVehicle& vech) override
+        void Visit(SecondTestVehicle& vech) override
         {
             std::cout << "Hello second, i love you!\n";
         }
-        void parse(const nlohmann::json&) override {};
+        void Parse(const nlohmann::json&) override {};
     };
 }

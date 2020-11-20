@@ -9,8 +9,8 @@ namespace transport
     class Vehicle
     {
     public:
-        virtual void accept(Vertex&) = 0;
-        virtual void parse(const nlohmann::json&) = 0;
+        virtual void Accept(Vertex&) = 0;
+        virtual void Parse(const nlohmann::json&) = 0;
     };
 
     using VehiclePtr = std::unique_ptr<Vehicle>;
@@ -19,9 +19,9 @@ namespace transport
     class VehicleBase : public Vehicle
     {
     public:
-        void accept(Vertex& vert) override
+        void Accept(Vertex& vert) override
         {
-            vert.visit(*static_cast<Veh*>(this));
+            vert.Visit(*static_cast<Veh*>(this));
         }
     };
 }

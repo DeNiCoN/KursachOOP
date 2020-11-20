@@ -13,12 +13,12 @@ namespace transport
             ENDED
         };
 
-        virtual void init() {}
-        virtual void update(double delta) = 0;
+        virtual void Init() {}
+        virtual void Update(double delta) = 0;
         virtual ~Process() = default;
-        void setNext(std::unique_ptr<Process>);
-        const Process& getNext() const;
-        std::unique_ptr<Process> takeNext();
+        void SetNext(std::unique_ptr<Process>);
+        const Process& GetNext() const;
+        std::unique_ptr<Process> TakeNext();
     protected:
         State state = State::UNINITIALIZED;
     };

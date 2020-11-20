@@ -4,7 +4,7 @@ using json = nlohmann::json;
 namespace transport
 {
     Frontend::Frontend(const json& routes, Graphics& graphics)
-        : m_graphics(graphics)
+        : graphics_(graphics)
     {
         //Build Graph, fill satelite data
 
@@ -15,7 +15,7 @@ namespace transport
         //First pass. Add all verticies
         for (auto& [name, vertexJson] : routes.items())
         {
-            m_graphics.addVertex(name, m_vertexFactory(vertexJson));
+            graphics_.addVertex(name, vertex_factory_(vertexJson));
             //TODO add for graph
         }
 
@@ -24,20 +24,19 @@ namespace transport
         {
             for (auto& [toName, roadJson] : vertexJson.at("incident").items())
             {
-                m_graphics.addRoad(fromName, toName, m_roadFactory(roadJson));
                 //TODO add for graph
             }
         }
 
     }
 
-    std::vector<ProcessPtr> Frontend::generateProcesses(const json &vehicles) const
+    std::vector<ProcessPtr> Frontend::GenerateProcesses(const json &vehicles) const
     {
         std::vector<ProcessPtr> result;
 
         for (const auto& [vehicleName, vehicleJson] : vehicles.items())
         {
-            m_graphics.addVehicle(vehicleName, m_vehicleFactory(vehicleJson));
+            graphics_.addVehicle(vehicleName, vehicle_factory_(vehicleJson));
 
             //TODO get route
         }

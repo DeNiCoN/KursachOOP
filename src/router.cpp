@@ -4,23 +4,26 @@
 
 namespace transport
 {
-	std::vector<int> RouterTypeFirst::FindRoute(const VecVecInt& AdjecentVert, const VecVecInt& EdgeWeight, const int StartVert, const int EndVert)
+	std::vector<int> RouterTypeFirst::FindRoute(const VecVecInt& adjecent_vert,
+												const VecVecInt& edge_weight,
+												const int start_vert,
+												const int end_vert)
 	{
 		try
 		{
 
 
-			int current = StartVert, i;
-			std::vector<int> ResultRout, RevRes;
-			std::vector<bool> visited(AdjecentVert.size(), false);
-			std::vector<Node> NodeVec(AdjecentVert.size());
+			int current = start_vert, i;
+			std::vector<int> result_rout, rev_res;
+			std::vector<bool> visited(adjecent_vert.size(), false);
+			std::vector<Node> node_vec(adjecent_vert.size());
 			std::vector<int>::const_iterator iter;
-			std::vector<int>::const_reverse_iterator RevIter;
+			std::vector<int>::const_reverse_iterator rev_iter;
 			std::list<int> queue;
 
-			NodeVec[EndVert].setParent(-1);
-			NodeVec[current].setPathLen(0);
-			NodeVec[current].setParent(-1);
+			node_vec[end_vert].SetParent(-1);
+			node_vec[current].SetPathLen(0);
+			node_vec[current].SetParent(-1);
 			visited[current] = true;
 			queue.push_back(current);
 
@@ -29,50 +32,50 @@ namespace transport
 				i = 0;
 				current = queue.front();
 				queue.pop_front();
-				if (current == EndVert)
+				if (current == end_vert)
 					continue;
-				for (iter = AdjecentVert[current].cbegin(); iter != AdjecentVert[current].cend(); ++iter)
+				for (iter = adjecent_vert[current].cbegin(); iter != adjecent_vert[current].cend(); ++iter)
 				{
 					if (visited[*iter])
 					{
-						if (NodeVec[*iter].getPathLen() > NodeVec[current].getPathLen() + EdgeWeight[current][i])
+						if (node_vec[*iter].GetPathLen() > node_vec[current].GetPathLen() + edge_weight[current][i])
 						{
-							NodeVec[*iter].setPathLen(NodeVec[current].getPathLen() + EdgeWeight[current][i]);
-							NodeVec[*iter].setParent(current);
+							node_vec[*iter].SetPathLen(node_vec[current].GetPathLen() + edge_weight[current][i]);
+							node_vec[*iter].SetParent(current);
 						}
 					}
 					else
 					{
 						visited[*iter] = true;
-						NodeVec[*iter].setParent(current);
-						NodeVec[*iter].setPathLen(NodeVec[current].getPathLen() + EdgeWeight[current][i]);
+						node_vec[*iter].SetParent(current);
+						node_vec[*iter].SetPathLen(node_vec[current].GetPathLen() + edge_weight[current][i]);
 						queue.push_back(*iter);
 					}
 					i++;
 				}
 			}
 
-			current = EndVert;
+			current = end_vert;
 
-			if (NodeVec[current].getParent() == -1)
-				throw StartVert;
+			if (node_vec[current].GetParent() == -1)
+				throw start_vert;
 
 			while (current != -1)
 			{
-				RevRes.push_back(current);
-				current = NodeVec[current].getParent();
+				rev_res.push_back(current);
+				current = node_vec[current].GetParent();
 			}
-			RevRes.shrink_to_fit();
+			rev_res.shrink_to_fit();
 
-			ResultRout.resize(RevRes.size());
+			result_rout.resize(rev_res.size());
 			i = 0;
-			for (RevIter = RevRes.crbegin(); RevIter != RevRes.crend(); RevIter++)
+			for (rev_iter = rev_res.crbegin(); rev_iter != rev_res.crend(); rev_iter++)
 			{
-				ResultRout[i] = (*RevIter);
+				result_rout[i] = (*rev_iter);
 				i++;
 			}
 
-			return ResultRout;
+			return result_rout;
 
 		}
 		catch (int ex)
@@ -83,78 +86,81 @@ namespace transport
 		}
 	}
 
-	std::vector<int> RouterTypeSecond::FindRoute(const VecVecInt& AdjecentVert, const VecVecInt& EdgeWeight, const int StartVert, const int EndVert)
+	std::vector<int> RouterTypeSecond::FindRoute(const VecVecInt& adjecent_vert,
+												 const VecVecInt& edge_weight,
+												 const int start_vert,
+												 const int end_vert)
 	{
 		try
 		{
-			std::vector<int> ResultRout, RevRes;
-			std::vector<bool> visited(AdjecentVert.size(), false);
-			std::vector<Node> NodeVec(AdjecentVert.size());
+			std::vector<int> result_rout, rev_res;
+			std::vector<bool> visited(adjecent_vert.size(), false);
+			std::vector<Node> node_vec(adjecent_vert.size());
 			std::vector<int>::const_iterator iter;
-			std::vector<int>::const_reverse_iterator RevIter;
+			std::vector<int>::const_reverse_iterator rev_iter;
 			bool next;
 			int i;
 
-			int current = StartVert;
+			int current = start_vert;
 
-			NodeVec[current].setParent(-1);
-			NodeVec[current].setPathLen(0);
-			visited[StartVert] = true;
+			node_vec[current].SetParent(-1);
+			node_vec[current].SetPathLen(0);
+			visited[start_vert] = true;
 
 			while (true)
 			{
 				i = 0;
 				next = false;
-				for (iter = AdjecentVert[current].cbegin(); iter != AdjecentVert[current].cend(); iter++)
+				for (iter = adjecent_vert[current].cbegin(); iter != adjecent_vert[current].cend(); iter++)
 				{
 					if (!visited[*iter])
 					{
 						next = true;
 						visited[*iter] = true;
-						NodeVec[*iter].setPathLen(NodeVec[current].getPathLen() + EdgeWeight[current][i]);
-						NodeVec[*iter].setParent(current);
+						node_vec[*iter].SetPathLen(node_vec[current].GetPathLen() + edge_weight[current][i]);
+						node_vec[*iter].SetParent(current);
 						current = *iter;
 						break;
 					}
 				}
-				if (current == EndVert)
+				if (current == end_vert)
 					break;
 
-				if (current == StartVert)
-					throw StartVert;
+				if (current == start_vert)
+					throw start_vert;
 
 				if (next)
 					continue;
 
-				current = NodeVec[current].getParent();
+				current = node_vec[current].GetParent();
 			}
 
 			while (current != -1)
 			{
 				i = 0;
-				RevRes.push_back(current);
-				for (iter = AdjecentVert[current].cbegin(); iter != AdjecentVert[current].cend(); iter++)
+				rev_res.push_back(current);
+				for (iter = adjecent_vert[current].cbegin(); iter != adjecent_vert[current].cend(); iter++)
 				{
-					if (NodeVec[*iter].getPathLen() + EdgeWeight[current][i] < NodeVec[current].getPathLen() && visited[*iter])
+					if (node_vec[*iter].GetPathLen() + edge_weight[current][i] < node_vec[current].GetPathLen() && visited[*iter])
 					{
-						NodeVec[current].setParent(*iter);
-						NodeVec[current].setPathLen(NodeVec[*iter].getPathLen() + EdgeWeight[current][i]);
+						node_vec[current].SetParent(*iter);
+						node_vec[current].SetPathLen(node_vec[*iter].GetPathLen() + edge_weight[current][i]);
 					}
 					i++;
 				}
-				current = NodeVec[current].getParent();
+				current = node_vec[current].GetParent();
 			}
 
-			RevRes.shrink_to_fit();
-			ResultRout.resize(RevRes.size());
+			rev_res.shrink_to_fit();
+			result_rout.resize(rev_res.size());
 			i = 0;
-			for (RevIter = RevRes.crbegin(); RevIter != RevRes.crend(); RevIter++)
+			for (rev_iter = rev_res.crbegin(); rev_iter != rev_res.crend(); rev_iter++)
 			{
-				ResultRout[i] = (*RevIter);
+				result_rout[i] = (*rev_iter);
 				i++;
 			}
 
-			return ResultRout;
+			return result_rout;
 		}
 
 		catch (int ex)

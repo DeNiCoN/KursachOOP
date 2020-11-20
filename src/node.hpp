@@ -5,12 +5,12 @@ namespace transport
 	class Node
 	{
 	private:
-		int parent;
-		int PathLen = 0;
+		int parent_;
+		int path_len_ = 0;
 	public:
-		void setParent(int parent);
-		int getParent();
-		void setPathLen(int len);
-		int getPathLen();
+		void SetParent(int parent);
+		int GetParent();
+		void SetPathLen(int len);
+		int GetPathLen();
 	};
 }

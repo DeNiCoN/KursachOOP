@@ -11,8 +11,8 @@ namespace transport
     {
     public:
         using Texture = int;
-        void drawTexture(Texture, glm::vec2 position, float scale, float angle) {}
-        void drawLine(glm::vec2 from, glm::vec2 to, glm::vec3 color) {}
-        void update() {}
+        void DrawTexture(Texture, glm::vec2 position, float scale, float angle) {}
+        void DrawLine(glm::vec2 from, glm::vec2 to, glm::vec3 color) {}
+        void Update() {}
     };
 }

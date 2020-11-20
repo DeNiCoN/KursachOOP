@@ -2,20 +2,20 @@
 
 namespace transport
 {
-	int Node::getParent()
+	int Node::GetParent()
 	{
-		return this->parent;
+		return this->parent_;
 	}
-	int Node::getPathLen()
+	int Node::GetPathLen()
 	{
-		return this->PathLen;
+		return this->path_len_;
 	}
-	void Node::setParent(int parent)
+	void Node::SetParent(int parent)
 	{
-		this->parent = parent;
+		this->parent_ = parent;
 	}
-	void Node::setPathLen(int len)
+	void Node::SetPathLen(int len)
 	{
-		this->PathLen = len;
+		this->path_len_ = len;
 	}
 }
