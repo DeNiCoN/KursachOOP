@@ -6,16 +6,11 @@
 #include "vehicle.hpp"
 #include "roads.hpp"
 #include <unordered_set>
+#include "graphics_object.hpp"
 
 namespace transport
 {
-    class GraphicsObject
-    {
-    public:
-        virtual const Renderer::Texture& GetTexture() = 0;
-        virtual ~GraphicsObject() = default;
-    };
-   
+  
     struct GraphicsVertex
     {
         glm::vec2 position;

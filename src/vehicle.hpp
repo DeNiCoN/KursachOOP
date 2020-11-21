@@ -3,14 +3,15 @@
 #include <nlohmann/json.hpp>
 #include <memory>
 #include <iostream>
+#include "json_deserializable.hpp"
+#include "graphics_object.hpp"
 
 namespace transport
 {
-    class Vehicle
+    class Vehicle : public JsonDeserializable, public GraphicsObject
     {
     public:
         virtual void Accept(Vertex&) = 0;
-        virtual void Parse(const nlohmann::json&) = 0;
     };
 
     using VehiclePtr = std::unique_ptr<Vehicle>;

@@ -1,13 +1,15 @@
 #pragma once
 #include "nlohmann/json.hpp"
 #include <memory>
+#include "json_deserializable.hpp"
+#include "graphics_object.hpp"
 
 namespace transport
 {
     class TestVehicle;
     class SecondTestVehicle;
 
-    class Vertex
+    class Vertex : public JsonDeserializable, public GraphicsObject
     {
     public:
         virtual void Visit(TestVehicle&) = 0;
