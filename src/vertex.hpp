@@ -7,13 +7,14 @@
 
 namespace transport
 {
+    class Vehicle;
     class TestVehicle;
     class SecondTestVehicle;
 
     class Vertex : public JsonDeserializable, public GraphicsObject
     {
     public:
-        virtual double VisitDefault(Vertex&) { return 1.; }
+        virtual double VisitDefault(Vehicle&) { return 1.; }
         virtual double Visit(TestVehicle&) = 0;
         virtual double Visit(SecondTestVehicle&) = 0;
         const std::string& GetName() { return name_; }

@@ -23,8 +23,6 @@ namespace transport
     */
     class Graphics
     {
-    private:
-        using Renderer = Renderer;
     public:
 
         Graphics(Renderer& renderer);

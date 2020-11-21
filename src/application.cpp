@@ -3,11 +3,13 @@
 namespace transport
 {
     Application::Application(const nlohmann::json& vertices)
+        : graphics_(renderer_), simulation_(graphics_, p_manager_)
+
     {
         for (auto& [name, vertex_json] : vertices.items())
         {
             auto vertex = vertex_factory_(vertex_json);
-            vertex.SetName(name);
+            vertex->SetName(name);
             simulation_.AddVertex(move(vertex));
         }
 
