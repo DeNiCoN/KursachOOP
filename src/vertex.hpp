@@ -3,6 +3,7 @@
 #include <memory>
 #include "json_deserializable.hpp"
 #include "graphics_object.hpp"
+#include "vertex_type.hpp"
 
 namespace transport
 {
@@ -12,9 +13,17 @@ namespace transport
     class Vertex : public JsonDeserializable, public GraphicsObject
     {
     public:
-        virtual void Visit(TestVehicle&) = 0;
-        virtual void Visit(SecondTestVehicle&) = 0;
-        virtual void Parse(const nlohmann::json&) = 0;
+        virtual double VisitDefault(Vertex&) { return 1.; }
+        virtual double Visit(TestVehicle&) = 0;
+        virtual double Visit(SecondTestVehicle&) = 0;
+        const std::string& GetName() { return name_; }
+        void SetName(const std::string& name) { name_ = name; }
+        virtual std::vector<VertexType> GetTypes()
+        {
+            return { VertexType::DEFAULT };
+        }
+    private:
+        std::string name_;
     };
 
     using VertexPtr = std::unique_ptr<Vertex>;
@@ -23,7 +32,7 @@ namespace transport
     struct VertexBaseSingle : public virtual Vertex
     {
         using Vertex::Visit;
-        void Visit(T&) override {}
+        double Visit(T& t) override { return VisitDefault(t); }
     };
 
     template<class... T>
