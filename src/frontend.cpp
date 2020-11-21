@@ -15,7 +15,7 @@ namespace transport
         //First pass. Add all verticies
         for (auto& [name, vertexJson] : routes.items())
         {
-            graphics_.addVertex(name, vertex_factory_(vertexJson));
+            graphics_.AddVertex(name, vertex_factory_(vertexJson));
             //TODO add for graph
         }
 
@@ -36,7 +36,7 @@ namespace transport
 
         for (const auto& [vehicleName, vehicleJson] : vehicles.items())
         {
-            graphics_.addVehicle(vehicleName, vehicle_factory_(vehicleJson));
+            graphics_.AddVertex(vehicleName, vehicle_factory_(vehicleJson));
 
             //TODO get route
         }

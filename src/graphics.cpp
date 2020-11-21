@@ -5,17 +5,17 @@ namespace transport
     using namespace std;
 
     Graphics::Graphics(Renderer& renderer)
-        : m_renderer(renderer)
+        : renderer_(renderer)
     {
     }
 
 
-    void Graphics::addVertex(std::string name, VertexPtr ptr)
+    void Graphics::AddVertex(std::string name, VertexPtr ptr)
     {
         GraphicsVertex n {move(name), move(ptr)};
         m_vertexes.insert({n.name, move(n)});
     }
-    void Graphics::addVehicle(std::string name, VehiclePtr ptr)
+    void Graphics::AddVertex(std::string name, VehiclePtr ptr)
     {
         GraphicsVehicle n {move(name), move(ptr)};
         m_vehicles.insert({n.name, move(n)});
@@ -29,18 +29,18 @@ namespace transport
         m_graph.at(to).at(from) = m_roads.back();
     }
 
-    void Graphics::vehicleRideRoad(const std::string& vehicleName,
+    void Graphics::VehicleRideRoad(const std::string& vehicleName,
                                     const std::string& from, const std::string& to)
     {
 
     }
-    void Graphics::vehicleRideVertex(const std::string& vehicleName,
+    void Graphics::VehicleRideVertex(const std::string& vehicleName,
                                       const std::string& vertexName)
     {
 
     }
 
-    void Graphics::update(double delta)
+    void Graphics::Update(double delta)
     {
         //m_pManager.update(delta);
     }

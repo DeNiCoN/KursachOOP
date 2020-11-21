@@ -1,32 +1,26 @@
 #pragma once
 #include "glm/vec2.hpp"
 #include "process_manager.hpp"
-#include "empty_renderer.hpp"
+#include "renderer.hpp"
 #include "vertex.hpp"
 #include "vehicle.hpp"
 #include "roads.hpp"
+#include <unordered_set>
 
 namespace transport
 {
+    class GraphicsObject
+    {
+    public:
+        virtual const Renderer::Texture& GetTexture() = 0;
+        virtual ~GraphicsObject() = default;
+    };
+   
     struct GraphicsVertex
     {
-        const std::string name;
-        VertexPtr vertexPtr;
         glm::vec2 position;
-    };
-
-    struct GraphicsRoad
-    {
-        GraphicsVertex& from;
-        GraphicsVertex& to;
-        RoadPtr roadPtr;
-    };
-
-    struct GraphicsVehicle
-    {
-        const std::string name;
-        VehiclePtr vehiclePtr;
-        glm::vec2 position;
+        std::unordered_set<std::string> incedent;
+        GraphicsObject& object;
     };
 
     /*
@@ -35,35 +29,23 @@ namespace transport
     class Graphics
     {
     private:
-        using Renderer = EmptyRenderer;
+        using Renderer = Renderer;
     public:
 
         Graphics(Renderer& renderer);
 
-        void addVertex(std::string name, VertexPtr);
-        void addVehicle(std::string name, VehiclePtr);
-        void addRoad(const std::string& from, const std::string& to, RoadPtr);
+        void AddVertex(std::string name, const GraphicsObject& object,
+                       glm::vec2 initialPosition = {0., 0.});
+        void AddRoad(const std::string& from, const std::string& to);
 
-        void vehicleRideRoad(const std::string& vehicleName,
+        void VehicleRideRoad(const std::string& vehicle_name,
                               const std::string& from, const std::string& to);
-        void vehicleRideVertex(const std::string& vehicleName,
-                                const std::string& vertexName);
-
-        void update(double delta);
+        void VehicleRideVertex(const std::string& vehicle_name,
+                                const std::string& vertex_name);
     private:
-        ProcessManager m_pManager;
-        Renderer& m_renderer;
+        ProcessManager p_manager_;
+        Renderer& renderer_;
 
-        //Using string_view for memory efficiency at cost of
-        //some cpu time while filling up graph
-        std::unordered_map<std::string_view, GraphicsVertex> m_vertexes;
-        std::vector<GraphicsRoad> m_roads;
-        std::unordered_map<std::string_view, GraphicsVehicle> m_vehicles;
-
-        std::unordered_map<std::string_view,
-                           std::unordered_map<std::string_view,
-                                              std::reference_wrapper<GraphicsRoad>
-                                              >> m_graph;
-       
+        std::unordered_map<std::string, GraphicsVertex> vertices_;
     };
 }

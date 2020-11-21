@@ -1,5 +1,5 @@
 {
-    "routes" : {
+    "vertices" : {
         "v1" : {
             "type" : "basic",
             "incident" : {

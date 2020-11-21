@@ -7,7 +7,7 @@ namespace transport
     /*
     ** Рендерер отвечает за создание окна и рисование на нём
     */
-    class EmptyRenderer
+    class Renderer
     {
     public:
         using Texture = int;
