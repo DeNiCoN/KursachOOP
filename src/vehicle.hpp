@@ -13,7 +13,7 @@ namespace transport
     public:
         virtual double Accept(Vertex&) = 0;
         virtual double GetSpeed() { return 1.; }
-        const std::string& GetName() { return name_; }
+        const std::string& GetName() const { return name_; }
         void SetName(const std::string& name) { name_ = name; }
     private:
         std::string name_;

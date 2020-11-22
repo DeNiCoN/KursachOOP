@@ -13,6 +13,6 @@ namespace transport
         using Texture = int;
         void DrawTexture(Texture, glm::vec2 position, float scale, float angle) {}
         void DrawLine(glm::vec2 from, glm::vec2 to, glm::vec3 color) {}
-        void Update() {}
+        void Render() {}
     };
 }

@@ -1,4 +1,5 @@
 #include "application.hpp"
+#include <chrono>
 
 namespace transport
 {
@@ -18,8 +19,58 @@ namespace transport
         {
             for (auto& [to_name, road_json] : vertex_json.at("incident").items())
             {
-                simulation_.AddRoad(from_name, to_name);
+                double length = 1.;
+                if (vertex_json.count("length"))
+                    length = vertex_json.at("length");
+                simulation_.AddRoad(from_name, to_name, length);
             }
         }
+    }
+
+    void Application::LoadVehicles(const nlohmann::json &vehicles)
+    {
+        for (auto& [name, vehicle_json] : vehicles.items())
+        {
+            auto vehicle_ptr = vehicle_factory_(vehicle_json);
+            vehicle_ptr->SetName(name);
+
+            simulation_.AddVehicle(std::move(vehicle_ptr),
+                                   vehicle_json.at("initial"));
+        }
+    }
+
+    //Fixed timestep game loop
+    int Application::Start()
+    {
+        using clock = std::chrono::high_resolution_clock;
+        using namespace std::chrono_literals;
+
+        constexpr std::chrono::nanoseconds timestep(16ms);
+        constexpr double timestep_as_double =
+            timestep.count() / std::chrono::nanoseconds(1s).count();
+
+        std::chrono::nanoseconds lag(0ns);
+        auto base_time = clock::now();
+
+        while(true) {
+
+            auto current_time = clock::now();
+            auto frame_time = current_time - base_time;
+            base_time = current_time;
+            lag += std::chrono::duration_cast<std::chrono::nanoseconds>(frame_time);
+
+            //Handle events
+
+            //Update
+            while(lag >= timestep) {
+                lag -= timestep;
+
+                p_manager_.Update(timestep_as_double);
+            }
+
+            //Render
+            renderer_.Render();
+        }
+        return 0;
     }
 }

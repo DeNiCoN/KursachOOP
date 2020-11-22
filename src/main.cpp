@@ -13,6 +13,5 @@ int main()
     Application app(input.at("vertices"));
     app.LoadVehicles(input.at("vehicles"));
 
-    app.Start();
-    return 0;
+    return app.Start();
 }

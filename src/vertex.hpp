@@ -17,11 +17,11 @@ namespace transport
         virtual double VisitDefault(Vehicle&) { return 1.; }
         virtual double Visit(TestVehicle&) = 0;
         virtual double Visit(SecondTestVehicle&) = 0;
-        const std::string& GetName() { return name_; }
+        const std::string& GetName() const { return name_; }
         void SetName(const std::string& name) { name_ = name; }
         virtual std::vector<VertexType> GetTypes()
         {
-            return { VertexType::DEFAULT };
+            return {};
         }
     private:
         std::string name_;
