@@ -1,5 +1,5 @@
 #pragma once
-#include "vertex.hpp"
+#include "vertex_base.hpp"
 #include <iostream>
 
 namespace transport
