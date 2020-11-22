@@ -7,7 +7,7 @@ namespace transport
 	}
 
 	void Graph::AddVertex(const std::vector<int>& adj_vert,
-						  const std::vector<int>& edge_weight,
+						  const std::vector<double>& edge_weight,
 						  const std::shared_ptr<Vertex> vertex_ptr)
 	{
 		map_ptr_vertex[vertex_ptr] = fullness_;//fullness even to id of Vertex

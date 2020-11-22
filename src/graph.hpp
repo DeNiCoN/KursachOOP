@@ -15,10 +15,10 @@ namespace transport
 	public:
 		std::unordered_map<std::shared_ptr<Vertex>, int> map_ptr_vertex;
 		std::vector<std::vector<int>> adjecent_vert;
-		std::vector<std::vector<int>> edge_weight_vec;		// Every road is stored twice
+		std::vector<std::vector<double>> edge_weight_vec;		// Every road is stored twice
 
 		void AddVertex(const std::vector<int>& adj_vert,
-					   const std::vector<int>& edge_weight,
+					   const std::vector<double>& edge_weight,
 					   const std::shared_ptr<Vertex> vertex_ptr);
 		int GetVertexId(const std::shared_ptr<Vertex> vertex_ptr) const;
 

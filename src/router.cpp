@@ -5,7 +5,7 @@
 namespace transport
 {
 	std::vector<int> RouterTypeFirst::FindRoute(const VecVecInt& adjecent_vert,
-												const VecVecInt& edge_weight,
+												const VecVecDoub& edge_weight,
 												const int start_vert,
 												const int end_vert)
 	{
@@ -87,7 +87,7 @@ namespace transport
 	}
 
 	std::vector<int> RouterTypeSecond::FindRoute(const VecVecInt& adjecent_vert,
-												 const VecVecInt& edge_weight,
+												 const VecVecDoub& edge_weight,
 												 const int start_vert,
 												 const int end_vert)
 	{

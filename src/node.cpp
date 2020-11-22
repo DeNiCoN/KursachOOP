@@ -2,11 +2,11 @@
 
 namespace transport
 {
-	int Node::GetParent()
+	int Node::GetParent() const
 	{
 		return this->parent_;
 	}
-	int Node::GetPathLen()
+	double Node::GetPathLen() const
 	{
 		return this->path_len_;
 	}
@@ -14,7 +14,7 @@ namespace transport
 	{
 		this->parent_ = parent;
 	}
-	void Node::SetPathLen(int len)
+	void Node::SetPathLen(double len)
 	{
 		this->path_len_ = len;
 	}

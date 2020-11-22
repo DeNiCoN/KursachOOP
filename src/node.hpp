@@ -6,11 +6,11 @@ namespace transport
 	{
 	private:
 		int parent_;
-		int path_len_ = 0;
+		double path_len_ = 0;
 	public:
 		void SetParent(int parent);
-		int GetParent();
-		void SetPathLen(int len);
-		int GetPathLen();
+		int GetParent() const;
+		void SetPathLen(double len);
+		double GetPathLen() const;
 	};
 }
