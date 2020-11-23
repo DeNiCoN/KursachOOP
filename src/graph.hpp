@@ -2,6 +2,8 @@
 #include <vector>
 #include <memory>
 #include <unordered_map>
+#include <ctime>
+#include "vertex_type.hpp"
 #include "vertices.hpp"
 
 
@@ -11,18 +13,20 @@ namespace transport
 	class Graph
 	{
 	private:
-		int vertices_quan_, fullness_ = 0;
+		int vertices_quan_;
+		int fullness_ = 0, vertex_type_quan_ = 9;
 	public:
-		std::unordered_map<std::shared_ptr<Vertex>, int> map_ptr_vertex;
 		std::vector<std::vector<int>> adjecent_vert;
 		std::vector<std::vector<double>> edge_weight_vec;		// Every road is stored twice
+		std::vector<std::vector<int>> type_id_lists;
+		std::vector<std::vector<int>> callback_id;
+		
+		int AddVertex(const VertexType type);
+		void AddEdge(int const f_vertex, int const s_vertex, double const edge_weight);
+		int GetRandVertex() const;
+		int GetRandVertex(const VertexType type) const;
 
-		void AddVertex(const std::vector<int>& adj_vert,
-					   const std::vector<double>& edge_weight,
-					   const std::shared_ptr<Vertex> vertex_ptr);
-		int GetVertexId(const std::shared_ptr<Vertex> vertex_ptr) const;
-
-		Graph(int vert_quan);
+		Graph(int const vert_quan);
 //		~Graph() = default;
 	};
 }

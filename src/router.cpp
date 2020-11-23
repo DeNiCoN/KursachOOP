@@ -13,7 +13,8 @@ namespace transport
 		{
 
 
-			int current = start_vert, i;
+			int current = start_vert;
+			int i;
 			std::vector<int> result_rout, rev_res;
 			std::vector<bool> visited(adjecent_vert.size(), false);
 			std::vector<Node> node_vec(adjecent_vert.size());
