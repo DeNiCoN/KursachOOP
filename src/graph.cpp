@@ -2,7 +2,7 @@
 
 namespace transport
 {
-	Graph::Graph(int const VertQuan):vertices_quan_(VertQuan), 
+	Graph::Graph(const int VertQuan):vertices_quan_(VertQuan), 
 									adjecent_vert(VertQuan),
 									edge_weight_vec(VertQuan), 
 									type_id_lists(vertex_type_quan_), 
@@ -30,7 +30,7 @@ namespace transport
 		return fullness_ - 1;
 	}
 
-	void Graph::AddEdge(int const f_vertex, int const s_vertex, double const edge_weight)
+	void Graph::AddEdge(const int f_vertex, const int s_vertex, const double edge_weight)
 	{
 		adjecent_vert[f_vertex].push_back(s_vertex);
 		adjecent_vert[s_vertex].push_back(f_vertex);

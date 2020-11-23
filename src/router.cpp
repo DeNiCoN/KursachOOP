@@ -84,7 +84,7 @@ namespace transport
 		}
 	}
 
-	std::vector<int> RouterTypeSecond::FindRoute(const Graph& graph, const int start_vert,const int end_vert)
+	std::vector<int> RouterTypeSecond::FindRoute(const Graph& graph, const int start_vert, const int end_vert)
 	{
 		try
 		{

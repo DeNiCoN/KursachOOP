@@ -22,7 +22,7 @@ namespace transport
 		std::vector<std::vector<int>> callback_id;
 		
 		int AddVertex(const VertexType type);
-		void AddEdge(int const f_vertex, int const s_vertex, double const edge_weight);
+		void AddEdge(const int f_vertex, const int s_vertex, const double edge_weight);
 		int GetRandVertex() const;
 		int GetRandVertex(const VertexType type) const;
 

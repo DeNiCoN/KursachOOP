@@ -8,9 +8,9 @@ namespace transport
 		int parent_;
 		double path_len_ = 0;
 	public:
-		void SetParent(int parent);
+		void SetParent(const int parent);
 		int GetParent() const;
-		void SetPathLen(double len);
+		void SetPathLen(const double len);
 		double GetPathLen() const;
 	};
 }
