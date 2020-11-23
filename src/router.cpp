@@ -4,10 +4,7 @@
 
 namespace transport
 {
-	std::vector<int> RouterTypeFirst::FindRoute(const VecVecInt& adjecent_vert,
-												const VecVecDoub& edge_weight,
-												const int start_vert,
-												const int end_vert)
+	std::vector<int> RouterTypeFirst::FindRoute(const Graph& graph, const int start_vert, const int end_vert)
 	{
 		try
 		{
@@ -16,8 +13,8 @@ namespace transport
 			int current = start_vert;
 			int i;
 			std::vector<int> result_rout, rev_res;
-			std::vector<bool> visited(adjecent_vert.size(), false);
-			std::vector<Node> node_vec(adjecent_vert.size());
+			std::vector<bool> visited(graph.adjecent_vert.size(), false);
+			std::vector<Node> node_vec(graph.adjecent_vert.size());
 			std::vector<int>::const_iterator iter;
 			std::vector<int>::const_reverse_iterator rev_iter;
 			std::list<int> queue;
@@ -35,13 +32,13 @@ namespace transport
 				queue.pop_front();
 				if (current == end_vert)
 					continue;
-				for (iter = adjecent_vert[current].cbegin(); iter != adjecent_vert[current].cend(); ++iter)
+				for (iter = graph.adjecent_vert[current].cbegin(); iter != graph.adjecent_vert[current].cend(); ++iter)
 				{
 					if (visited[*iter])
 					{
-						if (node_vec[*iter].GetPathLen() > node_vec[current].GetPathLen() + edge_weight[current][i])
+						if (node_vec[*iter].GetPathLen() > node_vec[current].GetPathLen() + graph.edge_weight_vec[current][i])
 						{
-							node_vec[*iter].SetPathLen(node_vec[current].GetPathLen() + edge_weight[current][i]);
+							node_vec[*iter].SetPathLen(node_vec[current].GetPathLen() + graph.edge_weight_vec[current][i]);
 							node_vec[*iter].SetParent(current);
 						}
 					}
@@ -49,7 +46,7 @@ namespace transport
 					{
 						visited[*iter] = true;
 						node_vec[*iter].SetParent(current);
-						node_vec[*iter].SetPathLen(node_vec[current].GetPathLen() + edge_weight[current][i]);
+						node_vec[*iter].SetPathLen(node_vec[current].GetPathLen() + graph.edge_weight_vec[current][i]);
 						queue.push_back(*iter);
 					}
 					i++;
@@ -87,16 +84,13 @@ namespace transport
 		}
 	}
 
-	std::vector<int> RouterTypeSecond::FindRoute(const VecVecInt& adjecent_vert,
-												 const VecVecDoub& edge_weight,
-												 const int start_vert,
-												 const int end_vert)
+	std::vector<int> RouterTypeSecond::FindRoute(const Graph& graph, const int start_vert,const int end_vert)
 	{
 		try
 		{
 			std::vector<int> result_rout, rev_res;
-			std::vector<bool> visited(adjecent_vert.size(), false);
-			std::vector<Node> node_vec(adjecent_vert.size());
+			std::vector<bool> visited(graph.adjecent_vert.size(), false);
+			std::vector<Node> node_vec(graph.adjecent_vert.size());
 			std::vector<int>::const_iterator iter;
 			std::vector<int>::const_reverse_iterator rev_iter;
 			bool next;
@@ -112,13 +106,13 @@ namespace transport
 			{
 				i = 0;
 				next = false;
-				for (iter = adjecent_vert[current].cbegin(); iter != adjecent_vert[current].cend(); iter++)
+				for (iter = graph.adjecent_vert[current].cbegin(); iter != graph.adjecent_vert[current].cend(); iter++)
 				{
 					if (!visited[*iter])
 					{
 						next = true;
 						visited[*iter] = true;
-						node_vec[*iter].SetPathLen(node_vec[current].GetPathLen() + edge_weight[current][i]);
+						node_vec[*iter].SetPathLen(node_vec[current].GetPathLen() + graph.edge_weight_vec[current][i]);
 						node_vec[*iter].SetParent(current);
 						current = *iter;
 						break;
@@ -140,12 +134,12 @@ namespace transport
 			{
 				i = 0;
 				rev_res.push_back(current);
-				for (iter = adjecent_vert[current].cbegin(); iter != adjecent_vert[current].cend(); iter++)
+				for (iter = graph.adjecent_vert[current].cbegin(); iter != graph.adjecent_vert[current].cend(); iter++)
 				{
-					if (node_vec[*iter].GetPathLen() + edge_weight[current][i] < node_vec[current].GetPathLen() && visited[*iter])
+					if (node_vec[*iter].GetPathLen() + graph.edge_weight_vec[current][i] < node_vec[current].GetPathLen() && visited[*iter])
 					{
 						node_vec[current].SetParent(*iter);
-						node_vec[current].SetPathLen(node_vec[*iter].GetPathLen() + edge_weight[current][i]);
+						node_vec[current].SetPathLen(node_vec[*iter].GetPathLen() + graph.edge_weight_vec[current][i]);
 					}
 					i++;
 				}

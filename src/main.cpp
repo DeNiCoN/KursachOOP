@@ -24,15 +24,21 @@ int main()
     graph.AddEdge(5, 3, 20);
 
     transport::RouterTypeFirst router;
+    transport::RouterTypeSecond router2;
     std::vector<int> rout;
-    rout = router.FindRoute(graph.adjecent_vert, graph.edge_weight_vec, 0, 3);
+    rout = router.FindRoute(graph, 0, 3);
+    for (size_t i = 0; i < rout.size(); i++)
+    {
+        std::cout << rout[i] << std::endl;
+    }
+    rout = router2.FindRoute(graph, 0, 3);
     for (size_t i = 0; i < rout.size(); i++)
     {
         std::cout << rout[i] << std::endl;
     }
     std::cout << graph.GetRandVertex() << std::endl;
     std::cout << graph.GetRandVertex(VertexType::RECOLOR) << std::endl;*/
-    //    cin >> input;
+//    cin >> input;
 
 //    Application app(input.at("vertices"));
 //    app.LoadVehicles(input.at("vehicles"));
