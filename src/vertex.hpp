@@ -1,5 +1,6 @@
 #pragma once
 #include "nlohmann/json.hpp"
+#include "process_manager.hpp"
 #include <memory>
 #include "json_deserializable.hpp"
 #include "graphics_object.hpp"
@@ -14,9 +15,10 @@ namespace transport
     class Vertex : public JsonDeserializable, public GraphicsObject
     {
     public:
-        virtual double VisitDefault(Vehicle&) { return 1.; }
-        virtual double Visit(TestVehicle&) = 0;
-        virtual double Visit(SecondTestVehicle&) = 0;
+        //TODO change nullptr to None process
+        virtual ProcessPtr VisitDefault(Vehicle&) { return nullptr; }
+        virtual ProcessPtr Visit(TestVehicle&) = 0;
+        virtual ProcessPtr Visit(SecondTestVehicle&) = 0;
         const std::string& GetName() const { return name_; }
         void SetName(const std::string& name) { name_ = name; }
         virtual std::vector<VertexType> GetTypes()

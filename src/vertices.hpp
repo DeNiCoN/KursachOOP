@@ -7,10 +7,9 @@ namespace transport
     class TestVertex : public VertexBase
     {
     public:
-        double Visit(TestVehicle& veh) override
+        ProcessPtr Visit(TestVehicle& veh) override
         {
-            std::cout << "I hate second, but i love you!\n";
-            return 0.;
+            return nullptr;
         }
         void Parse(const nlohmann::json&) override {};
         const Renderer::Texture& GetTexture() override { return {}; }
@@ -19,10 +18,9 @@ namespace transport
     class SecondTestVertex : public VertexBase
     {
     public:
-        double Visit(SecondTestVehicle& vech) override
+        ProcessPtr Visit(SecondTestVehicle& vech) override
         {
-            std::cout << "Hello second, i love you!\n";
-            return 100.;
+            return nullptr;
         }
         void Parse(const nlohmann::json&) override {};
         const Renderer::Texture& GetTexture() override { return {}; }

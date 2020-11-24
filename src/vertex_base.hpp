@@ -8,7 +8,7 @@ namespace transport
     struct VertexBaseSingle : public virtual Vertex
     {
         using Vertex::Visit;
-        double Visit(T& t) override { return VisitDefault(t); }
+        ProcessPtr Visit(T& t) override { return VisitDefault(t); }
     };
 
     template<class... T>
