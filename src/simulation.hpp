@@ -1,5 +1,7 @@
 #pragma once
 #include "graphics.hpp"
+#include "graph.hpp"
+#include "router.hpp"
 #include <unordered_map>
 
 namespace transport
@@ -15,9 +17,22 @@ namespace transport
     private:
         Graphics& graphics_;
         ProcessManager& p_manager_;
+        Graph graph_;
 
-        std::unordered_map<std::string, VehiclePtr> vehicles_;
-        std::unordered_map<std::string, VertexPtr> vertices_;
+        struct VertexInfo
+        {
+            VertexPtr ptr;
+            //TODO change to VertexId
+            int graph_id;
+        };
 
+        struct VehicleInfo
+        {
+            VehiclePtr ptr;
+            std::string current_vertex;
+        };
+
+        std::unordered_map<std::string, VehicleInfo> vehicles_;
+        std::unordered_map<std::string, VertexInfo> vertices_;
     };
 }
