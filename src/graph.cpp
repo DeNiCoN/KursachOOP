@@ -49,4 +49,10 @@ namespace transport
 		std::srand(std::time(nullptr));
 		return type_id_lists[static_cast<int>(type)][std::rand() % type_id_lists[static_cast<int>(type)].size()];
 	}
+
+	void Graph::ChangeVertexType(const VertexType type, const int id)
+	{
+
+	}
+
 }

@@ -25,6 +25,7 @@ namespace transport
 		void AddEdge(const int f_vertex, const int s_vertex, const double edge_weight);
 		int GetRandVertex() const;
 		int GetRandVertex(const VertexType type) const;
+		void ChangeVertexType(const VertexType type, const int id);
 
 		Graph(int const vert_quan);
 //		~Graph() = default;
