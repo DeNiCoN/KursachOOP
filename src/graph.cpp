@@ -8,25 +8,22 @@ namespace transport
 									type_id_lists(vertex_type_quan_), 
 									callback_id(VertQuan)
 	{
+		vertex_type_quan_ = CountVertexType();
 		for (size_t i = 0; i < vertex_type_quan_; i++)
 		{
 			type_id_lists[i].reserve(VertQuan / vertex_type_quan_);
 		}
 	}
 
-	int Graph::AddVertex(const VertexType type)	//fullness is even to id of Vertex
+	int Graph::AddVertex(const std::vector<VertexType> type)	//fullness is even to id of Vertex
 	{
-		callback_id[fullness_].push_back(static_cast<int>(type));
-		callback_id[fullness_].push_back(type_id_lists[static_cast<int>(type)].size());
-		type_id_lists[static_cast<int>(type)].push_back(fullness_);
-		fullness_++;
-		if (vertices_quan_ == fullness_)
+		for (size_t i = 0; i < type.size(); i++)
 		{
-			vertices_quan_ += 10;
-			adjecent_vert.resize(vertices_quan_);
-			edge_weight_vec.resize(vertices_quan_);
-			callback_id.resize(vertex_type_quan_);
+			callback_id[fullness_].push_back(static_cast<int>(type[i]));
+			callback_id[fullness_].push_back(type_id_lists[static_cast<int>(type[i])].size());
+			type_id_lists[static_cast<int>(type[i])].push_back(fullness_);
 		}
+		fullness_++;
 		return fullness_ - 1;
 	}
 
@@ -53,6 +50,11 @@ namespace transport
 	void Graph::ChangeVertexType(const VertexType type, const int id)
 	{
 
+	}
+
+	int Graph::CountVertexType() 
+	{
+		return static_cast<int>(VertexType::LAST);
 	}
 
 }

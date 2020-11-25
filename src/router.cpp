@@ -4,7 +4,7 @@
 
 namespace transport
 {
-	std::vector<int> RouterTypeFirst::FindRoute(const Graph& graph, const int start_vert, const int end_vert)
+	std::vector<int> RouterBreadthFS::FindRoute(const Graph& graph, const int start_vert, const int end_vert)
 	{
 		try
 		{
@@ -84,7 +84,7 @@ namespace transport
 		}
 	}
 
-	std::vector<int> RouterTypeSecond::FindRoute(const Graph& graph, const int start_vert, const int end_vert)
+	std::vector<int> RouterDepthFS::FindRoute(const Graph& graph, const int start_vert, const int end_vert)
 	{
 		try
 		{

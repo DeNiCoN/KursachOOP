@@ -23,7 +23,7 @@ namespace transport
 
         auto& info = vertices_[vertex_ptr->GetName()];
         info.ptr = std::move(vertex_ptr);
-        info.graph_id = graph_.AddVertex(VertexType::DEFAULT);
+        info.graph_id = graph_.AddVertex(info.ptr->GetTypes());
     }
 
     void Simulation::AddRoad(std::string from, std::string to, double length)

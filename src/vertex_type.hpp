@@ -12,6 +12,7 @@ namespace transport
         CONSTRUCTION_SITE,
         GAS_STATION,
         FIELD,
-        WAREHOUSE
+        WAREHOUSE,
+        LAST    // Must always be last, used only to count amount of enum elements. LAST is NOT type of vertex.
     };
 }
