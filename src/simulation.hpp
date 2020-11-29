@@ -34,5 +34,7 @@ namespace transport
 
         std::unordered_map<std::string, VehicleInfo> vehicles_;
         std::unordered_map<std::string, VertexInfo> vertices_;
+
+        void Process(VehicleInfo& info);
     };
 }

@@ -34,4 +34,8 @@ namespace transport
                        vertices_.at(to).graph_id, length);
     }
 
+    void Simulation::Process(VehicleInfo& info)
+    {
+
+    }
 }

@@ -7,6 +7,7 @@
 #include "process_manager.hpp"
 #include "json_deserializable.hpp"
 #include "graphics_object.hpp"
+#include <optional>
 
 namespace transport
 {
@@ -15,6 +16,7 @@ namespace transport
     public:
         virtual ProcessPtr Accept(Vertex&) = 0;
         virtual double GetSpeed() { return 1.; }
+        virtual std::optional<VertexType> GetNextVertexType() { return std::nullopt; }
         const std::string& GetName() const { return name_; }
         void SetName(const std::string& name) { name_ = name; }
     private:

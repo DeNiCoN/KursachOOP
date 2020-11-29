@@ -28,9 +28,9 @@ namespace transport
         Graphics(Renderer& renderer);
 
         void AddVertex(std::string name, const GraphicsObject& object,
-                       glm::vec2 initialPosition = {0., 0.});
+                       glm::vec2 initialPosition = {0., 0.}) {}
         void AddRoad(const std::string& from, const std::string& to,
-                     double length);
+                     double length) {}
 
         void VehicleRideRoad(const std::string& vehicle_name,
                               const std::string& from, const std::string& to);
