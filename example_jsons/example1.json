@@ -2,6 +2,7 @@
     "vertices" : {
         "v1" : {
             "type" : "basic",
+            "wait-time" : 2.0,
             "incident" : {
                 "v3" : {
                     "length" : 1
@@ -12,8 +13,7 @@
             }
         },
         "v2" : {
-            "type" : "gasoline_station",
-            "wait_time" : 3.0,
+            "type" : "basic",
             "incident" : {
                 "v5" : {
                     "length" : 1
