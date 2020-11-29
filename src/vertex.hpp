@@ -9,16 +9,21 @@
 namespace transport
 {
     class Vehicle;
-    class TestVehicle;
-    class SecondTestVehicle;
+    namespace vehicles
+    {
+        class Light;
+    }
 
     class Vertex : public JsonDeserializable, public GraphicsObject
     {
     public:
         //TODO change nullptr to None process
         virtual ProcessPtr VisitDefault(Vehicle&) { return nullptr; }
-        virtual ProcessPtr Visit(TestVehicle&) = 0;
-        virtual ProcessPtr Visit(SecondTestVehicle&) = 0;
+        virtual ProcessPtr PassDefault(Vehicle&) { return nullptr; }
+
+        virtual ProcessPtr Visit(vehicles::Light&) = 0;
+        virtual ProcessPtr Pass(vehicles::Light&) = 0;
+
         const std::string& GetName() const { return name_; }
         void SetName(const std::string& name) { name_ = name; }
         virtual std::vector<VertexType> GetTypes()

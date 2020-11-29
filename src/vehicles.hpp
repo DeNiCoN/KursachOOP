@@ -3,15 +3,20 @@
 
 namespace transport
 {
-    class TestVehicle : public VehicleBase<TestVehicle>
+    namespace vehicles
     {
-        void Parse(const nlohmann::json&) override {};
-        const Renderer::Texture& GetTexture() override { return {}; }
-    };
-
-    class SecondTestVehicle : public VehicleBase<SecondTestVehicle>
-    {
-        void Parse(const nlohmann::json&) override {};
-        const Renderer::Texture& GetTexture() override { return {}; }
-    };
+        class Light : public VehicleBase<Light>
+        {
+        public:
+            void Parse(const nlohmann::json& json) override
+            {
+                if (json.count("max_speed"))
+                    max_speed_ = json["max_speed"];
+            }
+            const Renderer::Texture& GetTexture() override { return {}; }
+            double GetSpeed() override { return max_speed_; }
+        private:
+            double max_speed_ = 1.;
+        };
+    }
 }

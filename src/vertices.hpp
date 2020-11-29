@@ -4,25 +4,24 @@
 
 namespace transport
 {
-    class TestVertex : public VertexBase
+    namespace vertices
     {
-    public:
-        ProcessPtr Visit(TestVehicle& veh) override
+        class Basic : public VertexBase
         {
-            return nullptr;
-        }
-        void Parse(const nlohmann::json&) override {};
-        const Renderer::Texture& GetTexture() override { return {}; }
-    };
-
-    class SecondTestVertex : public VertexBase
-    {
-    public:
-        ProcessPtr Visit(SecondTestVehicle& vech) override
-        {
-            return nullptr;
-        }
-        void Parse(const nlohmann::json&) override {};
-        const Renderer::Texture& GetTexture() override { return {}; }
-    };
+        public:
+            ProcessPtr VisitDefault(Vehicle& veh) override;
+            ProcessPtr PassDefault(Vehicle& veh) override;
+            void Parse(const nlohmann::json& json) override
+            {
+                if (json.count("wait_time"))
+                    wait_time_ = json["wait_time"];
+                if (json.count("pass_time"))
+                    wait_time_ = json["pass_time"];
+            };
+            const Renderer::Texture& GetTexture() override { return {}; }
+        private:
+            double wait_time_ = 1.;
+            double pass_time_ = 0.;
+        };
+    }
 }

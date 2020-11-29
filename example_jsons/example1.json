@@ -2,7 +2,7 @@
     "vertices" : {
         "v1" : {
             "type" : "basic",
-            "wait-time" : 2.0,
+            "wait_time" : 2.0,
             "incident" : {
                 "v3" : {
                     "length" : 1
