@@ -15,6 +15,7 @@ namespace transport
         {
             UNINITIALIZED,
             RUNNING,
+            PAUSED,
             ENDED
         };
 

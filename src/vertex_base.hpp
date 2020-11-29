@@ -8,7 +8,9 @@ namespace transport
     struct VertexBaseSingle : public virtual Vertex
     {
         using Vertex::Visit;
+        using Vertex::Pass;
         ProcessPtr Visit(T& t) override { return VisitDefault(t); }
+        ProcessPtr Pass(T& t) override { return PassDefault(t); }
     };
 
     template<class... T>
@@ -18,7 +20,7 @@ namespace transport
     };
 
     struct VertexBase : VertexBaseMultiple<
-        TestVehicle, SecondTestVehicle
+        vehicles::Light
         >
     {};
 }
