@@ -8,5 +8,4 @@ namespace transport
 {
     using VehicleFactory = FactoryBase<Vehicle>;
     using VertexFactory = FactoryBase<Vertex>;
-    using RoadFactory = FactoryBase<Road>;
 }
