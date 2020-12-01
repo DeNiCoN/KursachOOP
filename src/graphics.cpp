@@ -1,8 +1,10 @@
 #include "graphics.hpp"
+#include "processes.hpp"
 
 namespace transport
 {
     using namespace std;
+    using namespace processes;
 
     Graphics::Graphics(Renderer& renderer)
         : renderer_(renderer)
@@ -11,14 +13,17 @@ namespace transport
 
 
 
-    void Graphics::VehicleRideRoad(const std::string& vehicleName,
-                                    const std::string& from, const std::string& to)
+    ProcessPtr Graphics::VehicleRideRoad(const GraphicsObject& vehicle,
+                                   const std::string& from,
+                                   const std::string& to,
+                                   double time)
     {
-
+        return make_unique<Wait>(time);
     }
-    void Graphics::VehicleRideVertex(const std::string& vehicleName,
-                                      const std::string& vertexName)
-    {
 
+    ProcessPtr Graphics::VehicleRideVertex(const GraphicsObject& vehicle,
+                                     const std::string& vertex_name)
+    {
+        return make_unique<Endless>();
     }
 }

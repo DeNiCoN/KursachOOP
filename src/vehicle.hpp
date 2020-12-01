@@ -14,7 +14,8 @@ namespace transport
     class Vehicle : public JsonDeserializable, public GraphicsObject
     {
     public:
-        virtual ProcessPtr Accept(Vertex&) = 0;
+        virtual ProcessPtr Visit(Vertex&) = 0;
+        virtual ProcessPtr Pass(Vertex&) = 0;
         virtual double GetSpeed() { return 1.; }
         virtual std::optional<VertexType> GetNextVertexType() { return std::nullopt; }
         const std::string& GetName() const { return name_; }
@@ -29,9 +30,14 @@ namespace transport
     class VehicleBase : public Vehicle
     {
     public:
-        ProcessPtr Accept(Vertex& vert) override
+        ProcessPtr Visit(Vertex& vert) override
         {
             return vert.Visit(*static_cast<Veh*>(this));
+        }
+
+        ProcessPtr Pass(Vertex& vert) override
+        {
+            return vert.Pass(*static_cast<Veh*>(this));
         }
     };
 }

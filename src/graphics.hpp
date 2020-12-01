@@ -32,10 +32,11 @@ namespace transport
         void AddRoad(const std::string& from, const std::string& to,
                      double length) {}
 
-        void VehicleRideRoad(const std::string& vehicle_name,
-                              const std::string& from, const std::string& to);
-        void VehicleRideVertex(const std::string& vehicle_name,
-                                const std::string& vertex_name);
+        ProcessPtr VehicleRideRoad(const GraphicsObject& vehicle,
+                             const std::string& from, const std::string& to,
+                             double time);
+        ProcessPtr VehicleRideVertex(const GraphicsObject& vehicle,
+                               const std::string& vertex_name);
     private:
         ProcessManager p_manager_;
         Renderer& renderer_;

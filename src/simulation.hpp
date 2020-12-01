@@ -38,5 +38,9 @@ namespace transport
         std::unordered_map<int, VertexInfo> vertices_id;
 
         void Route(VehicleInfo&);
+
+        ProcessPtr VisitAndLookNext(VehicleInfo& veh, VertexInfo& end);
+        ProcessPtr Ride(VehicleInfo& veh, VertexInfo& from, VertexInfo& to);
+        ProcessPtr PassAndRide(VehicleInfo& veh, VertexInfo& from, VertexInfo& to);
     };
 }

@@ -22,5 +22,11 @@ namespace transport
             double time_;
             double time_passed_ = 0.;
         };
+
+        class Endless : public Process
+        {
+        public:
+            void Update(double delta) {}
+        };
     }
 }
