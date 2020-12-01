@@ -13,6 +13,11 @@ namespace transport
 			int current = start_vert;
 			int i;
 			std::vector<int> result_rout, rev_res;
+			if (start_vert == end_vert)
+			{
+				result_rout.push_back(start_vert);
+				return result_rout;
+			}
 			std::vector<bool> visited(graph.adjecent_vert.size(), false);
 			std::vector<Node> node_vec(graph.adjecent_vert.size());
 			std::vector<int>::const_iterator iter;
@@ -89,6 +94,11 @@ namespace transport
 		try
 		{
 			std::vector<int> result_rout, rev_res;
+			if (start_vert == end_vert)
+			{
+				result_rout.push_back(start_vert);
+				return result_rout;
+			}
 			std::vector<bool> visited(graph.adjecent_vert.size(), false);
 			std::vector<Node> node_vec(graph.adjecent_vert.size());
 			std::vector<int>::const_iterator iter;

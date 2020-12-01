@@ -20,7 +20,13 @@ namespace transport
     };
 
     struct VertexBase : VertexBaseMultiple<
-        vehicles::Light
+        vehicles::Light,
+        vehicles::Truck,
+        vehicles::Passenger,
+        vehicles::IllegalRacer,
+        vehicles::Colorful,
+        vehicles::Police,
+        vehicles::Tractor
         >
     {};
 }
