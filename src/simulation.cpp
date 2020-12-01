@@ -14,6 +14,7 @@ namespace transport
         info.ptr = std::move(vehicle_ptr);
         info.current_vertex = start_position;
 
+        //Add simulation find route process
         //TODO add vehicles processes
     }
 
@@ -34,8 +35,20 @@ namespace transport
                        vertices_.at(to).graph_id, length);
     }
 
-    void Simulation::Process(VehicleInfo& info)
+    void Simulation::Route(VehicleInfo& info)
     {
+        auto next_type = info.ptr->GetNextVertexType();
+        int next_id = -1;
+        if (next_type)
+        {
+            next_id = graph_.GetRandVertex(*next_type);
+        }
+        else
+        {
+            next_id = graph_.GetRandVertex();
+        }
+        int current_id = vertices_.at(info.current_vertex).graph_id;
+        auto route_queue = router_.FindRoute(graph_, current_id, next_id);
 
     }
 }

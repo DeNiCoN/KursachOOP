@@ -18,6 +18,7 @@ namespace transport
         Graphics& graphics_;
         ProcessManager& p_manager_;
         Graph graph_;
+        RouterBreadthFS router_;
 
         struct VertexInfo
         {
@@ -34,7 +35,8 @@ namespace transport
 
         std::unordered_map<std::string, VehicleInfo> vehicles_;
         std::unordered_map<std::string, VertexInfo> vertices_;
+        std::unordered_map<int, VertexInfo> vertices_id;
 
-        void Process(VehicleInfo& info);
+        void Route(VehicleInfo&);
     };
 }
