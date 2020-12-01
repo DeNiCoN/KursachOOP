@@ -2,7 +2,7 @@
 
 namespace transport
 {
-	Graph::Graph(const int VertQuan):vertices_quan_(VertQuan), 
+	explicit Graph::Graph(const int VertQuan):vertices_quan_(VertQuan), 
 									adjecent_vert(VertQuan),
 									edge_weight_vec(VertQuan), 
 									callback_id_(VertQuan)
@@ -89,6 +89,19 @@ namespace transport
 			}
 		}
 	}
+
+	int Graph::GetEdgeWeight(const int from, const int to) const
+	{
+		for (size_t i = 0; i < adjecent_vert[from].size(); i++)
+		{
+			if (adjecent_vert[from][i] == to)
+			{
+				return edge_weight_vec[from][i];
+			}
+		}
+		return -1;
+	}
+
 
 	int Graph::CountVertexType() const
 	{
