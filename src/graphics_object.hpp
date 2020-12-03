@@ -1,5 +1,6 @@
 #pragma once
 #include "renderer.hpp"
+#include <glm/vec4.hpp>
 
 
 namespace transport
@@ -8,6 +9,7 @@ namespace transport
     {
     public:
         virtual const Renderer::Texture& GetTexture() = 0;
+        virtual glm::vec4 GetColor() { return {0., 0., 0., 0.}; };
         virtual ~GraphicsObject() = default;
     };
 }
