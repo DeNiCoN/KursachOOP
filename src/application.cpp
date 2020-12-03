@@ -30,14 +30,14 @@ namespace transport
 
     void Application::LoadVehicles(const nlohmann::json &vehicles)
     {
-        /*for (auto& [name, vehicle_json] : vehicles.items())
+        for (auto& [name, vehicle_json] : vehicles.items())
         {
             auto vehicle_ptr = vehicle_factory_(vehicle_json);
             vehicle_ptr->SetName(name);
 
             simulation_.AddVehicle(std::move(vehicle_ptr),
                                    vehicle_json.at("initial"));
-        }*/
+        }
     }
 
     //Fixed timestep game loop
@@ -53,7 +53,7 @@ namespace transport
         std::chrono::nanoseconds lag(0ns);
         auto base_time = clock::now();
 
-        {
+        /*{
             using namespace processes;
             p_manager_.Add(ToPtr(
                                MakeConsecutive(
@@ -75,7 +75,7 @@ namespace transport
                                ));
 
             //p_manager_.Add(ToPtr(MakeConsecutive(Wait(1.0))));
-        }
+        }*/
 
         while(true) {
 

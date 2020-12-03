@@ -30,11 +30,11 @@ namespace transport
         struct VehicleInfo
         {
             VehiclePtr ptr;
-            std::string current_vertex;
+            int current_vertex;
         };
 
         std::unordered_map<std::string, VehicleInfo> vehicles_;
-        std::unordered_map<std::string, VertexInfo> vertices_;
+        std::unordered_map<std::string, int> vertices_;
         std::unordered_map<int, VertexInfo> vertices_id;
 
         void Route(VehicleInfo&);

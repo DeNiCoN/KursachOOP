@@ -1,31 +1,36 @@
 {
     "vertices" : {
-        "v1" : {
+        "v0" : {
             "type" : "Basic",
             "wait_time" : 2.0,
+            "pass_time" : 1.0,
             "incident" : {
-                "v3" : {
+                "v2" : {
                     "length" : 1
                 },
-                "v2" : {
+                "v1" : {
+                    "length" : 1
+                }
+            }
+        },
+        "v1" : {
+            "type" : "Basic",
+            "incident" : {
+                "v4" : {
+                    "length" : 1
+                },
+                "v3" : {
                     "length" : 1
                 }
             }
         },
         "v2" : {
             "type" : "Basic",
-            "incident" : {
-                "v5" : {
-                    "length" : 1
-                },
-                "v4" : {
-                    "length" : 1
-                }
-            }
+            "pass_time" : 1.0,
+            "incident" : {}
         },
         "v3" : {
             "type" : "Basic",
-            "pass_time" : 1.0,
             "incident" : {}
         },
         "v4" : {
@@ -34,13 +39,20 @@
         },
         "v5" : {
             "type" : "Basic",
-            "incident" : {}
+            "incident" : {
+                "v2" : {
+                    "length" : 1
+                },
+                "v0" : {
+                    "length" : 1000
+                }
+            }
         }
     },
     "vehicles" : {
         "first" : {
             "type" : "Light",
-            "max_speed" : 100,
+            "max_speed" : 0.5,
             "initial" : "v1"
         }
     }

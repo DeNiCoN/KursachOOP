@@ -18,7 +18,11 @@ namespace transport
                                    const std::string& to,
                                    double time)
     {
-        return make_unique<Wait>(time);
+        return ToPtr(MakeConsecutive(
+                         Callback([from, to](){std::cout << "vehicle ride from "
+                                                         << from << " to " << to << std::endl; }),
+                         Wait(time)
+                         ));
     }
 
     ProcessPtr Graphics::VehicleRideVertex(const GraphicsObject& vehicle,

@@ -16,7 +16,7 @@ namespace transport
                 if (json.count("wait_time"))
                     wait_time_ = json["wait_time"];
                 if (json.count("pass_time"))
-                    wait_time_ = json["pass_time"];
+                    pass_time_ = json["pass_time"];
             };
             const Renderer::Texture& GetTexture() override { return {}; }
         private:

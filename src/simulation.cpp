@@ -15,27 +15,28 @@ namespace transport
     {
         auto& info = vehicles_[vehicle_ptr->GetName()];
         info.ptr = std::move(vehicle_ptr);
-        info.current_vertex = start_position;
+        info.current_vertex = vertices_.at(start_position);
 
-        //Add simulation find route process
-        //TODO add vehicles processes
+        Route(info);
     }
 
     void Simulation::AddVertex(VertexPtr vertex_ptr)
     {
         graphics_.AddVertex(vertex_ptr->GetName(), *vertex_ptr.get());
-
-        auto& info = vertices_[vertex_ptr->GetName()];
+        auto id = graph_.AddVertex(vertex_ptr->GetTypes());
+        auto& info = vertices_id[id];
         info.ptr = std::move(vertex_ptr);
-        info.graph_id = graph_.AddVertex(info.ptr->GetTypes());
+        info.graph_id = id;
+
+        vertices_[info.ptr->GetName()] = id;
     }
 
     void Simulation::AddRoad(std::string from, std::string to, double length)
     {
         graphics_.AddRoad(from, to, length);
 
-        graph_.AddEdge(vertices_.at(from).graph_id,
-                       vertices_.at(to).graph_id, length);
+        graph_.AddEdge(vertices_.at(from),
+                       vertices_.at(to), length);
     }
 
     void Simulation::Route(VehicleInfo& info)
@@ -56,7 +57,9 @@ namespace transport
             next_id = graph_.GetRandVertex();
         }
 
-        int current_id = vertices_.at(info.current_vertex).graph_id;
+
+        int current_id = info.current_vertex;
+
         auto route_queue = router_.FindRoute(graph_, current_id, next_id);
 
         ProcessPtr first;
@@ -79,7 +82,7 @@ namespace transport
             {
                 auto& current_info = vertices_id.at(route_queue[i]);
                 auto& next_info = vertices_id.at(route_queue[i + 1]);
-                auto next = PassAndRide(info, next_info, current_info);
+                auto next = PassAndRide(info, current_info, next_info);
 
                 last->SetNext(std::move(next));
                 last = last->GetNext();
@@ -96,25 +99,28 @@ namespace transport
 
     ProcessPtr Simulation::VisitAndLookNext(VehicleInfo& veh, VertexInfo& end_info)
     {
-
+        int id = end_info.graph_id;
         return ToPtr(
             MakeConsecutive(
-                ToPtr(MakeAnd(
+                Callback([name = end_info.ptr->GetName()]() { std::cout << "vehicle visit vertex " << name << std::endl; }),
+                MakeAnd(
                     graphics_.VehicleRideVertex(*veh.ptr, end_info.ptr->GetName()),
                     veh.ptr->Visit(*end_info.ptr)
-                    )),
-                ToPtr(Callback([vehicle_name = veh.ptr->GetName(),
-                          &vehicles_ = vehicles_, this]()
+                    ),
+                Callback([vehicle_name = veh.ptr->GetName(),
+                          &vehicles_ = vehicles_, this, id]()
                 {
-                    Route(vehicles_.at(vehicle_name));
+                    auto& info = vehicles_.at(vehicle_name);
+                    info.current_vertex = id;
+                    Route(info);
                 })
-                )));
+                ));
     }
 
     ProcessPtr Simulation::Ride(VehicleInfo& veh, VertexInfo& from, VertexInfo& to)
     {
         double time_on_road = 1.0 / veh.ptr->GetSpeed();
-        /*graph_.GetWeight(route_queue[0], route_queue[1]) / info.ptr->GetSpeed()*/
+        /*graph_.Get(from.graph_id, to.graph_id) / veh.ptr->GetSpeed()*/
         return graphics_.VehicleRideRoad(*veh.ptr,
                                          from.ptr->GetName(),
                                          to.ptr->GetName(),
@@ -126,6 +132,7 @@ namespace transport
         double time_on_road = 1.0 / veh.ptr->GetSpeed();
 
         return ToPtr(MakeConsecutive(
+                         Callback([name = from.ptr->GetName()]() { std::cout << "vehicle pass vertex " << name << std::endl; }),
                          MakeAnd(
                              graphics_.VehicleRideVertex(*veh.ptr, from.ptr->GetName()),
                              veh.ptr->Pass(*from.ptr)
