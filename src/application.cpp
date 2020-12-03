@@ -1,5 +1,6 @@
 #include "application.hpp"
 #include <chrono>
+#include "processes.hpp"
 
 namespace transport
 {
@@ -29,14 +30,14 @@ namespace transport
 
     void Application::LoadVehicles(const nlohmann::json &vehicles)
     {
-        for (auto& [name, vehicle_json] : vehicles.items())
+        /*for (auto& [name, vehicle_json] : vehicles.items())
         {
             auto vehicle_ptr = vehicle_factory_(vehicle_json);
             vehicle_ptr->SetName(name);
 
             simulation_.AddVehicle(std::move(vehicle_ptr),
                                    vehicle_json.at("initial"));
-        }
+        }*/
     }
 
     //Fixed timestep game loop
@@ -47,10 +48,34 @@ namespace transport
 
         constexpr std::chrono::nanoseconds timestep(16ms);
         constexpr double timestep_as_double =
-            timestep.count() / std::chrono::nanoseconds(1s).count();
+            timestep.count() / static_cast<double>(std::chrono::nanoseconds(1s).count());
 
         std::chrono::nanoseconds lag(0ns);
         auto base_time = clock::now();
+
+        {
+            using namespace processes;
+            p_manager_.Add(ToPtr(
+                               MakeConsecutive(
+                                   Callback([]{std::cout << "Start" << std::endl;}),
+                                   Callback([]{std::cout << "Pee pee poo poo check" << std::endl;}),
+                                   Wait(4.0),
+                                   Callback([]{std::cout << "Wait 4.0 passed" << std::endl;}),
+                                   MakeAnd(
+                                       MakeConsecutive(
+                                           Callback([]{std::cout << "Checking And" << std::endl;}),
+                                           Endless()
+                                           ),
+                                       Wait(5.0),
+                                       Wait(1000000.0)
+                                       ),
+                                   Callback([]{std::cout << "5 sec should have passed" << std::endl;}),
+                                   Callback([]{std::cout << "Stopping" << std::endl;})
+                                   )
+                               ));
+
+            //p_manager_.Add(ToPtr(MakeConsecutive(Wait(1.0))));
+        }
 
         while(true) {
 

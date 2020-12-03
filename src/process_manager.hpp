@@ -20,13 +20,18 @@ namespace transport
 
         virtual void Init() {}
         virtual void Update(double delta) = 0;
-        virtual ~Process() = default;
+
+
         void SetNext(std::unique_ptr<Process> n) { next_ = std::move(n); }
         const Process* GetNext() const { return next_.get(); }
         Process* GetNext() { return next_.get(); }
         std::unique_ptr<Process> TakeNext() { return std::move(next_); };
         void Stop() { state_ = State::ENDED; }
         State GetState() { return state_; }
+
+        Process() = default;
+        virtual ~Process() = default;
+        Process(Process&&) = default;
     private:
         State state_ = State::UNINITIALIZED;
         std::unique_ptr<Process> next_;

@@ -96,17 +96,19 @@ namespace transport
 
     ProcessPtr Simulation::VisitAndLookNext(VehicleInfo& veh, VertexInfo& end_info)
     {
-        return make_unique<Consecutive>(
-            And(
-                graphics_.VehicleRideVertex(*veh.ptr, end_info.ptr->GetName()),
-                veh.ptr->Visit(*end_info.ptr)
-                ),
-            Callback([vehicle_name = veh.ptr->GetName(),
-                      &vehicles_ = vehicles_, this]()
-            {
-                Route(vehicles_.at(vehicle_name));
-            })
-            );
+
+        return ToPtr(
+            MakeConsecutive(
+                ToPtr(MakeAnd(
+                    graphics_.VehicleRideVertex(*veh.ptr, end_info.ptr->GetName()),
+                    veh.ptr->Visit(*end_info.ptr)
+                    )),
+                ToPtr(Callback([vehicle_name = veh.ptr->GetName(),
+                          &vehicles_ = vehicles_, this]()
+                {
+                    Route(vehicles_.at(vehicle_name));
+                })
+                )));
     }
 
     ProcessPtr Simulation::Ride(VehicleInfo& veh, VertexInfo& from, VertexInfo& to)
@@ -123,15 +125,16 @@ namespace transport
     {
         double time_on_road = 1.0 / veh.ptr->GetSpeed();
 
-        return make_unique<Consecutive>(
-            And(
-                graphics_.VehicleRideVertex(*veh.ptr, from.ptr->GetName()),
-                veh.ptr->Pass(*from.ptr)
-                ),
-            graphics_.VehicleRideRoad(*veh.ptr,
-                                      from.ptr->GetName(),
-                                      to.ptr->GetName(),
-                                      time_on_road)
+        return ToPtr(MakeConsecutive(
+                         MakeAnd(
+                             graphics_.VehicleRideVertex(*veh.ptr, from.ptr->GetName()),
+                             veh.ptr->Pass(*from.ptr)
+                             ),
+                         graphics_.VehicleRideRoad(*veh.ptr,
+                                                   from.ptr->GetName(),
+                                                   to.ptr->GetName(),
+                                                   time_on_road)
+                         )
             );
     }
 }
