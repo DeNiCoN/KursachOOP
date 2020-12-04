@@ -4,13 +4,11 @@
 #include <glm/vec4.hpp>
 #include <glm/mat4x4.hpp>
 #include <glad/glad.h>
+#include <vector>
 #include <GLFW/glfw3.h>
 
 namespace transport
 {
-    /*
-    ** Рендерер отвечает за создание окна и рисование на нём
-    */
     class Renderer
     {
     public:
@@ -20,10 +18,16 @@ namespace transport
             return instance;
         }
         using Texture = int;
-        void DrawTexture(Texture texture, glm::vec2 position,
-                         float scale, float angle, glm::vec4 color) {}
+
+        void DrawTexture(Texture texture, glm::vec3 position,
+                         glm::vec2 scale, float angle, glm::vec4 color);
+
         void DrawLine(glm::vec2 from, glm::vec2 to,
-                      float thickness, glm::vec3 color) {}
+                      float thickness, glm::vec3 color)
+        {
+            line_batch_.push_back({from, to, color, thickness});
+        }
+
         void Render();
 
         bool ShouldClose();
@@ -33,6 +37,27 @@ namespace transport
     private:
         Renderer() {}
         void UpdateProjection();
+
+        struct Line
+        {
+            glm::vec2 from;
+            glm::vec2 to;
+            glm::vec3 color;
+            float thickness;
+        };
+
+        struct Sprite
+        {
+            glm::mat4 model;
+            glm::vec4 color;
+            Texture texture;
+        };
+
+        std::vector<Sprite> sprite_batch_;
+        std::vector<Line> line_batch_;
+
+        void RenderSprites();
+        void RenderLines();
 
         unsigned width_ = 800;
         unsigned height_ = 600;
