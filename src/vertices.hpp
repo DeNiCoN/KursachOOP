@@ -18,7 +18,7 @@ namespace transport
                 if (json.count("pass_time"))
                     wait_time_ = json["pass_time"];
             };
-            const Renderer::Texture& GetTexture() override { return {}; }
+            const Renderer::Texture& GetTexture() const override { return {}; }
         private:
             double wait_time_ = 1.;
             double pass_time_ = 0.;

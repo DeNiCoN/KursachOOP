@@ -2,11 +2,12 @@
 
 namespace transport
 {
-	explicit Graph::Graph(const int VertQuan):vertices_quan_(VertQuan), 
+	Graph::Graph(const int VertQuan):vertices_quan_(VertQuan), 
 									adjecent_vert(VertQuan),
 									edge_weight_vec(VertQuan), 
 									callback_id_(VertQuan)
 	{
+		std::srand(std::time(nullptr));
 		vertex_type_quan_ = CountVertexType();
 		type_id_lists_.resize(vertex_type_quan_);
 		deleted_type_.resize(vertex_type_quan_, -1);
@@ -51,7 +52,6 @@ namespace transport
 		{
 			return -1;
 		}
-		std::srand(std::time(nullptr));
 		return std::rand() % fullness_;
 	}
 
@@ -61,7 +61,6 @@ namespace transport
 		{
 			return -1;
 		}
-		std::srand(std::time(nullptr));
 		return type_id_lists_[static_cast<int>(type)][std::rand() % type_id_lists_[static_cast<int>(type)].size()];
 	}
 
