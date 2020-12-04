@@ -49,6 +49,18 @@ CPMAddPackage(
   GIT_TAG 0.9.9.8
   GITHUB_REPOSITORY g-truc/glm
 )
+# stb
+CPMAddPackage(
+  NAME stb
+  GITHUB_REPOSITORY nothings/stb
+  GIT_TAG b42009b3b9d4ca35bc703f5310eedc74f584be58
+  DOWNLOAD_ONLY
+  )
+
+if(stb_ADDED)
+  add_library(stb INTERFACE)
+  target_include_directories(stb INTERFACE ${stb_SOURCE_DIR})
+endif()
 
 # GLFW
 CPMAddPackage(
@@ -69,4 +81,5 @@ target_link_libraries(libs INTERFACE
   glm
   glad
   glfw
+  stb
   )

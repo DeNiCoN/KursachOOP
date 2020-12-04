@@ -68,7 +68,7 @@ namespace transport
 
     void Renderer::UpdateProjection()
     {
-        projection_ = glm::ortho(-width_/2., width_/2., -height_/2., height_/2.);
+        projection_ = glm::mat4(0.000000001)/*glm::ortho(-width_/2., width_/2., height_/2., -height_/2.)*/;
     }
 
     unsigned int sprite_shader_;
@@ -99,6 +99,16 @@ void main()
 {
     //Model to world, then move camera and project
 	gl_Position = projection * ((model * vec4(aPos, 1.0) - vec4(cam_offset, 0., 0.)) * cam_scale);
+    if (gl_Position.x > 1.f || gl_Position.x < -1.f ||
+gl_Position.y > 1.f || gl_Position.y < -1.f ||
+gl_Position.w > 1.f || gl_Position.w < -1.f || (gl_Position.w < 0.1f && gl_Position.w > -0.1f)
+)
+{
+        gl_Position.x = 0.f;
+        gl_Position.y = 0.f;
+        gl_Position.z = 0.f;
+        gl_Position.w = 1.f;
+}
 	TexCoord = vec2(aTexCoord.x, aTexCoord.y);
 })";
 
@@ -173,10 +183,10 @@ void main()
     {
         return glfwWindowShouldClose(window_);
     }
-    void Renderer::DrawTexture(Texture texture, glm::vec3 position,
+    void Renderer::DrawTexture(TextureHandle texture, glm::vec3 position,
                                glm::vec2 scale, float angle, glm::vec4 color)
     {
-        auto model = glm::scale(glm::mat4(), glm::vec3(scale, 1.));
+        auto model = glm::scale(glm::mat4(1.), glm::vec3(scale, 1.));
         model = glm::rotate(model, angle, glm::vec3{0.f, 0.f, 1.f});
         model = glm::translate(model, position);
         sprite_batch_.push_back({model, color, texture});
@@ -214,6 +224,8 @@ void main()
             glBindVertexArray(sprite_VAO);
             glDrawArrays(GL_TRIANGLES, 0, 6);
         }
+
+        sprite_batch_.clear();
     }
 
     void Renderer::RenderLines()
@@ -222,5 +234,8 @@ void main()
         {
 
         }
+
+
+        line_batch_.clear();
     }
 }

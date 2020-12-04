@@ -17,9 +17,9 @@ namespace transport
             static Renderer instance;
             return instance;
         }
-        using Texture = int;
+        using TextureHandle = unsigned;
 
-        void DrawTexture(Texture texture, glm::vec3 position,
+        void DrawTexture(TextureHandle texture, glm::vec3 position,
                          glm::vec2 scale, float angle, glm::vec4 color);
 
         void DrawLine(glm::vec2 from, glm::vec2 to,
@@ -50,7 +50,7 @@ namespace transport
         {
             glm::mat4 model;
             glm::vec4 color;
-            Texture texture;
+            TextureHandle texture;
         };
 
         std::vector<Sprite> sprite_batch_;

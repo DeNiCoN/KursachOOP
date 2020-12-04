@@ -1,7 +1,7 @@
 #include "vehicles.hpp"
+#include "texture_loader.hpp"
 
-namespace transport
-{
+namespace transport {
 	namespace vehicles
 	{
 		void Light::Parse(const nlohmann::json& json)
@@ -9,9 +9,9 @@ namespace transport
 			if (json.count("max_speed"))
 				max_speed_ = json["max_speed"];
 		}
-		const Renderer::Texture& Light::GetTexture() const
+		const Renderer::TextureHandle Light::GetTexture() const
 		{
-			return {};
+			return TextureLoader::Load("textures/test.png");
 		}
 		double Light::GetSpeed() const
 		{
@@ -29,7 +29,7 @@ namespace transport
 			if (json.count("max_carrying_capacity"))
 				max_carrying_capacity_ = json["max_carrying_capacity"];
 		}
-		const Renderer::Texture& Truck::GetTexture() const
+		const Renderer::TextureHandle Truck::GetTexture() const
 		{
 			return {};
 		}
@@ -56,7 +56,7 @@ namespace transport
 			if (json.count("max_passenger"))
 				max_passenger_ = json["max_passenger"];
 		}
-		const Renderer::Texture& Passenger::GetTexture() const
+		const Renderer::TextureHandle Passenger::GetTexture() const
 		{
 			return {};
 		}
@@ -86,7 +86,7 @@ namespace transport
 			if (json.count("max_speed"))
 				Light::SetSpeed(json["max_speed"]);
 		}
-		const Renderer::Texture& IllegalRacer::GetTexture() const
+		const Renderer::TextureHandle IllegalRacer::GetTexture() const
 		{
 			return {};
 		}
@@ -106,7 +106,7 @@ namespace transport
 //			if (json.count("color"))
 //				color_ = json["color"];
 		}
-		const Renderer::Texture& Colorful::GetTexture() const
+		const Renderer::TextureHandle Colorful::GetTexture() const
 		{
 			return {};
 		}
@@ -124,7 +124,7 @@ namespace transport
 			if (json.count("max_speed"))
 				Light::SetSpeed(json["max_speed"]);
 		}
-		const Renderer::Texture& Police::GetTexture() const
+		const Renderer::TextureHandle Police::GetTexture() const
 		{
 			return {};
 		}
@@ -138,7 +138,7 @@ namespace transport
 			if (json.count("max_speed"))
 				max_speed_ = json["max_speed"];
 		}
-		const Renderer::Texture& Tractor::GetTexture() const
+		const Renderer::TextureHandle Tractor::GetTexture() const
 		{
 			return {};
 		}

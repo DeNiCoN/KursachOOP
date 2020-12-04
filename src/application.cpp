@@ -1,5 +1,6 @@
 #include "application.hpp"
 #include <chrono>
+#include "texture_loader.hpp"
 #include "processes.hpp"
 
 namespace transport
@@ -93,8 +94,6 @@ namespace transport
             base_time = current_time;
             lag += std::chrono::duration_cast<std::chrono::nanoseconds>(frame_time);
 
-            //Handle events
-
             //Update
             while(lag >= timestep) {
                 lag -= timestep;
@@ -103,6 +102,7 @@ namespace transport
             }
 
             //Render
+            renderer.DrawTexture(TextureLoader::Load("textures/test.png"), {0., 0., 0.}, {128., 128.}, 0., {1., 0., 1., 1.});
             renderer.Render();
         }
 

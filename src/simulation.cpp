@@ -119,7 +119,8 @@ namespace transport
 
     ProcessPtr Simulation::Ride(VehicleInfo& veh, VertexInfo& from, VertexInfo& to)
     {
-        double time_on_road = 1.0 / veh.ptr->GetSpeed();
+        double time_on_road =
+            graph_.GetEdgeWeight(from.graph_id, to.graph_id) / veh.ptr->GetSpeed();
         /*graph_.Get(from.graph_id, to.graph_id) / veh.ptr->GetSpeed()*/
         return graphics_.VehicleRideRoad(*veh.ptr,
                                          from.ptr->GetName(),
@@ -129,7 +130,8 @@ namespace transport
 
     ProcessPtr Simulation::PassAndRide(VehicleInfo& veh, VertexInfo& from, VertexInfo& to)
     {
-        double time_on_road = 1.0 / veh.ptr->GetSpeed();
+        double time_on_road =
+            graph_.GetEdgeWeight(from.graph_id, to.graph_id) / veh.ptr->GetSpeed();
 
         return ToPtr(MakeConsecutive(
                          Callback([name = from.ptr->GetName()]() { std::cout << "vehicle pass vertex " << name << std::endl; }),

@@ -10,7 +10,7 @@ namespace transport
         {
         public:
             void Parse(const nlohmann::json& json) override;
-            const Renderer::Texture& GetTexture() const override;
+            const Renderer::TextureHandle GetTexture() const override;
             double GetSpeed() const override; 
             void SetSpeed(const int speed);
         private:
@@ -21,7 +21,7 @@ namespace transport
         {
         public:
             void Parse(const nlohmann::json& json) override;
-            const Renderer::Texture& GetTexture() const override;
+            const Renderer::TextureHandle GetTexture() const override;
             double GetSpeed() const override;
             void SetLoaded(const double cargo_mass);
         private:
@@ -34,7 +34,7 @@ namespace transport
         {
         public:
             void Parse(const nlohmann::json& json) override;
-            const Renderer::Texture& GetTexture() const override;
+            const Renderer::TextureHandle GetTexture() const override;
             double GetSpeed() const override;
             void AddPassenger(const int passenger_quan);
             void SubtractPassenger(const int passenger_qua);
@@ -48,7 +48,7 @@ namespace transport
         {
         public:
             void Parse(const nlohmann::json& json) override;
-            const Renderer::Texture& GetTexture() const override;
+            const Renderer::TextureHandle GetTexture() const override;
             double GetSpeed() const override;
             void SetAcceleration(const double acceleration);
         private:
@@ -59,7 +59,7 @@ namespace transport
         {
         public:
             void Parse(const nlohmann::json& json) override;
-            const Renderer::Texture& GetTexture() const override;
+            const Renderer::TextureHandle GetTexture() const override;
             double GetSpeed() const override;
             void SetColor(const glm::vec4 color);
         private:
@@ -70,7 +70,7 @@ namespace transport
         {
         public:
             void Parse(const nlohmann::json& json) override;
-            const Renderer::Texture& GetTexture() const override;
+            const Renderer::TextureHandle GetTexture() const override;
             double GetSpeed() const override;
         private:
         };
@@ -79,7 +79,7 @@ namespace transport
         {
         public:
             void Parse(const nlohmann::json& json) override;
-            const Renderer::Texture& GetTexture() const override;
+            const Renderer::TextureHandle GetTexture() const override;
             double GetSpeed() const override;
             void SetStuffPerTick(const double stuff_per_tick);  //how much tractor can produce per tick
         private:

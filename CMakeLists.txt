@@ -18,3 +18,5 @@ add_executable(transport
 
 add_subdirectory(libs)
 target_link_libraries(transport libs)
+
+file(COPY textures DESTINATION .)
