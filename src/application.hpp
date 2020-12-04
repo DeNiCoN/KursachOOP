@@ -17,7 +17,6 @@ namespace transport
 
         int Start();
     private:
-        Renderer renderer_;
         Graphics graphics_;
         Simulation simulation_;
         ProcessManager p_manager_;

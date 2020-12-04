@@ -5,7 +5,7 @@
 namespace transport
 {
     Application::Application(const nlohmann::json& vertices)
-        : graphics_(renderer_), simulation_(graphics_, p_manager_)
+        : graphics_(Renderer::GetInstance()), simulation_(graphics_, p_manager_)
 
     {
         for (auto& [name, vertex_json] : vertices.items())
@@ -43,6 +43,15 @@ namespace transport
     //Fixed timestep game loop
     int Application::Start()
     {
+        Renderer& renderer = Renderer::GetInstance();
+        bool initialized = renderer.Initialize();
+
+        if (!initialized)
+        {
+            std::cerr << "Render is not initialized" << std::endl;
+            return 1;
+        }
+
         using clock = std::chrono::high_resolution_clock;
         using namespace std::chrono_literals;
 
@@ -77,7 +86,7 @@ namespace transport
             //p_manager_.Add(ToPtr(MakeConsecutive(Wait(1.0))));
         }*/
 
-        while(true) {
+        while(!renderer.ShouldClose()) {
 
             auto current_time = clock::now();
             auto frame_time = current_time - base_time;
@@ -94,8 +103,10 @@ namespace transport
             }
 
             //Render
-            renderer_.Render();
+            renderer.Render();
         }
+
+        renderer.Terminate();
         return 0;
     }
 }
