@@ -16,8 +16,8 @@ namespace transport
     public:
         virtual ProcessPtr Visit(Vertex&) = 0;
         virtual ProcessPtr Pass(Vertex&) = 0;
-        virtual double GetSpeed() { return 1.; }
-        virtual std::optional<VertexType> GetNextVertexType() { return std::nullopt; }
+        virtual double GetSpeed() const { return 1.; }
+        virtual std::optional<VertexType> GetNextVertexType() const { return std::nullopt; }
         const std::string& GetName() const { return name_; }
         void SetName(const std::string& name) { name_ = name; }
     private:

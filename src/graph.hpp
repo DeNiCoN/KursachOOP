@@ -24,6 +24,7 @@ namespace transport
 		std::vector<std::vector<double>> edge_weight_vec;		// Every road is stored twice
 
 		explicit Graph(const int VertQuan);
+
 		int AddVertex(const std::vector<VertexType> type);
 		void AddEdge(const int f_vertex, const int s_vertex, const double edge_weight);
 		int GetRandVertex() const;
@@ -32,7 +33,6 @@ namespace transport
 		int CountVertexType() const;
 		int GetEdgeWeight(const int from, const int to) const;
 
-		Graph(int const vert_quan);
 //		~Graph() = default;
 	};
 }

@@ -9,13 +9,17 @@ namespace transport
 			if (json.count("max_speed"))
 				max_speed_ = json["max_speed"];
 		}
-		const Renderer::Texture& Light::GetTexture()
+		const Renderer::Texture& Light::GetTexture() const
 		{
 			return {};
 		}
-		double Light::GetSpeed()
+		double Light::GetSpeed() const
 		{
 			return max_speed_;
+		}
+		void Light::SetSpeed(const int speed)
+		{
+			max_speed_ = speed;
 		}
 
 		void Truck::Parse(const nlohmann::json& json)
@@ -25,11 +29,11 @@ namespace transport
 			if (json.count("max_carrying_capacity"))
 				max_carrying_capacity_ = json["max_carrying_capacity"];
 		}
-		const Renderer::Texture& Truck::GetTexture()
+		const Renderer::Texture& Truck::GetTexture() const
 		{
 			return {};
 		}
-		double Truck::GetSpeed()
+		double Truck::GetSpeed() const
 		{
 			return max_speed_ * (loaded_ / max_carrying_capacity_ + 0.5);	//max speed while empty, half of max speed while full
 		}
@@ -52,11 +56,11 @@ namespace transport
 			if (json.count("max_passenger"))
 				max_passenger_ = json["max_passenger"];
 		}
-		const Renderer::Texture& Passenger::GetTexture()
+		const Renderer::Texture& Passenger::GetTexture() const
 		{
 			return {};
 		}
-		double Passenger::GetSpeed()
+		double Passenger::GetSpeed() const
 		{
 			return max_speed_;
 		}
@@ -80,15 +84,15 @@ namespace transport
 		void IllegalRacer::Parse(const nlohmann::json& json)
 		{
 			if (json.count("max_speed"))
-				max_speed_ = json["max_speed"];
+				Light::SetSpeed(json["max_speed"]);
 		}
-		const Renderer::Texture& IllegalRacer::GetTexture()
+		const Renderer::Texture& IllegalRacer::GetTexture() const
 		{
 			return {};
 		}
-		double IllegalRacer::GetSpeed()
+		double IllegalRacer::GetSpeed() const
 		{
-			return max_speed_ * acceleration_;
+			return Light::GetSpeed() * acceleration_;
 		}
 		void IllegalRacer::SetAcceleration(const double acceleration)
 		{
@@ -98,19 +102,19 @@ namespace transport
 		void Colorful::Parse(const nlohmann::json& json)
 		{
 			if (json.count("max_speed"))
-				max_speed_ = json["max_speed"];
-			if (json.count("color"))
-				color_ = json["color"];
+				Light::SetSpeed(json["max_speed"]);
+//			if (json.count("color"))
+//				color_ = json["color"];
 		}
-		const Renderer::Texture& Colorful::GetTexture()
+		const Renderer::Texture& Colorful::GetTexture() const
 		{
 			return {};
 		}
-		double Colorful::GetSpeed()
+		double Colorful::GetSpeed() const
 		{
-			return max_speed_;
+			return Light::GetSpeed();
 		}
-		void Colorful::SetColor(const std::string color)
+		void Colorful::SetColor(const glm::vec4 color)
 		{
 			color_ = color;
 		}
@@ -118,15 +122,15 @@ namespace transport
 		void Police::Parse(const nlohmann::json& json)
 		{
 			if (json.count("max_speed"))
-				max_speed_ = json["max_speed"];
+				Light::SetSpeed(json["max_speed"]);
 		}
-		const Renderer::Texture& Police::GetTexture()
+		const Renderer::Texture& Police::GetTexture() const
 		{
 			return {};
 		}
-		double Police::GetSpeed()
+		double Police::GetSpeed() const
 		{
-			return max_speed_;
+			return Light::GetSpeed();
 		}
 
 		void Tractor::Parse(const nlohmann::json& json)
@@ -134,11 +138,11 @@ namespace transport
 			if (json.count("max_speed"))
 				max_speed_ = json["max_speed"];
 		}
-		const Renderer::Texture& Tractor::GetTexture()
+		const Renderer::Texture& Tractor::GetTexture() const
 		{
 			return {};
 		}
-		double Tractor::GetSpeed()
+		double Tractor::GetSpeed() const
 		{
 			return max_speed_;
 		}

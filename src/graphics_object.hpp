@@ -8,7 +8,7 @@ namespace transport
     class GraphicsObject
     {
     public:
-        virtual const Renderer::Texture& GetTexture() = 0;
+        virtual const Renderer::Texture& GetTexture() const = 0;
         virtual glm::vec4 GetColor() { return {0., 0., 0., 0.}; };
         virtual ~GraphicsObject() = default;
     };
