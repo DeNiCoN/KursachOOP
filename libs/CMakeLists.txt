@@ -40,7 +40,7 @@ CPMAddPackage(
   VERSION 0.1.33
   OPTIONS
   "GLAD_PROFILE core"
-  "GLAD_API gl=3.3"
+  "GLAD_API gl=4.5"
 )
 
 # GLM

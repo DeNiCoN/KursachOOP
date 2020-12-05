@@ -64,6 +64,7 @@ namespace transport
         GLFWwindow* window_;
 
         glm::mat4 projection_;
+        glm::mat4 projection_view_;
 
         float cam_scale_ = 1.f;
         glm::vec2 cam_position_ = {0., 0.};

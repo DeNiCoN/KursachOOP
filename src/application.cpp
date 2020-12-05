@@ -103,6 +103,7 @@ namespace transport
 
             //Render
             renderer.DrawTexture(TextureLoader::Load("textures/test.png"), {0., 0., 0.}, {128., 128.}, 0., {1., 0., 1., 1.});
+            renderer.DrawLine({150.f, 128.f}, {-20.f, -20.f}, 10.f, {1.f, 0.f, 0.f});
             renderer.Render();
         }
 

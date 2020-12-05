@@ -7,6 +7,21 @@
 namespace transport
 {
 
+    void GLAPIENTRY
+    MessageCallback( GLenum source,
+                     GLenum type,
+                     GLuint id,
+                     GLenum severity,
+                     GLsizei length,
+                     const GLchar* message,
+                     const void* userParam )
+    {
+        fprintf( stderr, "GL CALLBACK: %s type = 0x%x, severity = 0x%x, message = %s\n",
+                 ( type == GL_DEBUG_TYPE_ERROR ? "** GL ERROR **" : "" ),
+                 type, severity, message );
+    }
+
+
     unsigned CompileShader(const char* vertex_code, const char* fragment_code) {
         unsigned int vertex, fragment;
         int success;
@@ -68,7 +83,7 @@ namespace transport
 
     void Renderer::UpdateProjection()
     {
-        projection_ = glm::mat4(0.000000001)/*glm::ortho(-width_/2., width_/2., height_/2., -height_/2.)*/;
+        projection_ = glm::ortho(-(width_/2.f), width_/2.f, -(height_/2.f), height_/2.f);
     }
 
     unsigned int sprite_shader_;
@@ -89,26 +104,14 @@ layout (location = 1) in vec2 aTexCoord;
 
 out vec2 TexCoord;
 
-uniform mat4 projection;
-uniform vec2 cam_offset;
-uniform float cam_scale;
+uniform mat4 projection_view;
 
 uniform mat4 model;
 
 void main()
 {
     //Model to world, then move camera and project
-	gl_Position = projection * ((model * vec4(aPos, 1.0) - vec4(cam_offset, 0., 0.)) * cam_scale);
-    if (gl_Position.x > 1.f || gl_Position.x < -1.f ||
-gl_Position.y > 1.f || gl_Position.y < -1.f ||
-gl_Position.w > 1.f || gl_Position.w < -1.f || (gl_Position.w < 0.1f && gl_Position.w > -0.1f)
-)
-{
-        gl_Position.x = 0.f;
-        gl_Position.y = 0.f;
-        gl_Position.z = 0.f;
-        gl_Position.w = 1.f;
-}
+	gl_Position = projection_view * model * vec4(aPos, 1.0);
 	TexCoord = vec2(aTexCoord.x, aTexCoord.y);
 })";
 
@@ -123,15 +126,45 @@ uniform vec4 color;
 
 void main()
 {
-	FragColor = texture(texture1, TexCoord) * color;
+    vec4 tex_color = texture(texture1, TexCoord) * color;
+    if(tex_color.a < 0.1)
+        discard;
+	FragColor = tex_color;
 })";
+
+
+    unsigned int line_shader_;
+    unsigned int line_VBO, line_VAO;
+    const char* line_vs = R"(
+#version 330 core
+layout (location = 0) in vec2 aPos;
+
+uniform mat4 projection_view;
+
+void main()
+{
+    gl_Position = projection_view * vec4(aPos, 0.f, 1.0);
+}
+
+)";
+    const char* line_fs = R"(
+#version 330 core
+uniform vec3 color;
+out vec4 FragColor;
+
+void main()
+{
+    FragColor = vec4(color, 1.f);
+}
+)";
 
     bool Renderer::Initialize()
     {
         glfwInit();
-        glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-        glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+        glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
+        glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 5);
         glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+        glfwWindowHint(GLFW_SAMPLES, 8);
 
         window_ = glfwCreateWindow(width_, height_, "Transport", NULL, NULL);
         if (window_ == NULL)
@@ -151,11 +184,23 @@ void main()
         glViewport(0, 0, width_, height_);
         glfwSetFramebufferSizeCallback(window_, framebuffer_size_callback);
 
+        glEnable(GL_DEBUG_OUTPUT);
+        glDebugMessageCallback(MessageCallback, 0);
+        glEnable(GL_BLEND);
+        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+        glEnable(GL_DEPTH_TEST);
+        glEnable(GL_MULTISAMPLE);
+        glEnable(GL_SAMPLE_SHADING);
+        glMinSampleShading(1.f);
+        glEnable(GL_LINE_SMOOTH);
+        glHint(GL_LINE_SMOOTH_HINT, GL_NICEST);
+
         glClearColor(1.f, 1.f, 1.f, 1.0f);
+        UpdateProjection();
 
         sprite_shader_ = CompileShader(sprite_vs, sprite_fs);
         glUniform1i(glGetUniformLocation(sprite_shader_, "texture1"), 0);
-
 
         glGenVertexArrays(1, &sprite_VAO);
         glGenBuffers(1, &sprite_VBO);
@@ -171,6 +216,16 @@ void main()
         // texture coord attribute
         glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)(3 * sizeof(float)));
         glEnableVertexAttribArray(1);
+
+        line_shader_ = CompileShader(line_vs, line_fs);
+        glGenVertexArrays(1, &line_VAO);
+        glGenBuffers(1, &line_VBO);
+        glBindVertexArray(line_VAO);
+        glBindBuffer(GL_ARRAY_BUFFER, line_VBO);
+        glBufferData(GL_ARRAY_BUFFER, sizeof(float) * 4, NULL, GL_DYNAMIC_DRAW);
+        glEnableVertexAttribArray(0);
+        glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(float), (void*)0);
+
         return true;
     }
 
@@ -194,7 +249,10 @@ void main()
 
     void Renderer::Render()
     {
-        glClear(GL_COLOR_BUFFER_BIT);
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+        projection_view_ = glm::translate(projection_, glm::vec3(cam_position_, 0));
+        projection_view_ = glm::scale(projection_, glm::vec3(cam_scale_, cam_scale_, 1));
 
         RenderLines();
         RenderSprites();
@@ -207,11 +265,9 @@ void main()
     void Renderer::RenderSprites()
     {
         glUseProgram(sprite_shader_);
-        glUniformMatrix4fv(glGetUniformLocation(sprite_shader_, "projection"),
-                           1, GL_FALSE, &projection_[0][0]);
-        glUniform2fv(glGetUniformLocation(sprite_shader_, "cam_offset"),
-                     1, &cam_position_[0]);
-        glUniform1f(glGetUniformLocation(sprite_shader_, "cam_scale"), cam_scale_);
+        glUniformMatrix4fv(glGetUniformLocation(sprite_shader_, "projection_view"),
+                           1, GL_FALSE, &projection_view_[0][0]);
+        glBindVertexArray(sprite_VAO);
         for (const auto& sprite : sprite_batch_)
         {
             glActiveTexture(GL_TEXTURE0);
@@ -221,7 +277,6 @@ void main()
             glUniformMatrix4fv(glGetUniformLocation(sprite_shader_, "model"),
                                1, GL_FALSE, &sprite.model[0][0]);
 
-            glBindVertexArray(sprite_VAO);
             glDrawArrays(GL_TRIANGLES, 0, 6);
         }
 
@@ -230,9 +285,26 @@ void main()
 
     void Renderer::RenderLines()
     {
+        glUseProgram(line_shader_);
+        glUniformMatrix4fv(glGetUniformLocation(line_shader_, "projection_view"),
+                           1, GL_FALSE, &projection_view_[0][0]);
+
+        glBindVertexArray(line_VAO);
+        glBindBuffer(GL_ARRAY_BUFFER, line_VBO);
         for (const auto& line : line_batch_)
         {
+            glLineWidth(line.thickness);
+            glUniform3fv(glGetUniformLocation(line_shader_, "color"),
+                         1, &line.color[0]);
 
+            float* ptr = (float*) glMapBuffer(GL_ARRAY_BUFFER, GL_WRITE_ONLY);
+            ptr[0] = line.from[0];
+            ptr[1] = line.from[1];
+            ptr[2] = line.to[0];
+            ptr[3] = line.to[1];
+
+            glUnmapBuffer(GL_ARRAY_BUFFER);
+            glDrawArrays(GL_LINES, 0, 2);
         }
 
 
