@@ -7,7 +7,6 @@ namespace transport
 									edge_weight_vec(VertQuan), 
 									callback_id_(VertQuan)
 	{
-		std::srand(std::time(nullptr));
 		vertex_type_quan_ = CountVertexType();
 		type_id_lists_.resize(vertex_type_quan_);
 		deleted_type_.resize(vertex_type_quan_, -1);

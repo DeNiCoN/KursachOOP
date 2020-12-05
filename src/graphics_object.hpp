@@ -9,7 +9,7 @@ namespace transport
     {
     public:
         virtual const Renderer::TextureHandle GetTexture() const = 0;
-        virtual glm::vec4 GetColor() { return {0., 0., 0., 0.}; };
+        virtual glm::vec3 GetColor() const { return {1., 1., 1.}; };
         virtual ~GraphicsObject() = default;
     };
 }

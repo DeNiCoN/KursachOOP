@@ -11,7 +11,7 @@ namespace transport {
 		}
 		const Renderer::TextureHandle Light::GetTexture() const
 		{
-			return TextureLoader::Load("textures/test.png");
+			return TextureLoader::Load("textures/light.png");
 		}
 		double Light::GetSpeed() const
 		{
@@ -101,20 +101,22 @@ namespace transport {
 
 		void Colorful::Parse(const nlohmann::json& json)
 		{
-			if (json.count("max_speed"))
-				Light::SetSpeed(json["max_speed"]);
-//			if (json.count("color"))
-//				color_ = json["color"];
+			Light::Parse(json);
+			if (json.count("color"))
+				color_[0] = json["color"][0];
+				color_[1] = json["color"][1];
+				color_[2] = json["color"][2];
 		}
 		const Renderer::TextureHandle Colorful::GetTexture() const
 		{
-			return {};
+			return TextureLoader::Load("textures/light.png");
 		}
-		double Colorful::GetSpeed() const
+        glm::vec3 Colorful::GetColor() const
 		{
-			return Light::GetSpeed();
+			return color_;
 		}
-		void Colorful::SetColor(const glm::vec4 color)
+
+		void Colorful::SetColor(const glm::vec3 color)
 		{
 			color_ = color;
 		}

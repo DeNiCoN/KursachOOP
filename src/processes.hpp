@@ -52,6 +52,26 @@ namespace transport
             C callback_;
         };
 
+        template<typename C>
+        class WhileTrue : public Process
+        {
+        public:
+            WhileTrue(C callback) : callback_(callback)
+            {}
+
+            void Init() override
+            {
+            }
+
+            void Update(double delta) override
+            {
+                callback_(delta);
+            }
+
+        private:
+            C callback_;
+        };
+
         template<typename T>
         class ProcessWrapper
         {

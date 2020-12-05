@@ -6,9 +6,12 @@
 namespace transport
 {
     Application::Application(const nlohmann::json& vertices)
-        : graphics_(Renderer::GetInstance()), simulation_(graphics_, p_manager_)
+        : simulation_(graphics_, p_manager_),
+          graphics_(Renderer::GetInstance(), p_manager_)
 
     {
+        std::srand(std::time(nullptr));
+
         for (auto& [name, vertex_json] : vertices.items())
         {
             auto vertex = vertex_factory_(vertex_json);
@@ -102,7 +105,7 @@ namespace transport
             }
 
             //Render
-            renderer.DrawTexture(TextureLoader::Load("textures/test.png"), {0., 0., 0.}, {128., 128.}, 0., {1., 0., 1., 1.});
+            renderer.DrawTexture(TextureLoader::Load("textures/test.png"), {1., 1., 0.}, {128., 128.}, 0., {1., 0., 1., 1.});
             renderer.DrawLine({150.f, 128.f}, {-20.f, -20.f}, 10.f, {1.f, 0.f, 0.f});
             renderer.Render();
         }

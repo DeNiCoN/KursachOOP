@@ -17,9 +17,9 @@ namespace transport
 
         int Start();
     private:
-        Graphics graphics_;
-        Simulation simulation_;
         ProcessManager p_manager_;
+        Simulation simulation_;
+        Graphics graphics_;
         VehicleFactory vehicle_factory_;
         VertexFactory vertex_factory_;
     };

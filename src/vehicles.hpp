@@ -60,10 +60,10 @@ namespace transport
         public:
             void Parse(const nlohmann::json& json) override;
             const Renderer::TextureHandle GetTexture() const override;
-            double GetSpeed() const override;
-            void SetColor(const glm::vec4 color);
+            glm::vec3 GetColor() const override;
+            void SetColor(const glm::vec3 color);
         private:
-            glm::vec4 color_ = {0., 0., 0., 0.};
+            glm::vec3 color_ = {1.f, 1.f, 1.f};
         };
 
         class Police: public Light

@@ -1,0 +1,26 @@
+{
+    "vertices" : {
+        "v0" : {
+            "type" : "Basic",
+            "wait_time" : 2.0,
+            "pass_time" : 1.0,
+            "incident" : {
+                "v1" : {
+                    "length" : 1
+                }
+            }
+        },
+        "v1" : {
+            "type" : "Basic",
+            "incident" : {
+            }
+        }
+    },
+    "vehicles" : {
+        "first" : {
+            "type" : "Light",
+            "max_speed" : 0.5,
+            "initial" : "v1"
+        }
+    }
+}

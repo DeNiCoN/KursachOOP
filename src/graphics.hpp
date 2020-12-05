@@ -14,8 +14,9 @@ namespace transport
     struct GraphicsVertex
     {
         glm::vec2 position;
-        std::unordered_set<std::string> incedent;
         GraphicsObject& object;
+        std::unordered_map<std::string, double> incedent;
+        glm::vec2 velocity {0.f, 0.f};
     };
 
     /*
@@ -25,12 +26,12 @@ namespace transport
     {
     public:
 
-        Graphics(Renderer& renderer);
+        Graphics(Renderer& renderer, ProcessManager& p_manager_);
 
-        void AddVertex(std::string name, const GraphicsObject& object,
-                       glm::vec2 initialPosition = {0., 0.}) {}
+        void AddVertex(std::string name, GraphicsObject& object,
+                       glm::vec2 initialPosition = {0., 0.});
         void AddRoad(const std::string& from, const std::string& to,
-                     double length) {}
+                     double length);
 
         ProcessPtr VehicleRideRoad(const GraphicsObject& vehicle,
                              const std::string& from, const std::string& to,
@@ -38,9 +39,15 @@ namespace transport
         ProcessPtr VehicleRideVertex(const GraphicsObject& vehicle,
                                const std::string& vertex_name);
     private:
-        ProcessManager p_manager_;
+        ProcessManager& p_manager_;
         Renderer& renderer_;
 
+        double scale_ = 200.;
+        template <typename T>
+        T ToPixels(const T& vec)
+        {
+            return vec * static_cast<float>(scale_);
+        }
         std::unordered_map<std::string, GraphicsVertex> vertices_;
     };
 }

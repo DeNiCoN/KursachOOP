@@ -184,7 +184,7 @@ void main()
         glViewport(0, 0, width_, height_);
         glfwSetFramebufferSizeCallback(window_, framebuffer_size_callback);
 
-        glEnable(GL_DEBUG_OUTPUT);
+        //glEnable(GL_DEBUG_OUTPUT);
         glDebugMessageCallback(MessageCallback, 0);
         glEnable(GL_BLEND);
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
