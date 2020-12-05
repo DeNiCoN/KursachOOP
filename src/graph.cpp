@@ -88,7 +88,7 @@ namespace transport
 		}
 	}
 
-	int Graph::GetEdgeWeight(const int from, const int to) const
+	double Graph::GetEdgeWeight(const int from, const int to) const
 	{
 		for (size_t i = 0; i < adjecent_vert[from].size(); i++)
 		{

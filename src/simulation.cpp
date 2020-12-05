@@ -31,7 +31,7 @@ namespace transport
         vertices_[info.ptr->GetName()] = id;
     }
 
-    void Simulation::AddRoad(std::string from, std::string to, double length)
+    void Simulation::AddRoad(const std::string& from, const std::string& to, double length)
     {
         graphics_.AddRoad(from, to, length);
 
@@ -134,7 +134,6 @@ namespace transport
             graph_.GetEdgeWeight(from.graph_id, to.graph_id) / veh.ptr->GetSpeed();
 
         return ToPtr(MakeConsecutive(
-                         Callback([name = from.ptr->GetName()]() { std::cout << "vehicle pass vertex " << name << std::endl; }),
                          MakeAnd(
                              graphics_.VehicleRideVertex(*veh.ptr, from.ptr->GetName()),
                              veh.ptr->Pass(*from.ptr)

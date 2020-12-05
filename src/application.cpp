@@ -25,8 +25,8 @@ namespace transport
             for (auto& [to_name, road_json] : vertex_json.at("incident").items())
             {
                 double length = 1.;
-                if (vertex_json.count("length"))
-                    length = vertex_json.at("length");
+                if (road_json.count("length"))
+                    length = road_json.at("length");
                 simulation_.AddRoad(from_name, to_name, length);
             }
         }
@@ -101,12 +101,11 @@ namespace transport
             while(lag >= timestep) {
                 lag -= timestep;
 
+                renderer.Update();
                 p_manager_.Update(timestep_as_double);
             }
 
             //Render
-            renderer.DrawTexture(TextureLoader::Load("textures/test.png"), {1., 1., 0.}, {128., 128.}, 0., {1., 0., 1., 1.});
-            renderer.DrawLine({150.f, 128.f}, {-20.f, -20.f}, 10.f, {1.f, 0.f, 0.f});
             renderer.Render();
         }
 

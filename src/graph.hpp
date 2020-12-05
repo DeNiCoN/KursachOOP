@@ -31,7 +31,7 @@ namespace transport
 		int GetRandVertex(const VertexType type) const;
 		void ChangeVertexType(const std::vector<VertexType> new_type, const int id);
 		int CountVertexType() const;
-		int GetEdgeWeight(const int from, const int to) const;
+		double GetEdgeWeight(const int from, const int to) const;
 
 //		~Graph() = default;
 	};

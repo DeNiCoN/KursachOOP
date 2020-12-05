@@ -143,7 +143,7 @@ uniform mat4 projection_view;
 
 void main()
 {
-    gl_Position = projection_view * vec4(aPos, 0.f, 1.0);
+    gl_Position = projection_view * vec4(aPos, 0.0f, 1.0);
 }
 
 )";
@@ -241,12 +241,17 @@ void main()
     void Renderer::DrawTexture(TextureHandle texture, glm::vec3 position,
                                glm::vec2 scale, float angle, glm::vec4 color)
     {
-        auto model = glm::scale(glm::mat4(1.), glm::vec3(scale, 1.));
+        auto model = glm::translate(glm::mat4(1.f), position);
+        model = glm::scale(model, glm::vec3(scale, 1.));
         model = glm::rotate(model, angle, glm::vec3{0.f, 0.f, 1.f});
-        model = glm::translate(model, position);
         sprite_batch_.push_back({model, color, texture});
     }
 
+    void Renderer::Update()
+    {
+        sprite_batch_.clear();
+        line_batch_.clear();
+    }
     void Renderer::Render()
     {
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -279,8 +284,6 @@ void main()
 
             glDrawArrays(GL_TRIANGLES, 0, 6);
         }
-
-        sprite_batch_.clear();
     }
 
     void Renderer::RenderLines()
@@ -306,8 +309,5 @@ void main()
             glUnmapBuffer(GL_ARRAY_BUFFER);
             glDrawArrays(GL_LINES, 0, 2);
         }
-
-
-        line_batch_.clear();
     }
 }

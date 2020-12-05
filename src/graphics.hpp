@@ -49,5 +49,25 @@ namespace transport
             return vec * static_cast<float>(scale_);
         }
         std::unordered_map<std::string, GraphicsVertex> vertices_;
+
+        class VehicleRide : public Process
+        {
+        public:
+            VehicleRide(const GraphicsObject& vehicle,
+                        const std::string& from,
+                        const std::string& to, double time,
+                        const std::unordered_map<std::string, GraphicsVertex>&,
+                        Renderer& renderer, double scale);
+            void Update(double delta) override;
+
+            const GraphicsObject& vehicle_;
+            std::string from_, to_;
+            double time_;
+            double passed = 0.;
+            double scale_;
+            const std::unordered_map<std::string, GraphicsVertex>& map_;
+            Renderer& renderer_;
+
+        };
     };
 }

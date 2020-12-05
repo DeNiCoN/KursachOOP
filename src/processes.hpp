@@ -72,6 +72,29 @@ namespace transport
             C callback_;
         };
 
+        template<typename C>
+        class Generic : public Process
+        {
+        public:
+            Generic(C callback) : callback_(callback)
+            {}
+
+            void Init() override
+            {
+            }
+
+            void Update(double delta) override
+            {
+                if (!callback_(delta))
+                {
+                    Stop();
+                }
+            }
+
+        private:
+            C callback_;
+        };
+
         template<typename T>
         class ProcessWrapper
         {

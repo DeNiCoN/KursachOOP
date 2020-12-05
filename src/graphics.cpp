@@ -37,8 +37,8 @@ namespace transport
                 vertex.velocity += acceleration * static_cast<float>(delta);
                 vertex.position += vertex.velocity * static_cast<float>(delta);
                 renderer_.DrawTexture(vertex.object.GetTexture(),
-                                      glm::vec3(ToPixels(vertex.position), 0.f),
-                                      {128.f, 128.f}, 0.f,
+                                      glm::vec3(ToPixels(vertex.position), 1.1f),
+                                      {64.f, 64.f}, 0.f,
                                       glm::vec4(vertex.object.GetColor(), 1.f));
             }
             //Draw roads
@@ -75,16 +75,49 @@ namespace transport
                                    const std::string& to,
                                    double time)
     {
-        return ToPtr(MakeConsecutive(
-                         Callback([from, to](){std::cout << "vehicle ride from "
-                                                         << from << " to " << to << std::endl; }),
-                         Wait(time)
-                         ));
+        return ToPtr(VehicleRide(vehicle, from, to, time,
+                                 vertices_, renderer_, scale_));
+    }
+
+    Graphics::VehicleRide::VehicleRide(const GraphicsObject& vehicle,
+                                       const std::string& from,
+                                       const std::string& to, double time,
+                                       const std::unordered_map<std::string,
+                                       GraphicsVertex>& map,
+                                       Renderer& renderer,
+                                       double scale)
+        : vehicle_(vehicle), from_(from), to_(to), time_(time),
+          map_(map), renderer_(renderer), scale_(scale) {}
+
+    void Graphics::VehicleRide::Update(double delta)
+    {
+        passed += delta;
+        if (passed >= time_)
+            Stop();
+        float t = passed / time_;
+
+        const auto& from = map_.at(from_).position;
+        const auto& to = map_.at(to_).position;
+
+        auto dir = (to - from);
+        auto pos = from + dir * t;
+        float dot = dir.x;
+        float det = - dir.y;
+        float angle = atan2(det, dot);
+        renderer_.DrawTexture(vehicle_.GetTexture(),
+                              glm::vec3(static_cast<float>(scale_) * pos, 1.2f),
+                              {32.f, 32.f}, -angle, glm::vec4(vehicle_.GetColor(), 1.f));
     }
 
     ProcessPtr Graphics::VehicleRideVertex(const GraphicsObject& vehicle,
                                      const std::string& vertex_name)
     {
-        return make_unique<Endless>();
+        return ToPtr(WhileTrue([vertex_name, this, &vehicle](double delta)
+        {
+            renderer_.DrawTexture(vehicle.GetTexture(),
+                                  glm::vec3(ToPixels(vertices_.at(vertex_name).position), 1.2f),
+                                  {32.f, 32.f}, 0,
+                                  glm::vec4(vehicle.GetColor(), 1.f));
+        }));
     }
 }

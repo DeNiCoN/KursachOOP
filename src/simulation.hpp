@@ -12,7 +12,7 @@ namespace transport
         Simulation(Graphics& graphics, ProcessManager& p_manager);
         void AddVehicle(VehiclePtr vehicle_ptr, std::string start_position);
         void AddVertex(VertexPtr vertex_ptr);
-        void AddRoad(std::string from, std::string to, double length);
+        void AddRoad(const std::string& from, const std::string& to, double length);
 
     private:
         Graphics& graphics_;

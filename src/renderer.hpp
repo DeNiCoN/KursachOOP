@@ -29,6 +29,7 @@ namespace transport
         }
 
         void Render();
+        void Update();
 
         bool ShouldClose();
 
