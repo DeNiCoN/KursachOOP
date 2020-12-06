@@ -20,7 +20,7 @@ namespace transport
 
         ProcessPtr Recolor::Visit(vehicles::Colorful& veh)
         {
-            auto color = glm::ballRand(1.f);
+            auto color = glm::linearRand(glm::vec3(0.f, 0.f, 0.f), glm::vec3(1.f, 1.f, 1.f));
             auto init = veh.GetColor();
             auto to = color - init;
             return ToPtr(InterpolateCallback(recolor_time_, [init, to, &veh](float t)

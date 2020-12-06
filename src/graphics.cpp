@@ -12,34 +12,54 @@ namespace transport
     {
         p_manager_.Add(ToPtr(WhileTrue([&](double delta)
         {
+            float viscosity_damping = 2.f;
+            float eps = 0.00000000001;
             for (auto& [name, vertex] : vertices_)
             {
                 //Update position
-                float spring_damping = 0.001f;
+                float spring_damping = 0.0001f;
                 float spring_force = 10.f;
-                float viscosity_damping = 2.f;
 
                 glm::vec2 acceleration = {0.f, 0.f};
                 for (const auto& [name, length] : vertex.incedent)
                 {
                     const auto& incident = vertices_.at(name);
                     auto to = (incident.position - vertex.position);
-                    if (glm::dot(to, to) < 0.00000000001)
+                    if (glm::dot(to, to) < eps)
                     {
                         to = glm::circularRand(length/0.1f);
                     }
                     auto to_n = glm::normalize(to);
-                    acceleration += static_cast<float>(spring_force*(glm::length(to) - length))
+                    acceleration += static_cast<float>(spring_force*(log(glm::length(to) / length)))
                         * to_n - spring_damping * (incident.velocity * to_n - vertex.velocity * to_n);
                 }
 
                 acceleration += -viscosity_damping*vertex.velocity;
                 vertex.velocity += acceleration * static_cast<float>(delta);
-                vertex.position += vertex.velocity * static_cast<float>(delta);
-                renderer_.DrawTexture(vertex.object.GetTexture(),
-                                      glm::vec3(ToPixels(vertex.position), 1.1f),
+            }
+
+            float charge = 0.05f;
+            for (auto& [name1, vertex1] : vertices_)
+            {
+                glm::vec2 acceleration = {0.f, 0.f};
+                for (auto& [name2, vertex2] : vertices_)
+                {
+                    auto to = (vertex2.position - vertex1.position);
+                    if (glm::dot(to, to) < eps)
+                    {
+                        to = glm::circularRand(charge*10.f);
+                    }
+                    acceleration += -(charge * to / glm::dot(to, to));
+                }
+                vertex1.velocity += acceleration * static_cast<float>(delta);
+                acceleration += -viscosity_damping*vertex1.velocity;
+
+                vertex1.position += vertex1.velocity * static_cast<float>(delta);
+
+                renderer_.DrawTexture(vertex1.object.GetTexture(),
+                                      glm::vec3(ToPixels(vertex1.position), 1.1f),
                                       {64.f, 64.f}, 0.f,
-                                      glm::vec4(vertex.object.GetColor(), 1.f));
+                                      glm::vec4(vertex1.object.GetColor(), 1.f));
             }
             //Draw roads
             for (auto& [name, vertex] : vertices_)
