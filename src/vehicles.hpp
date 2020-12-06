@@ -1,6 +1,7 @@
 #pragma once
 #include "vehicle.hpp"
 #include "glm/vec4.hpp"
+#include <cstdlib>
 
 namespace transport
 {
@@ -51,6 +52,9 @@ namespace transport
             const Renderer::TextureHandle GetTexture() const override;
             double GetSpeed() const override;
             void SetAcceleration(const double acceleration);
+
+            ProcessPtr Visit(Vertex& vert) override {return vert.Visit(*this);}
+            ProcessPtr Pass(Vertex& vert) override {return vert.Pass(*this);}
         private:
             double acceleration_ = 1.;
         };
@@ -62,6 +66,10 @@ namespace transport
             const Renderer::TextureHandle GetTexture() const override;
             glm::vec3 GetColor() const override;
             void SetColor(const glm::vec3 color);
+
+            ProcessPtr Visit(Vertex& vert) override {return vert.Visit(*this);}
+            ProcessPtr Pass(Vertex& vert) override {return vert.Pass(*this);}
+
         private:
             glm::vec3 color_ = {1.f, 1.f, 1.f};
         };
@@ -72,6 +80,9 @@ namespace transport
             void Parse(const nlohmann::json& json) override;
             const Renderer::TextureHandle GetTexture() const override;
             double GetSpeed() const override;
+
+            ProcessPtr Visit(Vertex& vert) override {return vert.Visit(*this);}
+            ProcessPtr Pass(Vertex& vert) override {return vert.Pass(*this);}
         private:
         };
 

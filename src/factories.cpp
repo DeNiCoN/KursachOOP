@@ -13,7 +13,8 @@ namespace transport
                              > VehicleFactory::type_to_obj_
     {
         TYPE_TO_OBJ_NODE(Light),
-        TYPE_TO_OBJ_NODE(Truck)
+        TYPE_TO_OBJ_NODE(Truck),
+        TYPE_TO_OBJ_NODE(Colorful)
     };
 
     template<>
@@ -21,6 +22,7 @@ namespace transport
                              std::function<VertexPtr()>
                              > VertexFactory::type_to_obj_
     {
-        TYPE_TO_OBJ_NODE(Basic)
+        TYPE_TO_OBJ_NODE(Basic),
+        TYPE_TO_OBJ_NODE(Recolor)
     };
 }

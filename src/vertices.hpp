@@ -14,9 +14,9 @@ namespace transport
             ProcessPtr PassDefault(Vehicle& veh) override;
             void Parse(const nlohmann::json& json) override
             {
-                if (json.count("wait_time"))
+                if (json.contains("wait_time"))
                     wait_time_ = json["wait_time"];
-                if (json.count("pass_time"))
+                if (json.contains("pass_time"))
                     pass_time_ = json["pass_time"];
             };
 
@@ -26,6 +26,30 @@ namespace transport
         private:
             double wait_time_ = 1.;
             double pass_time_ = 0.;
+        };
+
+        class Recolor : public VertexBase
+        {
+        public:
+            //Only does something with colorful, ignores other
+            ProcessPtr Visit(vehicles::Colorful& veh) override;
+            void Parse(const nlohmann::json& json) override
+            {
+                if (json.contains("recolor_time"))
+                    recolor_time_ = json["recolor_time"];
+                //No arguments
+            };
+
+            std::vector<VertexType> GetTypes() override
+            {
+                return { VertexType::RECOLOR };
+            }
+
+            const Renderer::TextureHandle GetTexture() const override
+            { return TextureLoader::Load("textures/recolor.png"); }
+
+        private:
+            double recolor_time_ = 1.;
         };
     }
 }

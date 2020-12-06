@@ -25,7 +25,7 @@ namespace transport
             for (auto& [to_name, road_json] : vertex_json.at("incident").items())
             {
                 double length = 1.;
-                if (road_json.count("length"))
+                if (road_json.contains("length"))
                     length = road_json.at("length");
                 simulation_.AddRoad(from_name, to_name, length);
             }

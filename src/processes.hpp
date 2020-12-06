@@ -7,6 +7,12 @@ namespace transport
 {
     namespace processes
     {
+        class None : public Process
+        {
+        public:
+            void Update(double delta) { Stop(); }
+        };
+
         class Wait : public Process
         {
         public:
@@ -93,6 +99,28 @@ namespace transport
 
         private:
             C callback_;
+        };
+
+        template<typename C>
+        class InterpolateCallback : public Process
+        {
+        public:
+            InterpolateCallback(double time, C callback) :
+                time_(time), callback_(callback)
+            {}
+
+            void Update(double delta)
+            {
+                callback_(time_passed_ / time_);
+                time_passed_ += delta;
+                if (time_passed_ > time_)
+                    Stop();
+            }
+
+        private:
+            C callback_;
+            double time_;
+            double time_passed_ = 0.;
         };
 
         template<typename T>

@@ -135,8 +135,8 @@ namespace transport
 
         return ToPtr(MakeConsecutive(
                          MakeAnd(
-                             graphics_.VehicleRideVertex(*veh.ptr, from.ptr->GetName()),
-                             veh.ptr->Pass(*from.ptr)
+                             veh.ptr->Pass(*from.ptr),
+                             graphics_.VehicleRideVertex(*veh.ptr, from.ptr->GetName())
                              ),
                          graphics_.VehicleRideRoad(*veh.ptr,
                                                    from.ptr->GetName(),

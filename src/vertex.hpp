@@ -5,6 +5,7 @@
 #include "json_deserializable.hpp"
 #include "graphics_object.hpp"
 #include "vertex_type.hpp"
+#include "processes.hpp"
 
 namespace transport
 {
@@ -24,8 +25,10 @@ namespace transport
     {
     public:
         //TODO change nullptr to None process
-        virtual ProcessPtr VisitDefault(Vehicle&) { return nullptr; }
-        virtual ProcessPtr PassDefault(Vehicle&) { return nullptr; }
+        virtual ProcessPtr VisitDefault(Vehicle&)
+        { return processes::ToPtr(processes::None()); }
+        virtual ProcessPtr PassDefault(Vehicle&)
+        { return processes::ToPtr(processes::None()); }
 
         virtual ProcessPtr Visit(vehicles::Light&) = 0;
         virtual ProcessPtr Pass(vehicles::Light&) = 0;

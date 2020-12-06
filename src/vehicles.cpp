@@ -6,7 +6,7 @@ namespace transport {
 	{
 		void Light::Parse(const nlohmann::json& json)
 		{
-			if (json.count("max_speed"))
+			if (json.contains("max_speed"))
 				max_speed_ = json["max_speed"];
 		}
 		const Renderer::TextureHandle Light::GetTexture() const
@@ -24,9 +24,9 @@ namespace transport {
 
 		void Truck::Parse(const nlohmann::json& json)
 		{
-			if (json.count("max_speed"))
+			if (json.contains("max_speed"))
 				max_speed_ = json["max_speed"];
-			if (json.count("max_carrying_capacity"))
+			if (json.contains("max_carrying_capacity"))
 				max_carrying_capacity_ = json["max_carrying_capacity"];
 		}
 		const Renderer::TextureHandle Truck::GetTexture() const
@@ -51,9 +51,9 @@ namespace transport {
 
 		void Passenger::Parse(const nlohmann::json& json)
 		{
-			if (json.count("max_speed"))
+			if (json.contains("max_speed"))
 				max_speed_ = json["max_speed"];
-			if (json.count("max_passenger"))
+			if (json.contains("max_passenger"))
 				max_passenger_ = json["max_passenger"];
 		}
 		const Renderer::TextureHandle Passenger::GetTexture() const
@@ -83,7 +83,7 @@ namespace transport {
 
 		void IllegalRacer::Parse(const nlohmann::json& json)
 		{
-			if (json.count("max_speed"))
+			if (json.contains("max_speed"))
 				Light::SetSpeed(json["max_speed"]);
 		}
 		const Renderer::TextureHandle IllegalRacer::GetTexture() const
@@ -102,10 +102,12 @@ namespace transport {
 		void Colorful::Parse(const nlohmann::json& json)
 		{
 			Light::Parse(json);
-			if (json.count("color"))
+			if (json.contains("color"))
+			{
 				color_[0] = json["color"][0];
 				color_[1] = json["color"][1];
 				color_[2] = json["color"][2];
+			}
 		}
 		const Renderer::TextureHandle Colorful::GetTexture() const
 		{
@@ -123,7 +125,7 @@ namespace transport {
 
 		void Police::Parse(const nlohmann::json& json)
 		{
-			if (json.count("max_speed"))
+			if (json.contains("max_speed"))
 				Light::SetSpeed(json["max_speed"]);
 		}
 		const Renderer::TextureHandle Police::GetTexture() const
@@ -137,7 +139,7 @@ namespace transport {
 
 		void Tractor::Parse(const nlohmann::json& json)
 		{
-			if (json.count("max_speed"))
+			if (json.contains("max_speed"))
 				max_speed_ = json["max_speed"];
 		}
 		const Renderer::TextureHandle Tractor::GetTexture() const
