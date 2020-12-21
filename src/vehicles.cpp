@@ -111,7 +111,7 @@ namespace transport {
 		}
 		const Renderer::TextureHandle Colorful::GetTexture() const
 		{
-			return TextureLoader::Load("textures/light.png");
+			return TextureLoader::Load("textures/colorful.png");
 		}
         glm::vec3 Colorful::GetColor() const
 		{
