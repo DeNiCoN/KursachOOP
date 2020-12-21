@@ -6,6 +6,7 @@
 #include <glad/glad.h>
 #include <vector>
 #include <GLFW/glfw3.h>
+#include "smooth_zoom_process.hpp"
 
 namespace transport
 {
@@ -29,7 +30,7 @@ namespace transport
         }
 
         void Render();
-        void Update();
+        void Update(double delta);
 
         bool ShouldClose();
 
@@ -70,6 +71,10 @@ namespace transport
         float cam_scale_ = 1.f;
         glm::vec2 cam_position_ = {0., 0.};
 
+        SmoothZoom smooth_zoom_ {cam_scale_, cam_position_};
+
         friend void framebuffer_size_callback(GLFWwindow* window, int width, int height);
+        friend void cursor_position_callback(GLFWwindow* window, double xpos, double ypos);
+        friend void scroll_callback(GLFWwindow* window, double xoffset, double yoffset);
     };
 }
