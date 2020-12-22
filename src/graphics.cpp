@@ -12,7 +12,7 @@ namespace transport
     {
         p_manager_.Add(ToPtr(WhileTrue([&](double delta)
         {
-            float viscosity_damping = 2.f;
+            float viscosity_damping = 1.6f;
             float eps = 0.00000000001;
             for (auto& [name, vertex] : vertices_)
             {
@@ -38,7 +38,7 @@ namespace transport
                 vertex.velocity += acceleration * static_cast<float>(delta);
             }
 
-            float charge = 0.05f;
+            float charge = 0.07f;
             for (auto& [name1, vertex1] : vertices_)
             {
                 glm::vec2 acceleration = {0.f, 0.f};
