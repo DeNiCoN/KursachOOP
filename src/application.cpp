@@ -101,7 +101,7 @@ namespace transport
             while(lag >= timestep) {
                 lag -= timestep;
 
-                renderer.Update();
+                renderer.Update(timestep_as_double);
                 p_manager_.Update(timestep_as_double);
             }
 

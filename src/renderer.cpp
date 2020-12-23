@@ -6,7 +6,6 @@
 
 namespace transport
 {
-
     void GLAPIENTRY
     MessageCallback( GLenum source,
                      GLenum type,
@@ -79,6 +78,36 @@ namespace transport
         rend.height_ = height;
         glViewport(0, 0, width, height);
         rend.UpdateProjection();
+    }
+
+    void scroll_callback(GLFWwindow* window, double xoffset, double yoffset)
+    {
+        auto& renderer = Renderer::GetInstance();
+        auto& smooth_zoom = renderer.smooth_zoom_;
+        double xpos, ypos;
+        glfwGetCursorPos(renderer.window_, &xpos, &ypos);
+        glm::vec2 cPos = glm::vec2((float) xpos - renderer.width_ / 2.f,
+                                   (float) -ypos + renderer.height_ / 2.f);
+        smooth_zoom.addScale(yoffset * smooth_zoom.getFinalScale() * 0.09f,
+                               9, cPos);
+    }
+
+    void cursor_position_callback(GLFWwindow* window, double xpos, double ypos)
+    {
+        static double p_xpos = 0;
+        static double p_ypos = 0;
+        double dx = p_xpos - xpos;
+        double dy = p_ypos - ypos;
+        p_xpos = xpos;
+        p_ypos = ypos;
+        int state = glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT);
+
+        auto& renderer = Renderer::GetInstance();
+        if (state == GLFW_PRESS)
+        {
+            //update cam position and dont forget about scale
+            renderer.cam_position_ += glm::vec2(-dx, dy) * (float) (1.f / renderer.cam_scale_);
+        }
     }
 
     void Renderer::UpdateProjection()
@@ -183,6 +212,8 @@ void main()
 
         glViewport(0, 0, width_, height_);
         glfwSetFramebufferSizeCallback(window_, framebuffer_size_callback);
+        glfwSetScrollCallback(window_, scroll_callback);
+        glfwSetCursorPosCallback(window_, cursor_position_callback);
 
         //glEnable(GL_DEBUG_OUTPUT);
         glDebugMessageCallback(MessageCallback, 0);
@@ -247,18 +278,22 @@ void main()
         sprite_batch_.push_back({model, color, texture});
     }
 
-    void Renderer::Update()
+    void Renderer::Update(double delta)
     {
         sprite_batch_.clear();
         line_batch_.clear();
+
+        if (smooth_zoom_.GetState() == Process::State::RUNNING)
+        {
+            smooth_zoom_.Update(delta);
+        }
     }
     void Renderer::Render()
     {
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-        projection_view_ = glm::translate(projection_, glm::vec3(cam_position_, 0));
         projection_view_ = glm::scale(projection_, glm::vec3(cam_scale_, cam_scale_, 1));
-
+        projection_view_ = glm::translate(projection_view_, glm::vec3(cam_position_, 0));
         RenderLines();
         RenderSprites();
 
@@ -296,7 +331,7 @@ void main()
         glBindBuffer(GL_ARRAY_BUFFER, line_VBO);
         for (const auto& line : line_batch_)
         {
-            glLineWidth(line.thickness);
+            glLineWidth(line.thickness * cam_scale_);
             glUniform3fv(glGetUniformLocation(line_shader_, "color"),
                          1, &line.color[0]);
 

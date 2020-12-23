@@ -27,6 +27,7 @@ namespace transport
         Process* GetNext() { return next_.get(); }
         std::unique_ptr<Process> TakeNext() { return std::move(next_); };
         void Stop() { state_ = State::ENDED; }
+        void Run() { state_ = State::RUNNING; }
         State GetState() { return state_; }
 
         Process() = default;
