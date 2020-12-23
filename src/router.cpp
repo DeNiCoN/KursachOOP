@@ -24,7 +24,6 @@ namespace transport
 			std::vector<int>::const_reverse_iterator rev_iter;
 			std::list<int> queue;
 
-			node_vec[end_vert].SetParent(-1);
 			node_vec[current].SetPathLen(0);
 			node_vec[current].SetParent(-1);
 			visited[current] = true;

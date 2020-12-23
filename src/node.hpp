@@ -5,7 +5,7 @@ namespace transport
 	class Node
 	{
 	private:
-		int parent_;
+		int parent_ = -1;
 		double path_len_ = 0;
 	public:
 		void SetParent(const int parent);
