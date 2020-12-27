@@ -21,7 +21,10 @@ namespace transport
             };
 
             const Renderer::TextureHandle GetTexture() const override
-            { return TextureLoader::Load("textures/basic.png"); }
+            {
+                static auto texture = TextureLoader::Load("textures/basic.png");
+                return texture;
+            }
 
         private:
             double wait_time_ = 1.;
@@ -46,7 +49,10 @@ namespace transport
             }
 
             const Renderer::TextureHandle GetTexture() const override
-            { return TextureLoader::Load("textures/recolor.png"); }
+            {
+                static auto texture = TextureLoader::Load("textures/recolor.png");
+                return texture;
+            }
 
         private:
             double recolor_time_ = 1.;

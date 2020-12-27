@@ -30,8 +30,11 @@ namespace transport
                         to = glm::circularRand(length/0.1f);
                     }
                     auto to_n = glm::normalize(to);
-                    acceleration += static_cast<float>(spring_force*(log(glm::length(to) / length)))
+                    acceleration += static_cast<float>(spring_force*(glm::length(to) - length))
                         * to_n - spring_damping * (incident.velocity * to_n - vertex.velocity * to_n);
+
+                    renderer_.DrawLine(ToPixels(vertex.position),
+                                       ToPixels(incident.position));
                 }
 
                 acceleration += -viscosity_damping*vertex.velocity;
@@ -39,11 +42,17 @@ namespace transport
             }
 
             float charge = 0.07f;
-            for (auto& [name1, vertex1] : vertices_)
+            for (auto it1 = vertices_.begin(); it1 != vertices_.end(); ++it1)
             {
+                auto& vertex1 = it1->second;
                 glm::vec2 acceleration = {0.f, 0.f};
-                for (auto& [name2, vertex2] : vertices_)
+                for (auto it2 = vertices_.begin(); it2 != vertices_.end(); ++it2)
                 {
+                    if (it1 == it2)
+                        continue;
+
+                    auto& vertex2 = it2->second;
+
                     auto to = (vertex2.position - vertex1.position);
                     if (glm::dot(to, to) < eps)
                     {
@@ -51,27 +60,15 @@ namespace transport
                     }
                     acceleration += -(charge * to / glm::dot(to, to));
                 }
+
                 vertex1.velocity += acceleration * static_cast<float>(delta);
                 acceleration += -viscosity_damping*vertex1.velocity;
-
                 vertex1.position += vertex1.velocity * static_cast<float>(delta);
 
                 renderer_.DrawTexture(vertex1.object.GetTexture(),
                                       glm::vec3(ToPixels(vertex1.position), 1.1f),
                                       {64.f, 64.f}, 0.f,
                                       glm::vec4(vertex1.object.GetColor(), 1.f));
-            }
-            //Draw roads
-            for (auto& [name, vertex] : vertices_)
-            {
-                //Update position
-                for (const auto& [name, length] : vertex.incedent)
-                {
-                    const auto& incident = vertices_.at(name);
-                    renderer_.DrawLine(ToPixels(vertex.position),
-                                       ToPixels(incident.position),
-                                       10.f, {0.1f,0.1f,0.13f});
-                }
             }
         })));
     }

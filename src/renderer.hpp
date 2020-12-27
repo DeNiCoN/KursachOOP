@@ -23,10 +23,9 @@ namespace transport
         void DrawTexture(TextureHandle texture, glm::vec3 position,
                          glm::vec2 scale, float angle, glm::vec4 color);
 
-        void DrawLine(glm::vec2 from, glm::vec2 to,
-                      float thickness, glm::vec3 color)
+        void DrawLine(glm::vec2 from, glm::vec2 to)
         {
-            line_batch_.push_back({from, to, color, thickness});
+            line_batch_.push_back({from, to});
         }
 
         void Render();
@@ -44,8 +43,6 @@ namespace transport
         {
             glm::vec2 from;
             glm::vec2 to;
-            glm::vec3 color;
-            float thickness;
         };
 
         struct Sprite

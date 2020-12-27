@@ -158,7 +158,7 @@ void main()
     vec4 tex_color = texture(texture1, TexCoord) * color;
     if(tex_color.a < 0.1)
         discard;
-	FragColor = tex_color;
+    FragColor = tex_color;
 })";
 
 
@@ -178,12 +178,11 @@ void main()
 )";
     const char* line_fs = R"(
 #version 330 core
-uniform vec3 color;
 out vec4 FragColor;
 
 void main()
 {
-    FragColor = vec4(color, 1.f);
+    FragColor = vec4(0.1f, 0.1f, 0.13f, 1.f);
 }
 )";
 
@@ -253,7 +252,6 @@ void main()
         glGenBuffers(1, &line_VBO);
         glBindVertexArray(line_VAO);
         glBindBuffer(GL_ARRAY_BUFFER, line_VBO);
-        glBufferData(GL_ARRAY_BUFFER, sizeof(float) * 4, NULL, GL_DYNAMIC_DRAW);
         glEnableVertexAttribArray(0);
         glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(float), (void*)0);
 
@@ -327,22 +325,12 @@ void main()
         glUniformMatrix4fv(glGetUniformLocation(line_shader_, "projection_view"),
                            1, GL_FALSE, &projection_view_[0][0]);
 
+        glLineWidth(10.f*cam_scale_);
+
         glBindVertexArray(line_VAO);
         glBindBuffer(GL_ARRAY_BUFFER, line_VBO);
-        for (const auto& line : line_batch_)
-        {
-            glLineWidth(line.thickness * cam_scale_);
-            glUniform3fv(glGetUniformLocation(line_shader_, "color"),
-                         1, &line.color[0]);
-
-            float* ptr = (float*) glMapBuffer(GL_ARRAY_BUFFER, GL_WRITE_ONLY);
-            ptr[0] = line.from[0];
-            ptr[1] = line.from[1];
-            ptr[2] = line.to[0];
-            ptr[3] = line.to[1];
-
-            glUnmapBuffer(GL_ARRAY_BUFFER);
-            glDrawArrays(GL_LINES, 0, 2);
-        }
+        glBufferData(GL_ARRAY_BUFFER, sizeof(float) * 4 * line_batch_.size(),
+                     (float*)line_batch_.data(), GL_DYNAMIC_DRAW);
+        glDrawArrays(GL_LINES, 0, 2*line_batch_.size());
     }
 }
