@@ -26,11 +26,11 @@ def gnp_random_connected_graph(n, p):
                 G.add_edge(*e)
     return G
 
-NUM_NODES = 100
+NUM_NODES = 1000
 
-VEHICLES = ["Light", "Colorful"]
-VERTICES = ["Basic", "Recolor"]
-G = gnp_random_connected_graph(NUM_NODES, 0.00000001)
+VEHICLES = ["Light", "Colorful", "Passenger"]
+VERTICES = ["Basic", "Recolor", "BusStop"]
+G = gnp_random_connected_graph(NUM_NODES, 0.00001)
 
 data = {
     "vertices" : {},
@@ -46,11 +46,13 @@ for node in G.nodes:
         "type" : random.choice(VERTICES),
         "incident" : {}
     }
-    incident = vertices[nodeName]["incident"]
-    for edge in G.edges(node):
-        incident["v" + str(edge[1])] = {
+
+for edge in G.edges:
+    nodeFrom = "v" + str(edge[0])
+    nodeTo = "v" + str(edge[1])
+    vertices[nodeFrom]["incident"][nodeTo] = {
             "length" : random.uniform(0.3, 1.5)
-        }
+            }
 
 for i in range(1, random.randint(NUM_NODES // 10, NUM_NODES // 2)):
     vehicles[str(i)] = {

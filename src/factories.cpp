@@ -14,7 +14,8 @@ namespace transport
     {
         TYPE_TO_OBJ_NODE(Light),
         TYPE_TO_OBJ_NODE(Truck),
-        TYPE_TO_OBJ_NODE(Colorful)
+        TYPE_TO_OBJ_NODE(Colorful),
+        TYPE_TO_OBJ_NODE(Passenger)
     };
 
     template<>
@@ -23,6 +24,7 @@ namespace transport
                              > VertexFactory::type_to_obj_
     {
         TYPE_TO_OBJ_NODE(Basic),
-        TYPE_TO_OBJ_NODE(Recolor)
+        TYPE_TO_OBJ_NODE(Recolor),
+        TYPE_TO_OBJ_NODE(BusStop)
     };
 }

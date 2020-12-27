@@ -57,5 +57,23 @@ namespace transport
         private:
             double recolor_time_ = 1.;
         };
+
+        class BusStop : public VertexBase
+        {
+        public:
+            ProcessPtr Visit(vehicles::Passenger& veh) override;
+            void Parse(const nlohmann::json& json) override {}
+
+            std::vector<VertexType> GetTypes() override
+            {
+                return { VertexType::BUS_STOP };
+            }
+
+            const Renderer::TextureHandle GetTexture() const override
+            {
+                static auto texture = TextureLoader::Load("textures/bus_stop.png");
+                return texture;
+            }
+        };
     }
 }

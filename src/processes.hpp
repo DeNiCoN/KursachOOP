@@ -111,10 +111,10 @@ namespace transport
 
             void Update(double delta)
             {
+                if (time_passed_ >= time_)
+                    Stop();
                 callback_(time_passed_ / time_);
                 time_passed_ += delta;
-                if (time_passed_ > time_)
-                    Stop();
             }
 
         private:

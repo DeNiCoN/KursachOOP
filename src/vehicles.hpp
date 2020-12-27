@@ -37,12 +37,15 @@ namespace transport
             void Parse(const nlohmann::json& json) override;
             const Renderer::TextureHandle GetTexture() const override;
             double GetSpeed() const override;
-            void AddPassenger(const int passenger_quan);
-            void SubtractPassenger(const int passenger_qua);
+            double GetMaxPassenger() const { return max_passenger_; }
+            double GetPassenger() const { return passenger_; }
+            void SetPassenger(double pass) { passenger_ = pass; }
+            std::optional<VertexType> GetNextVertexType() const override
+            { return VertexType::BUS_STOP; }
         private:
             double max_speed_ = 1.;
-            int passenger_ = 0;
-            int max_passenger_ = 1;
+            double passenger_ = 0.;
+            double max_passenger_ = 1.;
         };
 
         class IllegalRacer : public Light
