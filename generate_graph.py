@@ -26,12 +26,11 @@ def gnp_random_connected_graph(n, p):
                 G.add_edge(*e)
     return G
 
-NUM_NODES = 50
+NUM_NODES = 100
 
 VEHICLES = ["Light", "Colorful"]
 VERTICES = ["Basic", "Recolor"]
-
-G = gnp_random_connected_graph(NUM_NODES, 0.002)
+G = gnp_random_connected_graph(NUM_NODES, 0.00000001)
 
 data = {
     "vertices" : {},

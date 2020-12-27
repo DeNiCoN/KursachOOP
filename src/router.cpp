@@ -1,6 +1,8 @@
 #include "router.hpp"
 #include "node.hpp"
 #include <list>
+#include <deque>
+#include <unordered_set>
 
 namespace transport
 {
@@ -12,21 +14,21 @@ namespace transport
 
 			int current = start_vert;
 			int i;
-			std::vector<int> result_rout, rev_res;
+			std::vector<int> rev_res;
+			rev_res.reserve(graph.adjecent_vert.size() / 2);
 			if (start_vert == end_vert)
 			{
-				result_rout.push_back(start_vert);
-				return result_rout;
+				return { start_vert };
 			}
-			std::vector<bool> visited(graph.adjecent_vert.size(), false);
-			std::vector<Node> node_vec(graph.adjecent_vert.size());
+			std::unordered_set<int> visited;
+			std::unordered_map<int, Node> node_vec;
 			std::vector<int>::const_iterator iter;
 			std::vector<int>::const_reverse_iterator rev_iter;
-			std::list<int> queue;
+			std::deque<int> queue;
 
 			node_vec[current].SetPathLen(0);
 			node_vec[current].SetParent(-1);
-			visited[current] = true;
+			visited.insert(current);
 			queue.push_back(current);
 
 			while (!queue.empty())
@@ -38,7 +40,7 @@ namespace transport
 					continue;
 				for (iter = graph.adjecent_vert[current].cbegin(); iter != graph.adjecent_vert[current].cend(); ++iter)
 				{
-					if (visited[*iter])
+					if (visited.contains(*iter))
 					{
 						if (node_vec[*iter].GetPathLen() > node_vec[current].GetPathLen() + graph.edge_weight_vec[current][i])
 						{
@@ -48,7 +50,7 @@ namespace transport
 					}
 					else
 					{
-						visited[*iter] = true;
+						visited.insert(*iter);
 						node_vec[*iter].SetParent(current);
 						node_vec[*iter].SetPathLen(node_vec[current].GetPathLen() + graph.edge_weight_vec[current][i]);
 						queue.push_back(*iter);
@@ -67,18 +69,8 @@ namespace transport
 				rev_res.push_back(current);
 				current = node_vec[current].GetParent();
 			}
-			rev_res.shrink_to_fit();
 
-			result_rout.resize(rev_res.size());
-			i = 0;
-			for (rev_iter = rev_res.crbegin(); rev_iter != rev_res.crend(); rev_iter++)
-			{
-				result_rout[i] = (*rev_iter);
-				i++;
-			}
-
-			return result_rout;
-
+			return std::vector<int>(rev_res.rbegin(), rev_res.rend());
 		}
 		catch (int ex)
 		{

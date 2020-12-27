@@ -11,7 +11,8 @@ namespace transport {
 		}
 		const Renderer::TextureHandle Light::GetTexture() const
 		{
-			return TextureLoader::Load("textures/light.png");
+			static auto texture = TextureLoader::Load("textures/light.png");
+			return texture;
 		}
 		double Light::GetSpeed() const
 		{
@@ -31,7 +32,16 @@ namespace transport {
 		}
 		const Renderer::TextureHandle Truck::GetTexture() const
 		{
-			return {};
+			static std::vector<Renderer::TextureHandle> textures
+				{
+					TextureLoader::Load("textures/truck0.png"),
+					TextureLoader::Load("textures/truck1.png"),
+					TextureLoader::Load("textures/truck2.png"),
+					TextureLoader::Load("textures/truck3.png"),
+					TextureLoader::Load("textures/truck4.png")
+				};
+
+			return textures[4*loaded_/max_carrying_capacity_];
 		}
 		double Truck::GetSpeed() const
 		{
@@ -111,8 +121,10 @@ namespace transport {
 		}
 		const Renderer::TextureHandle Colorful::GetTexture() const
 		{
-			return TextureLoader::Load("textures/colorful.png");
+			static auto texture = TextureLoader::Load("textures/colorful.png");
+			return texture;
 		}
+
         glm::vec3 Colorful::GetColor() const
 		{
 			return color_;
