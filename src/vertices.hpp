@@ -57,5 +57,24 @@ namespace transport
         private:
             double recolor_time_ = 1.;
         };
+
+        class Police : public VertexBase
+        {
+        public:
+            ProcessPtr Visit(vehicles::IllegalRacer& veh) override;
+            ProcessPtr Pass(vehicles::IllegalRacer& veh) override;
+            void Parse(const nlohmann::json& json) override;
+            std::vector<VertexType> GetTypes() override;
+            const Renderer::TextureHandle GetTexture() const override;
+        private:
+            double pass_time_ = 0.;
+            double wait_time_ = 0.;
+        };
+
+        class Factory : public VertexBase
+        {
+        public:
+
+        };
     }
 }

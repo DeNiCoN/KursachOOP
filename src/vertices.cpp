@@ -28,5 +28,37 @@ namespace transport
                 veh.SetColor(init + to * t);
             }));
         }
+
+        ProcessPtr Police::Pass(vehicles::IllegalRacer& veh)
+        {
+            veh.SetAcceleration(2.);
+            return std::make_unique<Wait>(pass_time_);
+        }
+
+        ProcessPtr Police::Visit(vehicles::IllegalRacer& veh)
+        {
+            veh.SetAcceleration(2.);
+            return std::make_unique<Wait>(wait_time_);
+        }
+
+        void Police::Parse(const nlohmann::json& json)
+        {
+            if (json.contains("wait_time"))
+                wait_time_ = json["wait_time"];
+            if (json.contains("pass_time"))
+                pass_time_ = json["pass_time"];
+        }
+
+        std::vector<VertexType> Police::GetTypes()
+        {
+            return { VertexType::POLICE };
+        }
+
+        const Renderer::TextureHandle Police::GetTexture() const
+        {
+            static auto texture = TextureLoader::Load("textures/police_station.png");
+            return texture;
+        }
+
     }
 }

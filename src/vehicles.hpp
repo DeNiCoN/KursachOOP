@@ -38,7 +38,7 @@ namespace transport
             const Renderer::TextureHandle GetTexture() const override;
             double GetSpeed() const override;
             void AddPassenger(const int passenger_quan);
-            void SubtractPassenger(const int passenger_qua);
+            void SubtractPassenger(const int passenger_quan);
         private:
             double max_speed_ = 1.;
             int passenger_ = 0;
