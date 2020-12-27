@@ -12,7 +12,7 @@ namespace transport
     {
         p_manager_.Add(ToPtr(WhileTrue([&](double delta)
         {
-            float viscosity_damping = 1.6f;
+            float viscosity_damping = 1.f;
             float eps = 0.00000000001;
             for (auto& [name, vertex] : vertices_)
             {
@@ -123,7 +123,7 @@ namespace transport
         float angle = atan2(det, dot);
         renderer_.DrawTexture(vehicle_.GetTexture(),
                               glm::vec3(static_cast<float>(scale_) * pos, 1.2f),
-                              {32.f, 32.f}, -angle, glm::vec4(vehicle_.GetColor(), 1.f));
+                              {40.f, 40.f}, -angle, glm::vec4(vehicle_.GetColor(), 1.f));
     }
 
     ProcessPtr Graphics::VehicleRideVertex(const GraphicsObject& vehicle,
@@ -133,7 +133,7 @@ namespace transport
         {
             renderer_.DrawTexture(vehicle.GetTexture(),
                                   glm::vec3(ToPixels(vertices_.at(vertex_name).position), 1.2f),
-                                  {32.f, 32.f}, 0,
+                                  {40.f, 40.f}, 0,
                                   glm::vec4(vehicle.GetColor(), 1.f));
         }));
     }

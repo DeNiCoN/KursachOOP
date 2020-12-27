@@ -66,29 +66,28 @@ namespace transport {
 			if (json.contains("max_passenger"))
 				max_passenger_ = json["max_passenger"];
 		}
+
 		const Renderer::TextureHandle Passenger::GetTexture() const
 		{
-			return {};
+			static std::vector<Renderer::TextureHandle> textures
+				{
+					TextureLoader::Load("textures/passenger0.png"),
+					TextureLoader::Load("textures/passenger1.png"),
+					TextureLoader::Load("textures/passenger2.png"),
+					TextureLoader::Load("textures/passenger3.png"),
+					TextureLoader::Load("textures/passenger4.png"),
+					TextureLoader::Load("textures/passenger5.png"),
+					TextureLoader::Load("textures/passenger6.png"),
+					TextureLoader::Load("textures/passenger7.png"),
+					TextureLoader::Load("textures/passenger8.png")
+				};
+
+			return textures[8*passenger_/max_passenger_];
 		}
+
 		double Passenger::GetSpeed() const
 		{
-			return max_speed_;
-		}
-		void Passenger::AddPassenger(const int passenger_quan)
-		{
-			passenger_ += passenger_quan;
-			if (passenger_ > max_passenger_)
-			{
-				passenger_ = max_passenger_;
-			}
-		}
-		void Passenger::SubtractPassenger(const int passenger_quan)
-		{
-			passenger_ -= passenger_quan;
-			if (passenger_ < 0)
-			{
-				passenger_ = 0;
-			}
+			return max_speed_ - 0.5 * passenger_ / max_passenger_;
 		}
 
 		void IllegalRacer::Parse(const nlohmann::json& json)

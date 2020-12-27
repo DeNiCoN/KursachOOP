@@ -60,5 +60,15 @@ namespace transport
             return texture;
         }
 
+        ProcessPtr BusStop::Visit(vehicles::Passenger& veh)
+        {
+            double from = veh.GetPassenger();
+            double to = ((rand() % 100) / 100.0) * veh.GetMaxPassenger();
+            double len = to - from;
+            return ToPtr(InterpolateCallback(std::abs(len*4.0), [&veh, from, len](double t)
+            {
+                veh.SetPassenger(from + t * len);
+            }));
+        }
     }
 }
