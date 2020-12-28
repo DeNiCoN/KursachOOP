@@ -13,7 +13,7 @@ namespace transport
             void Parse(const nlohmann::json& json) override;
             const Renderer::TextureHandle GetTexture() const override;
             double GetSpeed() const override; 
-            void SetSpeed(const int speed);
+            void SetSpeed(const double speed);
         private:
             double max_speed_ = 1.;
         };
@@ -25,7 +25,13 @@ namespace transport
             const Renderer::TextureHandle GetTexture() const override;
             double GetSpeed() const override;
             void SetLoaded(const double cargo_mass);
+            double GetLoaded() const;
+            double GetMaxCapacity() const;
+            std::optional<VertexType> GetNextVertexType() const override;
         private:
+            std::vector<VertexType> order_vec = { VertexType::DEFAULT, VertexType::PICK_UP_CARGO};
+            mutable int order_ = 0;          //helps to determinate VertexType
+            int max_order_ = order_vec.size();
             double max_speed_ = 1.;
             double loaded_ = 0.;
             double max_carrying_capacity_ = 1.;

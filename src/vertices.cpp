@@ -56,7 +56,7 @@ namespace transport
 
         const Renderer::TextureHandle Police::GetTexture() const
         {
-            static auto texture = TextureLoader::Load("textures/police_station.png");
+            static auto texture = TextureLoader::Load("textures/police_vert.png");
             return texture;
         }
 
@@ -70,5 +70,76 @@ namespace transport
                 veh.SetPassenger(from + t * len);
             }));
         }
+
+        void GasStation::Parse(const nlohmann::json& json)
+        {
+            if (json.contains("wait_time"))
+                wait_time_ = json["wait_time"];
+        }
+
+        ProcessPtr GasStation::VisitDefault(Vehicle& veh)
+        {
+            return std::make_unique<Wait>(wait_time_);
+        }
+
+        void Field::Parse(const nlohmann::json& json)
+        {
+            if (json.contains("max_cappasity"))
+                max_cappasity_ = json["max_cappasity"];
+        }
+
+        const Renderer::TextureHandle Field::GetTexture() const
+        {
+            static const std::vector<Renderer::TextureHandle> textures
+            {
+                TextureLoader::Load("textures/field0.png"),
+                TextureLoader::Load("textures/field1.png"),
+                TextureLoader::Load("textures/field2.png"),
+                TextureLoader::Load("textures/field3.png"),
+                TextureLoader::Load("textures/field4.png"),
+                TextureLoader::Load("textures/field5.png")
+            };
+
+            return textures[5 * crops_ / max_cappasity_];
+        }
+
+        ProcessPtr Field::Visit(vehicles::Tractor& veh)
+        {
+            double from = stuff_;
+            double replenishment = crops_;
+            return ToPtr(InterpolateCallback(10. * replenishment, [this, from, replenishment](double t)
+            {
+                stuff_ = from + replenishment * t;
+                crops_ = from * (1. - t);
+            }));
+        }
+
+        ProcessPtr Field::Visit(vehicles::Truck& veh)
+        {
+            double from = veh.GetLoaded();
+            double len = stuff_;
+            return ToPtr(InterpolateCallback(5. * len, [this, &veh, from, len](double t)
+            {
+                stuff_ = len * (1. - t);
+                veh.SetLoaded(from + len * t);
+            }));
+        }
+
+        ProcessPtr Warehouse::Visit(vehicles::Truck& veh)
+        {
+            double from = veh.GetLoaded();
+            double len = veh.GetMaxCapacity() - from;
+            return ToPtr(InterpolateCallback(5. * len, [&veh, from, len](double t)
+            {
+                veh.SetLoaded(from + len * t);
+            }));
+        }
+
+        const Renderer::TextureHandle Warehouse::GetTexture() const
+        {
+            static auto texture = TextureLoader::Load("textures/warehouse.png");
+            return texture;
+        }
+
     }
 }

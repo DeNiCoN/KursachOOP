@@ -88,5 +88,60 @@ namespace transport
                 return texture;
             }
         };
+
+        class ConstructionSite : public VertexBase
+        {
+
+        };
+
+        class GasStation : public VertexBase
+        {
+        public:
+            ProcessPtr VisitDefault(Vehicle& veh) override;
+            void Parse(const nlohmann::json& json);
+
+            std::vector<VertexType> GetTypes() override
+            {
+                return { VertexType::GAS_STATION };
+            }
+
+            const Renderer::TextureHandle GetTexture() const override
+            {
+                static auto texture = TextureLoader::Load("textures/gas_station.png");
+                return texture;
+            }
+        private:
+            double wait_time_ = 1.;
+        };
+
+        class Field : public VertexBase
+        {
+        public:
+            ProcessPtr Visit(vehicles::Tractor& veh) override;
+            ProcessPtr Visit(vehicles::Truck& veh) override;
+            void Parse(const nlohmann::json& json);
+            const Renderer::TextureHandle GetTexture() const override;
+            std::vector<VertexType> GetTypes() override
+            {
+                return { VertexType::FIELD };
+            }
+
+        private:
+            double crops_ = 0.;             //how much crops have grown, idk. How much tractor can transform into stuff/supplies
+            double max_cappasity_ = 1.;     //how much crops can be. Max value for crops
+            double stuff_ = 0.;             //crops transformed into stuff. Infinity storage. Something that truck takes
+        };
+
+        class Warehouse : public VertexBase
+        {
+        public:
+            ProcessPtr Visit(vehicles::Truck& veh) override;
+            void Parse(const nlohmann::json& json) {};
+            const Renderer::TextureHandle GetTexture() const override;
+            std::vector<VertexType> GetTypes() override
+            {
+                return { VertexType::WAREHOUSE };
+            }
+        };
     }
 }

@@ -28,8 +28,8 @@ def gnp_random_connected_graph(n, p):
 
 NUM_NODES = 1000
 
-VEHICLES = ["Light", "Colorful", "Passenger"]
-VERTICES = ["Basic", "Recolor", "BusStop"]
+VEHICLES = ["Light", "Colorful", "Passenger", "Truck", "IllegalRacer", "Police", "Tractor"]
+VERTICES = ["Basic", "Recolor", "BusStop", "Police", "GasStation", "Field", "Warehouse"]
 G = gnp_random_connected_graph(NUM_NODES, 0.00001)
 
 data = {

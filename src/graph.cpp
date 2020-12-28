@@ -47,7 +47,7 @@ namespace transport
 
 	int Graph::GetRandVertex() const
 	{
-		if (!fullness_)
+		if (!static_cast<bool>(fullness_))
 		{
 			return -1;
 		}
@@ -56,7 +56,7 @@ namespace transport
 
 	int Graph::GetRandVertex(const VertexType type) const
 	{
-		if (!type_id_lists_[static_cast<int>(type)].size())
+		if (!static_cast<bool>(type_id_lists_[static_cast<int>(type)].size()))
 		{
 			return -1;
 		}

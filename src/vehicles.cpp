@@ -18,7 +18,7 @@ namespace transport {
 		{
 			return max_speed_;
 		}
-		void Light::SetSpeed(const int speed)
+		void Light::SetSpeed(const double speed)
 		{
 			max_speed_ = speed;
 		}
@@ -40,17 +40,25 @@ namespace transport {
 					TextureLoader::Load("textures/truck3.png"),
 					TextureLoader::Load("textures/truck4.png")
 				};
-
-			return textures[4*loaded_/max_carrying_capacity_];
+			std::cout << 4 * loaded_ / max_carrying_capacity_ << "\t"<<loaded_<<"\t"<<order_<<std::endl;
+			try 
+			{
+				return textures[4 * loaded_ / max_carrying_capacity_];
+			}
+			catch (...)
+			{
+				return textures[4];
+			}
 		}
 		double Truck::GetSpeed() const
 		{
-			return max_speed_ * (loaded_ / max_carrying_capacity_ + 0.5);	//max speed while empty, half of max speed while full
+			return max_speed_ * (1 - loaded_ / max_carrying_capacity_);	//max speed while empty, half of max speed while full
 		}
 		void Truck::SetLoaded(const double cargo_mass)
 		{
 			if (cargo_mass > max_carrying_capacity_)
 			{
+				std::cout << "max_carrying_capacity_\t" << max_carrying_capacity_ <<std::endl;
 				loaded_ = max_carrying_capacity_;
 			}
 			else 
@@ -58,6 +66,22 @@ namespace transport {
 				loaded_ = cargo_mass;
 			}
 		}
+		double Truck::GetLoaded() const
+		{
+			return loaded_;
+		}
+		double Truck::GetMaxCapacity() const
+		{
+			return max_carrying_capacity_;
+		}
+		std::optional<VertexType> Truck::GetNextVertexType() const
+		{
+			order_ = (order_ + 1) % max_order_;
+			std::cout << "<---------------------------------------------------called " << order_<< std::endl;
+			return order_vec[order_];
+		}
+
+
 
 		void Passenger::Parse(const nlohmann::json& json)
 		{
@@ -93,11 +117,12 @@ namespace transport {
 		void IllegalRacer::Parse(const nlohmann::json& json)
 		{
 			if (json.contains("max_speed"))
-				Light::SetSpeed(json["max_speed"]);
+				IllegalRacer::SetSpeed(json["max_speed"]);
 		}
 		const Renderer::TextureHandle IllegalRacer::GetTexture() const
 		{
-			return {};
+			static auto texture = TextureLoader::Load("textures/illegal.png");
+			return texture;
 		}
 		double IllegalRacer::GetSpeed() const
 		{
@@ -141,7 +166,8 @@ namespace transport {
 		}
 		const Renderer::TextureHandle Police::GetTexture() const
 		{
-			return {};
+			static auto texture = TextureLoader::Load("textures/police.png");
+			return texture;
 		}
 		double Police::GetSpeed() const
 		{
@@ -155,7 +181,8 @@ namespace transport {
 		}
 		const Renderer::TextureHandle Tractor::GetTexture() const
 		{
-			return {};
+			static auto texture = TextureLoader::Load("textures/tractor.png");
+			return texture;
 		}
 		double Tractor::GetSpeed() const
 		{
