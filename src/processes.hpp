@@ -112,7 +112,10 @@ namespace transport
             void Update(double delta)
             {
                 if (time_passed_ >= time_)
+                {
                     Stop();
+                    return;
+                }
                 callback_(time_passed_ / time_);
                 time_passed_ += delta;
             }

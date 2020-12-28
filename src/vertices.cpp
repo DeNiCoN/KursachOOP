@@ -29,19 +29,19 @@ namespace transport
             }));
         }
 
-        ProcessPtr Police::Pass(vehicles::IllegalRacer& veh)
+        ProcessPtr PoliceVert::Pass(vehicles::IllegalRacer& veh)
         {
             veh.SetAcceleration(2.);
             return std::make_unique<Wait>(pass_time_);
         }
 
-        ProcessPtr Police::Visit(vehicles::IllegalRacer& veh)
+        ProcessPtr PoliceVert::Visit(vehicles::IllegalRacer& veh)
         {
             veh.SetAcceleration(2.);
             return std::make_unique<Wait>(wait_time_);
         }
 
-        void Police::Parse(const nlohmann::json& json)
+        void PoliceVert::Parse(const nlohmann::json& json)
         {
             if (json.contains("wait_time"))
                 wait_time_ = json["wait_time"];
@@ -49,12 +49,12 @@ namespace transport
                 pass_time_ = json["pass_time"];
         }
 
-        std::vector<VertexType> Police::GetTypes()
+        std::vector<VertexType> PoliceVert::GetTypes()
         {
             return { VertexType::POLICE };
         }
 
-        const Renderer::TextureHandle Police::GetTexture() const
+        const Renderer::TextureHandle PoliceVert::GetTexture() const
         {
             static auto texture = TextureLoader::Load("textures/police_vert.png");
             return texture;
@@ -99,7 +99,9 @@ namespace transport
                 TextureLoader::Load("textures/field4.png"),
                 TextureLoader::Load("textures/field5.png")
             };
-
+            crops_ += 1.0/60.0 * 0.02;
+            if (crops_ > max_cappasity_)
+                crops_ = max_cappasity_;
             return textures[5 * crops_ / max_cappasity_];
         }
 

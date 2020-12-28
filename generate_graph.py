@@ -26,10 +26,10 @@ def gnp_random_connected_graph(n, p):
                 G.add_edge(*e)
     return G
 
-NUM_NODES = 1000
+NUM_NODES = 50
 
 VEHICLES = ["Light", "Colorful", "Passenger", "Truck", "IllegalRacer", "Police", "Tractor"]
-VERTICES = ["Basic", "Recolor", "BusStop", "Police", "GasStation", "Field", "Warehouse"]
+VERTICES = ["Basic", "Recolor", "BusStop", "PoliceVert", "GasStation", "Field", "Warehouse"]
 G = gnp_random_connected_graph(NUM_NODES, 0.00001)
 
 data = {
@@ -62,4 +62,3 @@ for i in range(1, random.randint(NUM_NODES // 10, NUM_NODES // 2)):
 
 with open('graph.json', 'w') as outfile:
     json.dump(data, outfile)
-

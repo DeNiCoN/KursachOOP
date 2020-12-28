@@ -52,7 +52,7 @@ namespace transport {
 		}
 		double Truck::GetSpeed() const
 		{
-			return max_speed_ * (1 - loaded_ / max_carrying_capacity_);	//max speed while empty, half of max speed while full
+			return max_speed_ * (1 - 0.5 * loaded_ / max_carrying_capacity_);	//max speed while empty, half of max speed while full
 		}
 		void Truck::SetLoaded(const double cargo_mass)
 		{
@@ -76,12 +76,10 @@ namespace transport {
 		}
 		std::optional<VertexType> Truck::GetNextVertexType() const
 		{
-			order_ = (order_ + 1) % max_order_;
+			order_ = (order_++) % max_order_;
 			std::cout << "<---------------------------------------------------called " << order_<< std::endl;
 			return order_vec[order_];
 		}
-
-
 
 		void Passenger::Parse(const nlohmann::json& json)
 		{
@@ -111,7 +109,7 @@ namespace transport {
 
 		double Passenger::GetSpeed() const
 		{
-			return max_speed_ - 0.5 * passenger_ / max_passenger_;
+			return max_speed_ * (1 - 0.5 * passenger_ / max_passenger_);
 		}
 
 		void IllegalRacer::Parse(const nlohmann::json& json)
@@ -181,7 +179,7 @@ namespace transport {
 		}
 		const Renderer::TextureHandle Tractor::GetTexture() const
 		{
-			static auto texture = TextureLoader::Load("textures/tractor.png");
+			static auto texture = TextureLoader::Load("textures/tracktor.png");
 			return texture;
 		}
 		double Tractor::GetSpeed() const

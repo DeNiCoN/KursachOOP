@@ -58,7 +58,7 @@ namespace transport
             double recolor_time_ = 1.;
         };
 
-        class Police : public VertexBase
+        class PoliceVert : public VertexBase
         {
         public:
             ProcessPtr Visit(vehicles::IllegalRacer& veh) override;
@@ -127,7 +127,7 @@ namespace transport
             }
 
         private:
-            double crops_ = 0.;             //how much crops have grown, idk. How much tractor can transform into stuff/supplies
+            mutable double crops_ = 0.;             //how much crops have grown, idk. How much tractor can transform into stuff/supplies
             double max_cappasity_ = 1.;     //how much crops can be. Max value for crops
             double stuff_ = 0.;             //crops transformed into stuff. Infinity storage. Something that truck takes
         };
