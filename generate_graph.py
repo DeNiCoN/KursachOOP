@@ -29,7 +29,7 @@ def gnp_random_connected_graph(n, p):
 NUM_NODES = 50
 
 VEHICLES = ["Light", "Colorful", "Passenger", "Truck", "IllegalRacer", "Police", "Tractor"]
-VERTICES = ["Basic", "Recolor", "BusStop", "PoliceVert", "GasStation", "Field", "Warehouse"]
+VERTICES = ["Basic", "Recolor", "BusStop", "PoliceVert", "GasStation", "Field", "Warehouse", "Factory", "ConstructionSite"]
 G = gnp_random_connected_graph(NUM_NODES, 0.00001)
 
 data = {

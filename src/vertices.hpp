@@ -75,23 +75,31 @@ namespace transport
         {
         public:
             ProcessPtr Visit(vehicles::Passenger& veh) override;
+            ProcessPtr Visit(vehicles::IllegalRacer& veh) override;
+            ProcessPtr Pass(vehicles::IllegalRacer& veh) override;
             void Parse(const nlohmann::json& json) override {}
-
+            const Renderer::TextureHandle GetTexture() const override;
             std::vector<VertexType> GetTypes() override
             {
                 return { VertexType::BUS_STOP };
-            }
-
-            const Renderer::TextureHandle GetTexture() const override
-            {
-                static auto texture = TextureLoader::Load("textures/bus_stop.png");
-                return texture;
             }
         };
 
         class ConstructionSite : public VertexBase
         {
+        public:
+            ProcessPtr Visit(vehicles::Truck& veh) override;
+            void Parse(const nlohmann::json& json) {};
+            const Renderer::TextureHandle GetTexture() const override;
+            std::vector<VertexType> GetTypes() override
+            {
+                return { VertexType::CONSTRUCTION_SITE, VertexType::DROP_CARGO };
+            }
 
+        private:
+            mutable double materials_ = 0.;
+            mutable double build_progress_ = 0.;
+            double build_end_ = 10.;
         };
 
         class GasStation : public VertexBase
@@ -123,7 +131,7 @@ namespace transport
             const Renderer::TextureHandle GetTexture() const override;
             std::vector<VertexType> GetTypes() override
             {
-                return { VertexType::FIELD };
+                return { VertexType::FIELD, VertexType::PICK_UP_CARGO };
             }
 
         private:
@@ -140,8 +148,24 @@ namespace transport
             const Renderer::TextureHandle GetTexture() const override;
             std::vector<VertexType> GetTypes() override
             {
-                return { VertexType::WAREHOUSE };
+                return { VertexType::WAREHOUSE, VertexType::PICK_UP_CARGO };
             }
+        };
+
+        class Factory : public VertexBase
+        {
+        public:
+            ProcessPtr Visit(vehicles::Truck& veh) override;
+            void Parse(const nlohmann::json& json) {};
+            const Renderer::TextureHandle GetTexture() const override;
+            std::vector<VertexType> GetTypes() override
+            {
+                return { VertexType::FACTORY, VertexType::DROP_CARGO, VertexType::PICK_UP_CARGO};
+            }
+
+        private:
+            mutable double materials_ = 0.;
+            mutable double stuff_ = 0.;
         };
     }
 }

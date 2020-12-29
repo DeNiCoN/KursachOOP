@@ -1,65 +1,77 @@
 {
-    "vertices" : {
-        "v0" : {
-            "type" : "BusStop",
-            "wait_time" : 2.0,
-            "incident" : {
-                "v2" : {
-                    "length" : 1.0
-                },
-                "v1" : {
-                    "length" : 1.0
-                }
-            }
+  "vertices": {
+    "v0": {
+      "type": "BusStop",
+      "wait_time": 2.0,
+      "incident": {
+        "v2": {
+          "length": 1.0
         },
-        "v1" : {
-            "type" : "Warehouse",
-            "incident" : {
-                "v4" : {
-                    "length" : 1.0
-                },
-                "v3" : {
-                    "length" : 1.0
-                }
-            }
-        },
-        "v2" : {
-            "type" : "Basic",
-            "pass_time" : 1.0,
-            "incident" : {}
-        },
-        "v3" : {
-            "type" : "Basic",
-            "incident" : {}
-        },
-        "v4" : {
-            "type" : "Basic",
-            "incident" : {}
-        },
-        "v5" : {
-            "type" : "Basic",
-            "incident" : {
-                "v2" : {
-                    "length" : 0.7
-                },
-                "v0" : {
-                    "length" : 0.5
-                }
-            }
-        },
-        "v6" : {
-            "type" : "Recolor",
-            "recolor_time" : 5,
-            "incident" : {
-                "v2" : {
-                    "length" : 1.2
-                },
-                "v5" : {
-                    "length" : 1.3
-                }
-            }
+        "v1": {
+          "length": 1.0
         }
+      }
     },
+    "v1": {
+      "type": "Warehouse",
+      "incident": {
+        "v4": {
+          "length": 1.0
+        },
+        "v3": {
+          "length": 1.0
+        }
+      }
+    },
+    "v2": {
+      "type": "Factory",
+      "pass_time": 1.0,
+      "incident": {}
+    },
+    "v3": {
+      "type": "Field",
+      "incident": {}
+    },
+    "v4": {
+      "type": "PoliceVert",
+      "incident": {}
+    },
+    "v5": {
+      "type": "ConstructionSite",
+      "incident": {
+        "v2": {
+          "length": 0.7
+        },
+        "v0": {
+          "length": 0.5
+        }
+      }
+    },
+    "v6": {
+      "type": "Recolor",
+      "recolor_time": 5,
+      "incident": {
+        "v2": {
+          "length": 1.2
+        },
+        "v5": {
+          "length": 1.3
+        }
+      }
+    },
+    "v7": {
+      "type": "GasStation",
+      "incident": {
+        "v2": {
+          "length": 1.2
+        },
+        "v5": {
+          "length": 1.3
+        }
+      }
+    }
+
+  },
   "vehicles": {
     "first": {
       "type": "IllegalRacer",
@@ -90,6 +102,11 @@
       "type": "Passenger",
       "max_speed": 0.6,
       "initial": "v1"
+    },
+    "seventh": {
+      "type": "Police",
+      "max_speed": 0.7,
+      "initial": "v4"
     }
 
   }

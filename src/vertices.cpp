@@ -18,6 +18,8 @@ namespace transport
             return std::make_unique<Wait>(pass_time_);
         }
 
+
+
         ProcessPtr Recolor::Visit(vehicles::Colorful& veh)
         {
             auto color = glm::linearRand(glm::vec3(0.f, 0.f, 0.f), glm::vec3(1.f, 1.f, 1.f));
@@ -29,6 +31,8 @@ namespace transport
             }));
         }
 
+
+
         ProcessPtr PoliceVert::Pass(vehicles::IllegalRacer& veh)
         {
             veh.SetAcceleration(2.);
@@ -37,7 +41,7 @@ namespace transport
 
         ProcessPtr PoliceVert::Visit(vehicles::IllegalRacer& veh)
         {
-            veh.SetAcceleration(2.);
+            veh.SetAcceleration(1.5);
             return std::make_unique<Wait>(wait_time_);
         }
 
@@ -60,6 +64,8 @@ namespace transport
             return texture;
         }
 
+
+
         ProcessPtr BusStop::Visit(vehicles::Passenger& veh)
         {
             double from = veh.GetPassenger();
@@ -71,6 +77,25 @@ namespace transport
             }));
         }
 
+        ProcessPtr BusStop::Visit(vehicles::IllegalRacer& veh)
+        {
+            veh.SetAcceleration(1.);
+            return std::make_unique<Wait>(0.);
+        }
+        ProcessPtr BusStop::Pass(vehicles::IllegalRacer& veh)
+        {
+            veh.SetAcceleration(1.);
+            return std::make_unique<Wait>(0.);
+        }
+
+        const Renderer::TextureHandle BusStop::GetTexture() const
+        {
+            static auto texture = TextureLoader::Load("textures/bus_stop.png");
+            return texture;
+        }
+
+
+
         void GasStation::Parse(const nlohmann::json& json)
         {
             if (json.contains("wait_time"))
@@ -81,6 +106,8 @@ namespace transport
         {
             return std::make_unique<Wait>(wait_time_);
         }
+
+
 
         void Field::Parse(const nlohmann::json& json)
         {
@@ -108,11 +135,12 @@ namespace transport
         ProcessPtr Field::Visit(vehicles::Tractor& veh)
         {
             double from = stuff_;
-            double replenishment = crops_;
-            return ToPtr(InterpolateCallback(10. * replenishment, [this, from, replenishment](double t)
+            double len = crops_;
+            double speed = crops_ / veh.GetStuffPerTick();
+            return ToPtr(InterpolateCallback(speed, [this, from, len](double t)
             {
-                stuff_ = from + replenishment * t;
-                crops_ = from * (1. - t);
+                stuff_ = from + len * t;
+                crops_ = len * std::abs(1. - t);
             }));
         }
 
@@ -122,10 +150,12 @@ namespace transport
             double len = stuff_;
             return ToPtr(InterpolateCallback(5. * len, [this, &veh, from, len](double t)
             {
-                stuff_ = len * (1. - t);
+                stuff_ = len * std::abs(1. - t);
                 veh.SetLoaded(from + len * t);
             }));
         }
+
+
 
         ProcessPtr Warehouse::Visit(vehicles::Truck& veh)
         {
@@ -141,6 +171,76 @@ namespace transport
         {
             static auto texture = TextureLoader::Load("textures/warehouse.png");
             return texture;
+        }
+
+
+
+        ProcessPtr Factory::Visit(vehicles::Truck& veh)
+        {
+            double from = veh.GetLoaded();
+            double to = std::min(veh.GetMaxCapacity(), stuff_);
+            double stuff_current = stuff_;
+            if (from > 0.1)
+            {
+                return ToPtr(InterpolateCallback(std::abs(from * 4), [&veh, this, from](double t)
+                {
+                    veh.SetLoaded(std::abs(from - from * t));
+                    materials_ = from * t;
+                }));
+            }
+            else
+            {
+                return ToPtr(InterpolateCallback(std::abs(from * 4), [&veh, this, to, stuff_current](double t)
+                {
+                    veh.SetLoaded(to * t);
+                    stuff_ -= stuff_current - to * t;
+                }));
+            }
+        }
+
+        const Renderer::TextureHandle Factory::GetTexture() const
+        {
+            static auto texture = TextureLoader::Load("textures/factory.png");
+            if (materials_ > 0.1)
+            {
+                materials_ -= 0.1;
+                stuff_ += 0.05;
+            }
+            return texture;
+        }
+
+
+
+        ProcessPtr ConstructionSite::Visit(vehicles::Truck& veh)
+        {
+            double from = veh.GetLoaded();
+            return ToPtr(InterpolateCallback(std::abs(from * 4), [&veh, this, from](double t)
+            {
+                veh.SetLoaded(std::abs(from - from * t));
+                materials_ = from * t;
+            }));
+        }
+
+        const Renderer::TextureHandle ConstructionSite::GetTexture() const
+        {
+            static std::vector<Renderer::TextureHandle> textures =
+            {
+                TextureLoader::Load("textures/construction0.png"),
+                TextureLoader::Load("textures/construction1.png"),
+                TextureLoader::Load("textures/construction2.png"),
+                TextureLoader::Load("textures/construction3.png"),
+                TextureLoader::Load("textures/construction4.png"),
+                TextureLoader::Load("textures/construction5.png"),
+                TextureLoader::Load("textures/construction6.png")
+            };
+
+            if (materials_ > 0.01 && build_progress_ < build_end_)
+            {
+                materials_ -= 0.01;
+                build_progress_ += 0.005;
+            }
+
+            return textures[6. * build_progress_ / build_end_];
         }
 
     }

@@ -29,7 +29,7 @@ namespace transport
             double GetMaxCapacity() const;
             std::optional<VertexType> GetNextVertexType() const override;
         private:
-            std::vector<VertexType> order_vec = { VertexType::DEFAULT, VertexType::PICK_UP_CARGO};
+            std::vector<VertexType> order_vec = { VertexType::DEFAULT, VertexType::PICK_UP_CARGO, VertexType::DROP_CARGO };
             mutable int order_ = 0;          //helps to determinate VertexType
             int max_order_ = order_vec.size();
             double max_speed_ = 1.;
@@ -46,9 +46,11 @@ namespace transport
             double GetMaxPassenger() const { return max_passenger_; }
             double GetPassenger() const { return passenger_; }
             void SetPassenger(double pass) { passenger_ = pass; }
-            std::optional<VertexType> GetNextVertexType() const override
-            { return VertexType::BUS_STOP; }
+            std::optional<VertexType> GetNextVertexType() const override;
         private:
+            std::vector<VertexType> order_vec = { VertexType::DEFAULT, VertexType::BUS_STOP, };
+            mutable int order_ = 0;          //helps to determinate VertexType
+            int max_order_ = order_vec.size();
             double max_speed_ = 1.;
             double passenger_ = 0.;
             double max_passenger_ = 1.;
@@ -75,11 +77,15 @@ namespace transport
             const Renderer::TextureHandle GetTexture() const override;
             glm::vec3 GetColor() const override;
             void SetColor(const glm::vec3 color);
+            std::optional<VertexType> GetNextVertexType() const override;
 
             ProcessPtr Visit(Vertex& vert) override {return vert.Visit(*this);}
             ProcessPtr Pass(Vertex& vert) override {return vert.Pass(*this);}
 
         private:
+            std::vector<VertexType> order_vec = { VertexType::DEFAULT, VertexType::RECOLOR, };
+            mutable int order_ = 0;          //helps to determinate VertexType
+            int max_order_ = order_vec.size();
             glm::vec3 color_ = {1.f, 1.f, 1.f};
         };
 
@@ -101,10 +107,14 @@ namespace transport
             void Parse(const nlohmann::json& json) override;
             const Renderer::TextureHandle GetTexture() const override;
             double GetSpeed() const override;
-            void SetStuffPerTick(const double stuff_per_tick);  //how much tractor can produce per tick
+            double GetStuffPerTick() const;        //how much tractor can produce per tick
+            std::optional<VertexType> GetNextVertexType() const override;
         private:
+            std::vector<VertexType> order_vec = { VertexType::DEFAULT, VertexType::FIELD, };
+            mutable int order_ = 0;          //helps to determinate VertexType
+            int max_order_ = order_vec.size();
             double max_speed_ = 1.;
-            double stuff_per_tick_ = 1.;
+            double stuff_per_tick_ = 0.1;
         };
 
     }

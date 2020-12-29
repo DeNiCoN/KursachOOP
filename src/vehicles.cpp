@@ -23,6 +23,8 @@ namespace transport {
 			max_speed_ = speed;
 		}
 
+
+
 		void Truck::Parse(const nlohmann::json& json)
 		{
 			if (json.contains("max_speed"))
@@ -40,15 +42,7 @@ namespace transport {
 					TextureLoader::Load("textures/truck3.png"),
 					TextureLoader::Load("textures/truck4.png")
 				};
-			std::cout << 4 * loaded_ / max_carrying_capacity_ << "\t"<<loaded_<<"\t"<<order_<<std::endl;
-			try 
-			{
-				return textures[4 * loaded_ / max_carrying_capacity_];
-			}
-			catch (...)
-			{
-				return textures[4];
-			}
+			return textures[4 * loaded_ / max_carrying_capacity_];
 		}
 		double Truck::GetSpeed() const
 		{
@@ -58,7 +52,6 @@ namespace transport {
 		{
 			if (cargo_mass > max_carrying_capacity_)
 			{
-				std::cout << "max_carrying_capacity_\t" << max_carrying_capacity_ <<std::endl;
 				loaded_ = max_carrying_capacity_;
 			}
 			else 
@@ -76,10 +69,12 @@ namespace transport {
 		}
 		std::optional<VertexType> Truck::GetNextVertexType() const
 		{
-			order_ = (order_++) % max_order_;
-			std::cout << "<---------------------------------------------------called " << order_<< std::endl;
+			order_ = (++order_) % max_order_;
+			std::cout << "order\t\t" << order_ << std::endl;
 			return order_vec[order_];
 		}
+
+
 
 		void Passenger::Parse(const nlohmann::json& json)
 		{
@@ -112,24 +107,36 @@ namespace transport {
 			return max_speed_ * (1 - 0.5 * passenger_ / max_passenger_);
 		}
 
+		std::optional<VertexType> Passenger::GetNextVertexType() const
+		{
+			order_ = (++order_) % max_order_;
+			return order_vec[order_];
+		}
+
+
 		void IllegalRacer::Parse(const nlohmann::json& json)
 		{
 			if (json.contains("max_speed"))
 				IllegalRacer::SetSpeed(json["max_speed"]);
 		}
+
 		const Renderer::TextureHandle IllegalRacer::GetTexture() const
 		{
 			static auto texture = TextureLoader::Load("textures/illegal.png");
 			return texture;
 		}
+
 		double IllegalRacer::GetSpeed() const
 		{
 			return Light::GetSpeed() * acceleration_;
 		}
+
 		void IllegalRacer::SetAcceleration(const double acceleration)
 		{
 			acceleration_ = acceleration;
 		}
+
+
 
 		void Colorful::Parse(const nlohmann::json& json)
 		{
@@ -141,6 +148,7 @@ namespace transport {
 				color_[2] = json["color"][2];
 			}
 		}
+
 		const Renderer::TextureHandle Colorful::GetTexture() const
 		{
 			static auto texture = TextureLoader::Load("textures/colorful.png");
@@ -157,6 +165,14 @@ namespace transport {
 			color_ = color;
 		}
 
+		std::optional<VertexType> Colorful::GetNextVertexType() const
+		{
+			order_ = (++order_) % max_order_;
+			return order_vec[order_];
+		}
+
+
+		
 		void Police::Parse(const nlohmann::json& json)
 		{
 			if (json.contains("max_speed"))
@@ -172,10 +188,14 @@ namespace transport {
 			return Light::GetSpeed();
 		}
 
+		
+		
 		void Tractor::Parse(const nlohmann::json& json)
 		{
 			if (json.contains("max_speed"))
 				max_speed_ = json["max_speed"];
+			if (json.contains("stuff_per_tick"))
+				stuff_per_tick_ = json["stuff_per_tick"];
 		}
 		const Renderer::TextureHandle Tractor::GetTexture() const
 		{
@@ -186,9 +206,14 @@ namespace transport {
 		{
 			return max_speed_;
 		}
-		void Tractor::SetStuffPerTick(const double stuff_per_tick)
+		double Tractor::GetStuffPerTick() const
 		{
-			stuff_per_tick_ = stuff_per_tick;
+			return stuff_per_tick_;
+		}
+		std::optional<VertexType> Tractor::GetNextVertexType() const
+		{
+			order_ = (++order_) % max_order_;
+			return order_vec[order_];
 		}
 
 	}

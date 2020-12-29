@@ -57,7 +57,7 @@ namespace transport
             next_id = graph_.GetRandVertex();
         }
 
-        std::cout << next_id << "\tnext_id" << std::endl;
+//        std::cout << next_id << "\tnext_id" << std::endl;
         int current_id = info.current_vertex;
 
         auto route_queue = router_.FindRoute(graph_, current_id, next_id);

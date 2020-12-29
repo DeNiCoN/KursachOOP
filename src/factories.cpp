@@ -32,6 +32,8 @@ namespace transport
         TYPE_TO_OBJ_NODE(PoliceVert),
         TYPE_TO_OBJ_NODE(GasStation),
         TYPE_TO_OBJ_NODE(Field),
-        TYPE_TO_OBJ_NODE(Warehouse)
+        TYPE_TO_OBJ_NODE(Warehouse),
+        TYPE_TO_OBJ_NODE(Factory),
+        TYPE_TO_OBJ_NODE(ConstructionSite)
     };
 }
