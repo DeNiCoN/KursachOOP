@@ -39,3 +39,6 @@ cmake --build .
 ```
 
 Or download repository and use cmake
+
+![image](https://user-images.githubusercontent.com/29448585/145541437-8537dd3a-b057-4bac-915a-cf179ef2a486.png)
+![image](https://user-images.githubusercontent.com/29448585/145541483-66c9164a-f9cd-4dda-ac65-2f5690d3d10f.png)
