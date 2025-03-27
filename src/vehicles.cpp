@@ -162,7 +162,6 @@ namespace transport {
 
 		void Colorful::SetColor(const glm::vec3 color)
 		{
-			std::cout << "new color" << std::endl;
 			color_ = color;
 		}
 

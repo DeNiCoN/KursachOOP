@@ -119,7 +119,7 @@ namespace transport
                 return texture;
             }
         private:
-            double wait_time_ = 1.;
+            double wait_time_ = 4.;
         };
 
         class Field : public VertexBase

@@ -11,13 +11,7 @@ using json = nlohmann::json;
 
 int main(int argc, char *argv[])
 {
-    if (argc < 2)
-    {
-        cout << "Usage: " << argv[0] << " <filename>\n";
-        return 1;
-    }
-
-    ifstream fs(argv[1]);
+    ifstream fs("..\\..\\..\\example_jsons\\example1.json");
     json input;
     fs >> input;
 
